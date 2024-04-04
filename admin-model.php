@@ -93,6 +93,7 @@ $_SESSION['stc'] = $stc1['AccountID'];
             <a class="collapse-item" id="ledger_control_category_panel">Ledger Category</a>
             <a class="collapse-item" id="ledger_control_account_panel">Ledger Account</a>
             <a class="collapse-item" id="handling_charges_setup_tab">Handling Charges Setup</a>
+            <a class="collapse-item" id="disbursement_charges_setup_tab">Disbursement Setup</a>
           </div>
         </div>
       </li>
@@ -137,6 +138,9 @@ $_SESSION['stc'] = $stc1['AccountID'];
           </div>
         </div>
       </li>
+
+
+
       <?php $exp_q = mysqli_query(
         $dbc,
         "select * from user_expense_petty_cash where Username='$Uname'"
@@ -174,6 +178,21 @@ $_SESSION['stc'] = $stc1['AccountID'];
             <a class="collapse-item" id="expense-transaction-tab">Cr G.L. - Dr Income</a>
             <a class="collapse-item" id="expense-transaction-tab">Dr G.L. - Cr Expense</a>
 
+            <div class="collapse-divider"></div>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#disbursement-panel" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-layer-group"></i>
+          <span>Disbursement Analysis</span>
+        </a>
+        <div id="disbursement-panel" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-success py-2 collapse-inner rounded">
+            <a class="collapse-item" id="new-disbursement-fcl-tab">FCL</a>
+            <a class="collapse-item" id="new-disbursement-lcl-tab">LCL1</a>
+            <a class="collapse-item" id="new-disbursement-approval-review-tab">Approval Review</a>
             <div class="collapse-divider"></div>
           </div>
         </div>
@@ -651,6 +670,65 @@ $_SESSION['stc'] = $stc1['AccountID'];
 
         </div>
         <!-- /. End of  Ledger Category Content -->
+
+        <!-- Begin Ledger Category Page Content -->
+        <div class="container-fluid sub-basic-setup" id="disbursement_charges_setup_panel">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Default Disbursement Charges</h1>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Content Column -->
+            <div class="col-lg-4 mb-4">
+
+              <!-- Project Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Disbursement Charge Setup</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Select Account</label>
+                      <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg" id="sel_disbursement_account">
+                        <option></option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <form class="user">
+                    <a class="btn btn-success btn-user btn-block" id="btn-new-disbursement-charge">
+                      Add Account
+                    </a>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-lg-8 mb-4">
+
+              <!-- Approach -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Mapped Accounts</h6>
+                </div>
+                <div class="card-body" id="display_disbursement_mapped_account">
+
+              </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <!-- /. End of  Ledger Category Content -->
+
 
         <!-- Begin Ledger Account Page Content -->
         <div class="container-fluid sub-basic-setup" id="ledger-control-account-panel">
@@ -2066,6 +2144,181 @@ $_SESSION['stc'] = $stc1['AccountID'];
 
         </div>
         <!-- /. End of GL Transfers Content -->
+
+
+        <!-- Begin HBL Inovice Content -->
+        <div class="container-fluid sub-basic-setup" id="disbursement-analysis-panel">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Disbursement Analysis - FCL</h1>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Content Column -->
+            <div class="col-sm-5 mb-2">
+              <!-- Project Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Disbursement Search Details</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Search By Main BL</label> <i class="fas fa-eye text-warning float-right" data-toggle="modal" data-target="#consigneeInProcessModal" id="load_consignee_in_process_others"></i>
+                      <label type="text" class="form-control ep lbl-client-search-id" hidden='' id='seach_hbl_invoicing_consignee'></label>
+                      <input type="text" class="form-control form-control-user ep" id="txt_disbursement_bl_search" autocomplete="off" placeholder="Enter BL #">
+                      <div id='disbursement_search_info' class='div_search_box'></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-7 mb-2">
+              <!-- Project Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Main BL Details</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-1 mb-sm-0 ep" id="disbursement_fcl_bl_display_details">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-5 mb-4">
+              <!-- Approach -->
+              <div class="card shadow mb-4" id="manifestation_breakdown_card">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Additional Charges</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Select Account</label>
+                      <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg ep" id="sel_hBL_acc_invoice">
+                        <option></option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Amount</label>
+                      <input type="number" class="form-control form-control-user ep" id="hBL_amt_invoice">
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Transaction ID</label>
+                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_rcpt_id_invoice"></label>
+                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_hblid_invoice"></label>
+                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_mblid_invoice"></label>
+                      <label class="form-control form-control-user label-form-control-user ep" id="hBL_rcpt_no_invoice"></label>
+                    </div>
+                  </div>
+                  <div class="custom-control custom-switch mb-2">
+                    <input type="checkbox" data-toggle="toggle" checked class="custom-control-input checkStatus" id="customSwitch1">
+                    <label class="custom-control-label" for="customSwitch1">Taxable</label>
+                  </div>
+                  <div class="form-group row">
+                    <form class="user">
+                      <button class="btn btn-success btn-user btn-block" id="btn_add_charge_consignee_invoice">
+                        Add/Update Charge
+                      </button>
+                    </form>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0" id="cosignee_house_bl_display_details">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-sm-7 mb-1">
+              <!-- Approach -->
+              <div class="card shadow mb-1" id="manifestation_breakdown_card">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Handling Charges</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-1 mb-sm-0 ep" id="cosignee_hbl_invoice_charges_display">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-sm-5 mb-4">
+              <!-- Approach -->
+              <div class="card shadow mb-4" id="manifestation_breakdown_card">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Disbursement Charges</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Select Account</label>
+                      <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg ep" id="sel_hBL_acc_invoice">
+                        <option></option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Amount</label>
+                      <input type="number" class="form-control form-control-user ep" id="hBL_amt_invoice">
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Transaction ID</label>
+                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_rcpt_id_invoice"></label>
+                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_hblid_invoice"></label>
+                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_mblid_invoice"></label>
+                      <label class="form-control form-control-user label-form-control-user ep" id="hBL_rcpt_no_invoice"></label>
+                    </div>
+                  </div>
+                  <div class="custom-control custom-switch mb-2">
+                    <input type="checkbox" data-toggle="toggle" checked class="custom-control-input checkStatus" id="customSwitch1">
+                    <label class="custom-control-label" for="customSwitch1">Taxable</label>
+                  </div>
+                  <div class="form-group row">
+                    <form class="user">
+                      <button class="btn btn-success btn-user btn-block" id="btn_add_charge_consignee_invoice">
+                        Add/Update Charge
+                      </button>
+                    </form>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0" id="cosignee_house_bl_display_details">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+        <!-- /. End of HBL Invoice Content -->
 
 
         <!-- Begin Dr GL Cr Icome Content -->

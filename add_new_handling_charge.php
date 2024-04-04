@@ -23,7 +23,7 @@ if(!isset( $_SESSION['Uname'])){
     
     $a = $dbc->query("select * from handling_charge where AccountNo='$cid'");
     
-    if(mysqli_num_rows($cid)>0){
+    if(mysqli_num_rows($a)>0){
         die('Account already added');
     }else{
         $c = mysqli_query($dbc, "select * from handling_charge");

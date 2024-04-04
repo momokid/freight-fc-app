@@ -15,7 +15,7 @@ $loc = 'http://localhost/app-freight-diary';
 $logo_ext = '.png';
 $fasm = 'font-awesome-4.7.0';
 #Database connection here....
-($dbc = mysqli_connect('localhost', 'root', '123456', 'app-freight')) or
+($dbc = mysqli_connect('localhost', 'root', '', 'primesur_freight')) or
   die('Cannot Locate Server Port Number. Contact your system administrator');
 $dtf = '%b %d, %Y';
 //$mysqli = new mysqli('localhost','anwar','lagari','app_freight');
