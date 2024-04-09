@@ -587,6 +587,7 @@ $(function () {
   $("#txt_disbursement_bl_search").keyup(function () {
     var e = $.trim($(this).val());
 
+    $(".progress-loader").remove();
     $("#disbursement-analysis-panel").append(
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
     );
@@ -596,6 +597,13 @@ $(function () {
       $(".progress-loader").remove();
     });
   });
+
+$('#clearDisbursementAnalysis').click(function(){
+  $.post('disbursement_temp_delete.php',{}, function(data){
+    alert(data);
+  });
+
+})
 
   //
   $("#btn_add_charge_consignee_invoice").click(function (e) {

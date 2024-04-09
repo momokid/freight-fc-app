@@ -38,7 +38,7 @@ if (!isset($_SESSION['Uname'])) {
                   <td scope="col">' . $an['MainBL'] . '</td>
                   <td scope="col">' . $an['ContainerNo'] . '</td>
                   <td scope="col">' . $an['Description'] . '</td>
-                  <td scope="col"><button></button></td>
+                  <td scope="col"><i class="fa fa-download fa-lg text-primary get_disbursement" mbl="' . $an['MainBL'] . '" consigneeID="' . $an['ConsigneeID'] . '" hbl="' . $an['HouseBL'] . '" title="Download disbursement account"></i></td>
                 </tr> ';
         }
     } else {
@@ -64,10 +64,42 @@ if (!isset($_SESSION['Uname'])) {
         color: white;
         cursor: pointer;
     }
+
+    .fa:hover {
+        cursor: pointer;
+    }
 </style>
 
 <script>
     $(document).ready(function() {
 
+        $('.get_disbursement').click(function() {
+
+            const hbl = $.trim($(this).attr('hbl'));
+            const consigneeID = $.trim($(this).attr('consigneeID'));
+            const mbl = $.trim($(this).attr('mbl'));
+
+            // $("#disbursement-analysis-panel").append('<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>');
+
+            $.post('fetch_disbursement_expense_accounts.php', {
+                mbl,
+                hbl,
+                consigneeID
+            }, function(data) {
+                let result = JSON.parse(data);
+                if (result.status_code === 201) {
+                    $.post('fetch_disbursement_expense_accounts_table.php', {
+                        mbl,
+                        hbl,
+                        consigneeID
+                    }, function(result) {
+                        $('#disbursement_fcl_bl_display_details').load(result)
+                    })
+                } else {
+                    alert(result.msg);
+                }
+                $(".progress-loader").remove();
+            })
+        })
     });
 </script>

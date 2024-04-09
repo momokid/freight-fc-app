@@ -2168,7 +2168,7 @@ $_SESSION['stc'] = $stc1['AccountID'];
 
                   <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Search By Main BL</label> <i class="fas fa-eye text-warning float-right" data-toggle="modal" data-target="#consigneeInProcessModal" id="load_consignee_in_process_others"></i>
+                      <label for="exampleFormControlInput1">Search By Main BL</label> <i class="fas fa-broom text-danger float-right" title="Clear disbursment analysis" id="clearDisbursementAnalysis"></i>
                       <label type="text" class="form-control ep lbl-client-search-id" hidden='' id='seach_hbl_invoicing_consignee'></label>
                       <input type="text" class="form-control form-control-user ep" id="txt_disbursement_bl_search" autocomplete="off" placeholder="Enter BL #">
                       <div id='disbursement_search_info' class='div_search_box'></div>
