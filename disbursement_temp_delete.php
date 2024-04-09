@@ -25,7 +25,7 @@ if (!isset($_SESSION['Uname'])) {
         if ($b) {
             $result = [
                 'status_code' => 201,
-                'msg' => 'Disbursement Account Loaded',
+                'msg' => 'Disbursement Account Reversed Successfully',
             ];
         }else{
 
@@ -42,4 +42,7 @@ if (!isset($_SESSION['Uname'])) {
             'msg' => 'Disbursement Account Not Loaded',
         ];
     }
+
+
+    echo  json_encode($result);
 }
