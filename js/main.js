@@ -270,7 +270,9 @@ $(function () {
     $(".sub-basic-setup").hide();
     $("#disbursement_charges_setup_panel").slideDown();
     $("#sel_disbursement_account").load("load_disbursement_accounts.php");
-    $("#display_disbursement_mapped_account").load("load_disbursement_mapped_accout_tbl.php");
+    $("#display_disbursement_mapped_account").load(
+      "load_disbursement_mapped_accout_tbl.php"
+    );
   });
 
   //New Consignment
@@ -598,12 +600,14 @@ $(function () {
     });
   });
 
-$('#clearDisbursementAnalysis').click(function(){
-  $.post('disbursement_temp_delete.php',{}, function(data){
-    alert(data);
-  });
+  $("#clearDisbursementAnalysis").click(function () {
+    $.post("disbursement_temp_delete.php", {}, function (data) {
+      let result = JSON.parse(data);
 
-})
+      alert(result.msg);
+      console.log(result.status_code);
+    });
+  });
 
   //
   $("#btn_add_charge_consignee_invoice").click(function (e) {
@@ -1129,12 +1133,14 @@ $('#clearDisbursementAnalysis').click(function(){
       $("#disbursement_charges_setup_panel").append(
         '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
       );
-       
+
       $.post("add_new_disbursement_account.php", { accountID }, function (a) {
         if (a == 1) {
           $(".ep").text("");
           $(".ep").val("");
-          $("#display_disbursement_mapped_account").load("load_disbursement_mapped_accout_tbl.php");
+          $("#display_disbursement_mapped_account").load(
+            "load_disbursement_mapped_accout_tbl.php"
+          );
 
           $(".progress-loader").remove();
         } else {
