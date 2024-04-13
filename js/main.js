@@ -21,6 +21,12 @@ $(function () {
             </div>`;
   }
 
+  //Remove spinner function
+  function Spinner_Remove(){
+    return $(".progress-loader").remove();
+  }
+
+  
   //Function for fetching receipt no.
   function get_rcpt_no_dt(dt, id) {
     if (dt == "") {
@@ -508,7 +514,7 @@ $(function () {
     $(".sub-basic-setup").hide();
     $("#disbursement-analysis-panel").slideDown();
     $(".gl_account").load("load_sel_gl_account.php");
-    $("#sel_glDr_account").focus();
+    $("#txt_disbursement_bl_search").focus();
   });
 
   //Debit GL Credit Income

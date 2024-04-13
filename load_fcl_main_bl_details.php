@@ -30,12 +30,12 @@ if (!isset($_SESSION['Uname'])) {
         </thead>
         <tbody>';
 
-    if (mysqli_num_rows($a) == 1) {
+    if (mysqli_num_rows($a) > 0) {
         while ($an = mysqli_fetch_assoc($a)) {
             echo '
                 <tr>
                   <td scope="col">' . $an['FullName'] . '</td>
-                  <td scope="col">' . $an['MainBL'] . '</td>
+                  <td scope="col">' . $an['HouseBL'] . '</td>
                   <td scope="col">' . $an['ContainerNo'] . '</td>
                   <td scope="col">' . $an['Description'] . '</td>
                   <td scope="col"><i class="fa fa-download fa-lg text-primary get_disbursement" mbl="' . $an['MainBL'] . '" consigneeID="' . $an['ConsigneeID'] . '" hbl="' . $an['HouseBL'] . '" title="Download disbursement account"></i></td>
@@ -88,12 +88,14 @@ if (!isset($_SESSION['Uname'])) {
             }, function(data) {
                 let result = JSON.parse(data);
                 if (result.status_code === 201) {
+
                     $.post('fetch_disbursement_expense_accounts_table.php', {
                         mbl,
                         hbl,
                         consigneeID
                     }, function(result) {
-                        $('#disbursement_fcl_bl_display_details').load(result)
+
+                        $('#disbursement_fcl_account_display').html(result);
                     })
                 } else {
                     alert(result.msg);

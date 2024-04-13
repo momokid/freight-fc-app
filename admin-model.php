@@ -720,7 +720,7 @@ $_SESSION['stc'] = $stc1['AccountID'];
                 </div>
                 <div class="card-body" id="display_disbursement_mapped_account">
 
-              </div>
+                </div>
               </div>
 
             </div>
@@ -2201,22 +2201,13 @@ $_SESSION['stc'] = $stc1['AccountID'];
               <!-- Approach -->
               <div class="card shadow mb-4" id="manifestation_breakdown_card">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Additional Charges</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Transaction Summary</h6>
                 </div>
                 <div class="card-body">
-
-                  <div class="form-group row">
-                    <div class="col-sm-12 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Select Account</label>
-                      <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg ep" id="sel_hBL_acc_invoice">
-                        <option></option>
-                      </select>
-                    </div>
-                  </div>
                   <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Amount</label>
-                      <input type="number" class="form-control form-control-user ep" id="hBL_amt_invoice">
+                    <label for="exampleFormControlInput1">Balance Outstanding</label>
+                      <label class="form-control form-control-user label-form-control-user"></label>
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">Transaction ID</label>
@@ -2225,10 +2216,6 @@ $_SESSION['stc'] = $stc1['AccountID'];
                       <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_mblid_invoice"></label>
                       <label class="form-control form-control-user label-form-control-user ep" id="hBL_rcpt_no_invoice"></label>
                     </div>
-                  </div>
-                  <div class="custom-control custom-switch mb-2">
-                    <input type="checkbox" data-toggle="toggle" checked class="custom-control-input checkStatus" id="customSwitch1">
-                    <label class="custom-control-label" for="customSwitch1">Taxable</label>
                   </div>
                   <div class="form-group row">
                     <form class="user">
@@ -2251,62 +2238,12 @@ $_SESSION['stc'] = $stc1['AccountID'];
               <!-- Approach -->
               <div class="card shadow mb-1" id="manifestation_breakdown_card">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Handling Charges</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Disbursement Account Details</h6>
                 </div>
                 <div class="card-body">
 
                   <div class="form-group row">
-                    <div class="col-sm-12 mb-1 mb-sm-0 ep" id="cosignee_hbl_invoice_charges_display">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="col-sm-5 mb-4">
-              <!-- Approach -->
-              <div class="card shadow mb-4" id="manifestation_breakdown_card">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Disbursement Charges</h6>
-                </div>
-                <div class="card-body">
-
-                  <div class="form-group row">
-                    <div class="col-sm-12 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Select Account</label>
-                      <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg ep" id="sel_hBL_acc_invoice">
-                        <option></option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Amount</label>
-                      <input type="number" class="form-control form-control-user ep" id="hBL_amt_invoice">
-                    </div>
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Transaction ID</label>
-                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_rcpt_id_invoice"></label>
-                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_hblid_invoice"></label>
-                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_mblid_invoice"></label>
-                      <label class="form-control form-control-user label-form-control-user ep" id="hBL_rcpt_no_invoice"></label>
-                    </div>
-                  </div>
-                  <div class="custom-control custom-switch mb-2">
-                    <input type="checkbox" data-toggle="toggle" checked class="custom-control-input checkStatus" id="customSwitch1">
-                    <label class="custom-control-label" for="customSwitch1">Taxable</label>
-                  </div>
-                  <div class="form-group row">
-                    <form class="user">
-                      <button class="btn btn-success btn-user btn-block" id="btn_add_charge_consignee_invoice">
-                        Add/Update Charge
-                      </button>
-                    </form>
-                  </div>
-                  <div class="form-group row">
-                    <div class="col-sm-12 mb-3 mb-sm-0" id="cosignee_house_bl_display_details">
+                    <div class="col-sm-12 mb-1 mb-sm-0 ep" id="disbursement_fcl_account_display">
 
                     </div>
                   </div>
