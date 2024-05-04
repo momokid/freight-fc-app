@@ -40,13 +40,14 @@ if (!isset($_SESSION['Uname'])) {
         var cnm = $(this).attr('cnm');
         var mbl = $(this).attr('mbl');
         var hbl = $(this).attr('hbl');
+        var containerNo = $(this).attr('containerNo');
         var m = ($(this).text());
         $('.ep').text('');
 
         //Display Consignee manifestation details
         $.post('load_fcl_main_bl_details.php', {
-            cns: cns,
-            mbl: mbl
+            cns,
+            mbl,
         }, function(a) {
             $('#disbursement_fcl_bl_display_details').html(a);
 
@@ -54,7 +55,7 @@ if (!isset($_SESSION['Uname'])) {
         });
 
         $('#txt_disbursement_bl_search').val(m);
-      
+
 
         $('.consignee_hbl_invoicing_search').toggle();
     });

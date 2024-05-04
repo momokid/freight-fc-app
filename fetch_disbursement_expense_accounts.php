@@ -12,6 +12,7 @@ $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 $mbl = mysqli_real_escape_string($dbc, $_POST['mbl']);
 $hbl = mysqli_real_escape_string($dbc, $_POST['hbl']);
 $consigneeID = mysqli_real_escape_string($dbc, $_POST['consigneeID']);
+$containerNo = mysqli_real_escape_string($dbc, $_POST['containerNo']);
 
 $results = [];
 
@@ -71,7 +72,7 @@ if (!isset($_SESSION['Uname'])) {
                     $dbc->autocommit(false);
 
                     while ($an = mysqli_fetch_assoc($a)) {
-                        $b = mysqli_query($dbc, "INSERT INTO disbursement_temp_analysis VALUES('$an[AccountNo]','$mbl','$hbl','$consigneeID','0','$type','2','$Uname','$ajaxTime')");
+                        $b = mysqli_query($dbc, "INSERT INTO disbursement_temp_analysis VALUES('$an[AccountNo]','$mbl','$hbl','$containerNo','$consigneeID','0','$type','2','$Uname','$ajaxTime')");
                     }
 
                     // $c = mysqli_query($dbc, "INSERT INTO disbursement_temp_analysis VALUES('$disbursement_income_account','$mbl','$hbl','$consigneeID','0','INCOME','FCL','$Uname','$ajaxTime')");
