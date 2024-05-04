@@ -513,8 +513,8 @@ $(function () {
   $("#new-disbursement-fcl-tab").click(function () {
     $(".sub-basic-setup").hide();
     $("#disbursement-analysis-panel").slideDown();
-    $(".gl_account").load("load_sel_gl_account.php");
     $("#txt_disbursement_bl_search").focus();
+    $('#recent_disbursement_bl').load('disbursement_recent_bl.php')
   });
 
   //Debit GL Credit Income
@@ -605,6 +605,28 @@ $(function () {
       $(".progress-loader").remove();
     });
   });
+
+  $('#txtTotalDisbursementIncome').blur(function(){
+    
+  })
+
+ 
+  $('#btn_save_disbursement').click(function(){
+    let amount = $.trim($('#txtTotalDisbursementIncome').val());
+    let dOT = $.trim($('#txt_disbursement_DOT').val());
+   
+     $(".progress-loader").remove();
+    $("#disbursement-analysis-panel").append(
+      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+    );
+
+    $.post("add_new_disbursement_analysis.php", {amount, dOT}, function (data) {
+      alert(data)
+      $(".progress-loader").remove();
+    });
+
+    $
+   });
 
   $("#clearDisbursementAnalysis").click(function () {
     $.post("disbursement_temp_delete.php", {}, function (data) {

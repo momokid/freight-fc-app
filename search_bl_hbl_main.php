@@ -54,52 +54,7 @@ if (!isset($_SESSION['Uname'])) {
         });
 
         $('#txt_disbursement_bl_search').val(m);
-        // $('#seach_hbl_invoicing_consignee').text(cns);
-        // $('#hBL_hblid_invoice').text(hbl);
-        // $('#hBL_mblid_invoice').text(mbl);
-
-        // $.post('add_hbl_charges_invoice_temp.php', {
-        //     cnm: cnm,
-        //     mbl: mbl,
-        // }, function(a) {
-        //     if (a == 1) {
-
-        //         // $('#hBL_rcpt_id_invoice').text(a);
-
-        //         // $.post('get_receipt_no.php', {
-        //         //     dt: dt
-        //         // }, function(a) {
-        //         //     $('#hBL_rcpt_no_invoice').text(a);
-        //         // });
-        //         // $.post('get_receipt_id.php', {
-        //         //     dt: dt
-        //         // }, function(a) {
-        //         //     $('#hBL_rcpt_id_invoice').text(a);
-        //         // });
-
-        //         //Display Consignee handling charges
-        //         // $.post('load_consignee_handling_charges_temp_tbl.php', {
-        //         //     cns: cns
-        //         // }, function(a) {
-        //         //     $('#cosignee_hbl_invoice_charges_display').html(a);
-        //         // });
-
-        //         // $('#sel_hBL_acc_invoice').load('load_sel_billing_account.php');
-
-
-        //         $('#search_hbl_consignee2_fname').focus();
-
-        //         $('.progress-loader').remove();
-        //     } else {
-        //         $('.progress-loader').remove();
-        //         alert(a);
-        //     }
-
-
-        // });
-
-        // $('#mapp_StaffClass').load('load_staff_class_map.php');
-        //  $('#mapp_StaffSubject').load('load_staff_subject_map.php');
+      
 
         $('.consignee_hbl_invoicing_search').toggle();
     });

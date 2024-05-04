@@ -369,7 +369,7 @@ $_SESSION['stc'] = $stc1['AccountID'];
             <div class="col-lg-6 mb-4">
 
               <!-- Project Card Example -->
-              <div class="card shadow mb-4">
+              <div class="card shadow mb-4 sr-only">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
                 </div>
@@ -468,7 +468,7 @@ $_SESSION['stc'] = $stc1['AccountID'];
               </div>
 
               <!-- Approach -->
-              <div class="card shadow mb-4">
+              <div class="card shadow mb-4 sr-only">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
                 </div>
@@ -2168,10 +2168,11 @@ $_SESSION['stc'] = $stc1['AccountID'];
 
                   <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Search By Main BL</label> <i class="fas fa-broom text-danger float-right" title="Clear disbursment analysis" id="clearDisbursementAnalysis"></i>
+                      <label for="exampleFormControlInput1">Search By Main BL</label> <i class="fas fa-broom text-danger float-right" title="Clear disbursment analysis" id="clearDisbursementAnalysis"></i> <i class="fas fa-eye text-primary float-right" title="View disbursment analysis" id="viewDisbursementAnalysis"></i>
                       <label type="text" class="form-control ep lbl-client-search-id" hidden='' id='seach_hbl_invoicing_consignee'></label>
                       <input type="text" class="form-control form-control-user ep" id="txt_disbursement_bl_search" autocomplete="off" placeholder="Enter BL #">
                       <div id='disbursement_search_info' class='div_search_box'></div>
+                      <div id="recent_disbursement_bl"></div>
                     </div>
                   </div>
                 </div>
@@ -2206,27 +2207,38 @@ $_SESSION['stc'] = $stc1['AccountID'];
                 <div class="card-body">
                   <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                    <label for="exampleFormControlInput1">Balance Outstanding</label>
-                      <label class="form-control form-control-user label-form-control-user"></label>
+                      <label for="exampleFormControlInput1">Total Income</label>
+                      <input type="number" class="form-control form-control-user" autocomplete="off" placeholder="Enter Income Received" id="txtTotalDisbursementIncome">
+
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Transaction ID</label>
+                      <label for="exampleFormControlInput1">Balance Outstanding</label>
+                      <label class="form-control form-control-user label-form-control-user" id="lblTotalDisbursement"></label>
+                    </div>
+                  </div>
+                  <div class="form-group row mt-3">
+
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Receipt No.</label>
                       <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_rcpt_id_invoice"></label>
                       <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_hblid_invoice"></label>
                       <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_mblid_invoice"></label>
                       <label class="form-control form-control-user label-form-control-user ep" id="hBL_rcpt_no_invoice"></label>
                     </div>
-                  </div>
-                  <div class="form-group row">
-                    <form class="user">
-                      <button class="btn btn-success btn-user btn-block" id="btn_add_charge_consignee_invoice">
-                        Add/Update Charge
-                      </button>
-                    </form>
+
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Date of Transaction</label>
+                      <input type="text" class="form-control form-control-user datepicker ep" id="txt_disbursement_DOT">
+                    </div>
+
                   </div>
                   <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0" id="cosignee_house_bl_display_details">
-
+                      <form class="user">
+                        <a class="btn btn-success btn-user btn-block" id="btn_save_disbursement">
+                          Save Disbursement
+                        </a>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -2939,7 +2951,7 @@ $_SESSION['stc'] = $stc1['AccountID'];
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Garimo eNovations Ltd - 2022</span>
+            <span>Copyright &copy; Garimo eNovations Ltd - 2024</span>
           </div>
         </div>
       </footer>

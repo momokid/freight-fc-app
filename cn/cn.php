@@ -15,8 +15,6 @@ $loc = 'http://localhost/app-freight-diary';
 $logo_ext = '.png';
 $fasm = 'font-awesome-4.7.0';
 
-$disbursement_income_account = '5079';
-
 #Database connection here....
 ($dbc = mysqli_connect('localhost', 'root', '', 'primesur_freight')) or
   die('Cannot Locate Server Port Number. Contact your system administrator');
@@ -29,6 +27,9 @@ $imgloc = "url('http://localhost/app-freight-diary/img/logo.png')";
 
 ini_set('display_errors', 0);
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
+require "Core/functions.php";
+require "Core/account_config.php";
 ?>
 
 <?php
@@ -40,29 +41,6 @@ function auto_version($file = '')
   $mtime = filemtime($file);
   return $file . '?' . $mtime;
 }
-
-/***
- if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 300)) {
-       // last request was more than 5 minutes ago
-        session_unset();     // unset $_SESSION variable for the run-time
-        session_destroy();   // destroy session data in storage
-        header('Location: login');
-        die("Please log out");
-    }
-
-    $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
-
-
-    if (!isset($_SESSION['CREATED'])) {
-        $_SESSION['CREATED'] = time();
-    } else if (time() - $_SESSION['CREATED'] > 300) {
-        // session started more than 5 minutes ago
-        session_regenerate_id(true);    // change session ID for the current session an invalidate old session ID
-        $_SESSION['CREATED'] = time();  // update creation time
-    }
- * 
- * 
- ****/
 
 //Database class for api
 class Database
@@ -97,17 +75,3 @@ class Database
   }
 }
 
-function ordinal($num)
-{
-  $last = substr($num, -1);
-  if ($last > 3 or $last == 0 or $num >= 11 and $num <= 19) {
-    $ext = 'th';
-  } elseif ($last == 3) {
-    $ext = 'rd';
-  } elseif ($last == 2) {
-    $ext = 'nd';
-  } else {
-    $ext = 'st';
-  }
-  return $num . $ext;
-}

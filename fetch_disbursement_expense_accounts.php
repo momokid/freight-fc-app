@@ -18,46 +18,83 @@ $results = [];
 if (!isset($_SESSION['Uname'])) {
     header('Location: login');
 } else {
-    $b = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis WHERE Username='$Uname' AND BL='$mbl' AND HouseBL='$hbl' and ConsigneeID='$consigneeID'");
 
-    if (mysqli_num_rows($b) == 0) {
+    // $b = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis WHERE Username='$Uname' AND BL='$mbl' AND HouseBL='$hbl' and ConsigneeID='$consigneeID'");
 
-        $a = mysqli_query($dbc, "SELECT * FROM disbursement_accounts");
+    $b = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis WHERE BL = '$mbl' AND Username <>'$Uname'");
 
-        if (mysqli_num_rows($a) == 0) {
+    //Different user processing the BL
+    if (mysqli_num_rows($b) > 0) {
+
+        $bn = mysqli_fetch_assoc($b);
+
+        $result = [
+            'status_code' => 503,
+            'msg' => "$mbl BL already loaded by User [" . $bn['Username'] . ']. Verify and clear disbursement analysis.',
+            'bl' => $mbl,
+            'hbl' => $hbl,
+
+        ];
+    } else {
+
+        //If User has selected a different BL aside the current one
+        $d = mysqli_query($dbc, "SELECT * FROM  disbursement_temp_analysis WHERE Username='$Uname' AND BL <> '$mbl'");
+
+        if (mysqli_num_rows($d) > 0) {
+
+            //$dn = mysqli_fetch_assoc($d);
+
             $result = [
-                'status_code' => 501,
-                'msg' => 'Disbursement Account Not Mapped',
+                'status_code' => 201,
+                'msg' => "User has already initiated a disbursement analysis. Continue or clear disbursement",
             ];
         } else {
+            $e = mysqli_query($dbc, "SELECT * FROM  disbursement_temp_analysis WHERE Username='$Uname' AND BL = '$mbl' AND HouseBL='$hbl'");
 
-            $dbc->autocommit(false);
-
-            while ($an = mysqli_fetch_assoc($a)) {
-                $b = mysqli_query($dbc, "INSERT INTO disbursement_temp_analysis VALUES('$an[AccountNo]','$mbl','$hbl','$consigneeID','0','EXPENDITURE','FCL','$Uname','$ajaxTime')");
-            }
-
-            $c = mysqli_query($dbc, "INSERT INTO disbursement_temp_analysis VALUES('5079','$mbl','$hbl','$consigneeID','0','INCOME','FCL','$Uname','$ajaxTime')");
-
-            if ($b && $c) {
-                $dbc->commit(TRUE);
-
+            if (mysqli_num_rows($e) > 0) {
                 $result = [
                     'status_code' => 201,
-                    'msg' => 'Disbursement Account Loaded',
+                    'msg' => 'Disbursement details already loaded.',
                 ];
             } else {
-                $result = [
-                    'status_code' => 503,
-                    'msg' => 'Disbursement Account Not Loaded',
-                ];
+                $a = mysqli_query($dbc, "SELECT * FROM disbursement_accounts");
+
+                if (mysqli_num_rows($a) == 0) {
+                    $result = [
+                        'status_code' => 501,
+                        'msg' => 'Disbursement Account Not Mapped',
+                    ];
+                } else {
+
+                    $mbl == $hbl ? $type = 'FCL' : $type = 'LCL1';
+
+                    $dbc->autocommit(false);
+
+                    while ($an = mysqli_fetch_assoc($a)) {
+                        $b = mysqli_query($dbc, "INSERT INTO disbursement_temp_analysis VALUES('$an[AccountNo]','$mbl','$hbl','$consigneeID','0','$type','2','$Uname','$ajaxTime')");
+                    }
+
+                    // $c = mysqli_query($dbc, "INSERT INTO disbursement_temp_analysis VALUES('$disbursement_income_account','$mbl','$hbl','$consigneeID','0','INCOME','FCL','$Uname','$ajaxTime')");
+
+                    if ($b) {
+                        $dbc->commit(TRUE);
+
+                        $result = [
+                            'status_code' => 201,
+                            'msg' => 'Disbursement Account Loaded Successfully',
+                        ];
+                    } else {
+                        $result = [
+                            'status_code' => 503,
+                            'msg' => 'Error loading disbursement accounts',
+                        ];
+                    }
+                }
             }
         }
-    } else {
-        $result = [
-            'status_code' => 201,
-            'msg' => 'Disbursement Account Loaded',
-        ];
+
+        //$b = mysqli_query($dbc, "SELECT * FROM ");
+
     }
 
 

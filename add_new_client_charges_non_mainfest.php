@@ -27,7 +27,7 @@ if (!isset($_SESSION['Uname'])) {
     die('Missing Transaction No.');
 } elseif ($name == '' and $cid == '') {
     die('Select Client Name');
-} elseif ($dt == '') {
+} elseif ($dt == '' | $dOT==='1970-01-01') {
     die('Select date of transaction');
 } else {
     $a = mysqli_query($dbc, "select * from temp_other_invoice_non_manifest_view_0 where Username='$Uname'");

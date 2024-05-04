@@ -97,6 +97,8 @@ if (!isset($_SESSION['Uname'])) {
 
                         $('#disbursement_fcl_account_display').html(result);
                     })
+
+                    console.log(result.msg)
                 } else {
                     alert(result.msg);
                 }
