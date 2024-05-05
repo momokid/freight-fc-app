@@ -37,7 +37,7 @@ function totalDisbursementExpense($Uname)
 {
     global $dbc;
 
-    $a = mysqli_query($dbc, "SELECT SUM(Amount) as TotalExpense FROM disbursement_temp_analysis WHERE Username='$Uname'");
+    $a = mysqli_query($dbc, "SELECT ROUND(SUM(Amount),2) as TotalExpense FROM disbursement_temp_analysis WHERE Username='$Uname'");
 
     $an = mysqli_fetch_assoc($a);
 
@@ -118,3 +118,6 @@ function getReceiptDetails()
 
     return $result;
 }
+
+
+//Get 

@@ -22,11 +22,10 @@ $(function () {
   }
 
   //Remove spinner function
-  function Spinner_Remove(){
+  function Spinner_Remove() {
     return $(".progress-loader").remove();
   }
 
-  
   //Function for fetching receipt no.
   function get_rcpt_no_dt(dt, id) {
     if (dt == "") {
@@ -514,7 +513,7 @@ $(function () {
     $(".sub-basic-setup").hide();
     $("#disbursement-analysis-panel").slideDown();
     $("#txt_disbursement_bl_search").focus();
-    $('#recent_disbursement_bl').load('disbursement_recent_bl.php')
+    $("#recent_disbursement_bl").load("disbursement_recent_bl.php");
   });
 
   //Debit GL Credit Income
@@ -606,27 +605,46 @@ $(function () {
     });
   });
 
-  $('#txtTotalDisbursementIncome').blur(function(){
-    
-  })
 
- 
-  $('#btn_save_disbursement').click(function(){
-    let amount = $.trim($('#txtTotalDisbursementIncome').val());
-    let dOT = $.trim($('#txt_disbursement_DOT').val());
-   
-     $(".progress-loader").remove();
+  
+  $("#txtTotalDisbursementIncome").blur(function () {
+    let amount = $.trim($("#txtTotalDisbursementIncome").val());
+
+    $.post("disbursement_fetch_total_bl.php", { amount }, function (data) {
+      let result = JSON.parse(data);
+
+      $("#lblTotalDisbursement").html(result.NetPNL);
+    });
+  });
+
+  $("#btn_save_disbursement").click(function () {
+    let amount = $.trim($("#txtTotalDisbursementIncome").val());
+    let dOT = $.trim($("#txt_disbursement_DOT").val());
+    let bl = $.trim($("#txt_disbursement_bl_search").val());
+
+    $(".progress-loader").remove();
     $("#disbursement-analysis-panel").append(
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
     );
 
-    $.post("add_new_disbursement_analysis.php", {amount, dOT}, function (data) {
-      alert(data)
-      $(".progress-loader").remove();
-    });
+    $.post(
+      "add_new_disbursement_analysis.php",
+      { amount, dOT, bl },
+      function (data) {
+        let result = JSON.parse(data);
 
-    $
-   });
+        if (result.status_code == 201) {
+          alert(result.msg);
+          $(".progress-loader").remove();
+        } else {
+          alert(result.msg);
+          $(".progress-loader").remove();
+        }
+      }
+    );
+
+    $;
+  });
 
   $("#clearDisbursementAnalysis").click(function () {
     $.post("disbursement_temp_delete.php", {}, function (data) {
