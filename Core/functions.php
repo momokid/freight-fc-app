@@ -81,13 +81,13 @@ function getExpenditureByBL($Uname)
 
 //Get Receipt Number and ID
 
-function getReceiptDetails()
+function getReceiptDetails($newDate)
 {
     $result = [];
 
-    global $dbc, $Uname, $ajaxDate;
+    global $dbc, $Uname;
 
-    $Date1 = trim(mysqli_real_escape_string($dbc, strftime('%Y-%m-%d', strtotime($ajaxDate))));
+    $Date1 = trim(mysqli_real_escape_string($dbc, strftime('%Y-%m-%d', strtotime($newDate))));
 
     $RefDate = str_replace("-","", $Date1);
 
@@ -99,6 +99,7 @@ function getReceiptDetails()
             'msg' => 'ok',
             'Id' => 1,
             'number' => trim($_SESSION['Initial'] . $RefDate . '1'),
+            'date'=>$Date1
         ];
     } else {
         $b = mysqli_query($dbc, "SELECT MAX(ID) AS ID FROM receipt_main WHERE Username='$Uname' AND Date='$Date1'");

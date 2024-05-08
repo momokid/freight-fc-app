@@ -16,9 +16,22 @@ $mbl =  (trim(mysqli_real_escape_string($dbc, $_POST['mbl'])));
 if (!isset($_SESSION['Uname'])) {
     header('Location: login');
 } else {
-    $a = mysqli_query($dbc, "SELECT * FROM  manifestation_breakdown_view_0 WHERE MainBL='$mbl'");
+    $b = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$mbl'");
 
-    echo '<table class="table table-bordered table-stripered" style="padding:0px;" id="LedgerControlTbl">
+    if (mysqli_num_rows($b) > 0) {
+        echo "<table class='table table-bordered table-stripered' style='padding:0px;' id='LedgerControlTbl'>
+        <thead class='thead-dark'>
+            <tr>
+              <em>Disbursement already captured for <b>{$mbl}</b></em>
+            </tr>
+        </thead>
+        <tbody>";
+    } else {
+
+
+        $a = mysqli_query($dbc, "SELECT * FROM  manifestation_breakdown_view_0 WHERE MainBL='$mbl'");
+
+        echo '<table class="table table-bordered table-stripered" style="padding:0px;" id="LedgerControlTbl">
         <thead class="thead-dark">
             <tr>
             <th scope="col">CONSIGNEE</th>
@@ -30,9 +43,9 @@ if (!isset($_SESSION['Uname'])) {
         </thead>
         <tbody>';
 
-    if (mysqli_num_rows($a) > 0) {
-        while ($an = mysqli_fetch_assoc($a)) {
-            echo '
+        if (mysqli_num_rows($a) > 0) {
+            while ($an = mysqli_fetch_assoc($a)) {
+                echo '
                 <tr>
                   <td scope="col">' . $an['FullName'] . '</td>
                   <td scope="col">' . $an['HouseBL'] . '</td>
@@ -40,16 +53,17 @@ if (!isset($_SESSION['Uname'])) {
                   <td scope="col">' . $an['Description'] . '</td>
                   <td scope="col"><i class="fa fa-download fa-lg text-primary get_disbursement" mbl="' . $an['MainBL'] . '" consigneeID="' . $an['ConsigneeID'] . '" hbl="' . $an['HouseBL'] . '" containerNo="' . $an['ContainerNo'] . '" title="Download disbursement account"></i></td>
                 </tr> ';
-        }
-    } else {
-        echo '
+            }
+        } else {
+            echo '
                 <tr>
                   <td scope="col" colspan="5">This BL contains multiple House BL. Try using LCL1 option.</td>
                 </tr> ';
-    }
+        }
 
-    echo '</tbody>
+        echo '</tbody>
         </table>';
+    }
 }
 ?>
 

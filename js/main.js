@@ -606,7 +606,7 @@ $(function () {
   });
 
 
-  
+
   $("#txtTotalDisbursementIncome").blur(function () {
     let amount = $.trim($("#txtTotalDisbursementIncome").val());
 
@@ -623,7 +623,7 @@ $(function () {
     let bl = $.trim($("#txt_disbursement_bl_search").val());
 
     $(".progress-loader").remove();
-    $("#disbursement-analysis-panel").append(
+    $("#disbursement_analysis_display_card").append(
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
     );
 
@@ -635,6 +635,10 @@ $(function () {
 
         if (result.status_code == 201) {
           alert(result.msg);
+          $('#disbursement_fcl_bl_display_details').html('');
+          $('.ep').val('');
+          $('#lblTotalDisbursement').html('');
+          $('#disbursement_fcl_account_display').html('');
           $(".progress-loader").remove();
         } else {
           alert(result.msg);

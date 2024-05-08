@@ -2208,7 +2208,7 @@ $_SESSION['stc'] = $stc1['AccountID'];
                   <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">Total Income</label>
-                      <input type="number" class="form-control form-control-user" autocomplete="off" placeholder="Enter Income Received" id="txtTotalDisbursementIncome">
+                      <input type="number" class="form-control form-control-user ep" autocomplete="off" placeholder="Enter Income Received" id="txtTotalDisbursementIncome">
 
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
@@ -2248,7 +2248,7 @@ $_SESSION['stc'] = $stc1['AccountID'];
 
             <div class="col-sm-7 mb-1">
               <!-- Approach -->
-              <div class="card shadow mb-1" id="manifestation_breakdown_card">
+              <div class="card shadow mb-1" id="disbursement_analysis_display_card">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Disbursement Account Details</h6>
                 </div>
