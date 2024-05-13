@@ -58,7 +58,7 @@ if (!isset($_SESSION['Uname'])) {
         } else {
 
             //CHECK FOR EXISTING DISBURSEMENT IN THE DISBURSEMENT ANALYSIS TABLE
-            $disbursement_exist = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND Username='$Uname'");
+            $disbursement_exist = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl'");
 
             if (mysqli_num_rows($disbursement_exist) > 0) {
                 $result = [

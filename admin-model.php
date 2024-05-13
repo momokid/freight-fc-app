@@ -190,8 +190,7 @@ $_SESSION['stc'] = $stc1['AccountID'];
         </a>
         <div id="disbursement-panel" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-success py-2 collapse-inner rounded">
-            <a class="collapse-item" id="new-disbursement-fcl-tab">FCL</a>
-            <a class="collapse-item" id="new-disbursement-lcl-tab">LCL1</a>
+            <a class="collapse-item" id="new-disbursement-fcl-tab">Disbursement</a>
             <a class="collapse-item" id="new-disbursement-approval-review-tab">Approval Review</a>
             <div class="collapse-divider"></div>
           </div>

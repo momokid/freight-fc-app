@@ -1,16 +1,16 @@
 <?php
 
- //Abort function
- function abort($code = 404)
- {
-     $result = [
-        'status_code'=>502,
-        'msg'=>'ACCOUNT NOT FOUND',
-     ];
+//Abort function
+function abort($code = 404)
+{
+    $result = [
+        'status_code' => 502,
+        'msg' => 'ACCOUNT NOT FOUND',
+    ];
 
-     //echo $result;
-     die(var_export($result));
- }
+    //echo $result;
+    die(var_export($result));
+}
 
 //format number to currency
 function formatToCurrency($value)
@@ -21,6 +21,10 @@ function formatToCurrency($value)
     return $Crnc . number_format($value, 2, '.', ',');
 }
 
+//format date into Day/Month/Year
+function formatDate($date, $format="%b %d, %Y"){
+    return strftime($format, strtotime($date));
+}
 
 function totalDisbursementExpenseBL($hbl, $consigneeId)
 {
@@ -89,7 +93,7 @@ function getReceiptDetails($newDate)
 
     $Date1 = trim(mysqli_real_escape_string($dbc, strftime('%Y-%m-%d', strtotime($newDate))));
 
-    $RefDate = str_replace("-","", $Date1);
+    $RefDate = str_replace("-", "", $Date1);
 
     $a = mysqli_query($dbc, "SELECT * FROM receipt_main WHERE Username='$Uname' AND Date='$Date1'");
 
@@ -99,7 +103,7 @@ function getReceiptDetails($newDate)
             'msg' => 'ok',
             'Id' => 1,
             'number' => trim($_SESSION['Initial'] . $RefDate . '1'),
-            'date'=>$Date1
+            'date' => $Date1
         ];
     } else {
         $b = mysqli_query($dbc, "SELECT MAX(ID) AS ID FROM receipt_main WHERE Username='$Uname' AND Date='$Date1'");
@@ -120,5 +124,16 @@ function getReceiptDetails($newDate)
     return $result;
 }
 
+//Fetch disbursement authorisor
+function fetchDisbursementAuthorisor()
+{
+    global $dbc, $Uname;
 
-//Get 
+    $a = mysqli_query($dbc, "SELECT * FROM disburement_user_auth WHERE Authorisor='$Uname'");
+
+    if (mysqli_num_rows($a) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}

@@ -27,3 +27,7 @@
 
 <script src="js/main.js?version=<?php echo rand(); ?>"></script>
 <!-- <script src="js/graph.js?version=<?php echo rand(); ?>"></script> -->
+
+
+<script src="js/sse.js?version=<?php echo rand(); ?>"></script>
+<!-- <script src="js/graph.js?version=<?php echo rand(); ?>"></script> -->

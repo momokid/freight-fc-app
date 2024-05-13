@@ -4089,10 +4089,10 @@ $(function () {
   }, 150000);
 
   //Online request for both payment confirmation and delivery order
-  $("#online_request_count").load("load_online_request_count.php");
-  setInterval(() => {
-    $("#online_request_count").load("load_online_request_count.php");
-  }, 150000);
+  // $("#online_request_count").load("load_online_request_count.php");
+  // setInterval(() => {
+  //   $("#online_request_count").load("load_online_request_count.php");
+  // }, 150000);
 
   //Admin Notification
   setInterval(function () {
