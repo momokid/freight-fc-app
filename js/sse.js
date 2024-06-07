@@ -6,16 +6,14 @@ eventSource.onmessage = function (event) {
   //console.log(data)
 };
 
-$('#disbursement_analysis').click(function(){
+$(".disbursement_analysis").click(function () {
 
-    $("#display_disbursement_analysis").load("load_disbursement_analysis_approval.php");
-    
-})
-
-
+  $("#display_disbursement_analysis").load(
+    "load_disbursement_analysis_approval.php"
+  );
+  
+});
 
 //   setInterval(() => {
 //     $("#display_disbursement_analysis").load("load_tracked_shipping_count.php");
 //   }, 150000);
-
-

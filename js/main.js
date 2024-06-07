@@ -508,12 +508,37 @@ $(function () {
     $("#sel_glDr_account").focus();
   });
 
-  //General Ledger transfer
+  //Disbursement Analysis Panel
   $("#new-disbursement-fcl-tab").click(function () {
     $(".sub-basic-setup").hide();
     $("#disbursement-analysis-panel").slideDown();
     $("#txt_disbursement_bl_search").focus();
     $("#recent_disbursement_bl").load("disbursement_recent_bl.php");
+  });
+
+function SpinnerLoader(){
+  return `
+  $(".progress-loader").remove();
+  $("#disbursement-analysis-panel").append(
+    '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+  );
+  `
+}
+
+function rmvSpinner(){
+  return ` $(".progress-loader").remove();`
+}
+
+  //Disbursement Ananlysis Approval
+  $("#new-disbursement-approval-review-tab").click(function () {
+    
+    SpinnerLoader();
+    
+    $(".sub-basic-setup").hide();
+    $("#display_disbursement_analysis_panel").load(
+      "load_disbursement_analysis_approval.php"
+    );
+    $("#disbursement-analysis-approval-panel").slideDown();
   });
 
   //Debit GL Credit Income
@@ -605,8 +630,6 @@ $(function () {
     });
   });
 
-
-
   $("#txtTotalDisbursementIncome").blur(function () {
     let amount = $.trim($("#txtTotalDisbursementIncome").val());
 
@@ -635,10 +658,10 @@ $(function () {
 
         if (result.status_code == 201) {
           alert(result.msg);
-          $('#disbursement_fcl_bl_display_details').html('');
-          $('.ep').val('');
-          $('#lblTotalDisbursement').html('');
-          $('#disbursement_fcl_account_display').html('');
+          $("#disbursement_fcl_bl_display_details").html("");
+          $(".ep").val("");
+          $("#lblTotalDisbursement").html("");
+          $("#disbursement_fcl_account_display").html("");
           $(".progress-loader").remove();
         } else {
           alert(result.msg);

@@ -28,6 +28,15 @@ $_SESSION['fc'] = $fc1['AccountID'];
 $stcc = mysqli_query($dbc, 'select * from ctrl_student');
 $stc1 = mysqli_fetch_assoc($stcc);
 $_SESSION['stc'] = $stc1['AccountID'];
+
+$disbursement_auth = false;
+$disbursement = mysqli_query($dbc, "SELECT * FROM disburement_user_auth");
+while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
+  if ($Uname === $disbursement_user['Authorisor']) {
+    $disbursement_auth = true;
+  }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -191,7 +200,9 @@ $_SESSION['stc'] = $stc1['AccountID'];
         <div id="disbursement-panel" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-success py-2 collapse-inner rounded">
             <a class="collapse-item" id="new-disbursement-fcl-tab">Disbursement</a>
-            <a class="collapse-item" id="new-disbursement-approval-review-tab">Approval Review</a>
+            <?php if ($disbursement_auth) { ?>
+              <a class="collapse-item disbursement_analysis" id="new-disbursement-approval-review-tab" data-toggle="modal" data-target="#disbursementAnalysisNA">Approval Review</a>
+            <?php } ?>
             <div class="collapse-divider"></div>
           </div>
         </div>
@@ -2145,12 +2156,12 @@ $_SESSION['stc'] = $stc1['AccountID'];
         <!-- /. End of GL Transfers Content -->
 
 
-        <!-- Begin HBL Inovice Content -->
+        <!-- Begin Disbursement Analysis Content -->
         <div class="container-fluid sub-basic-setup" id="disbursement-analysis-panel">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Disbursement Analysis - FCL</h1>
+            <h1 class="h3 mb-0 text-gray-800">Disbursement Analysis</h1>
           </div>
 
           <!-- Content Row -->
@@ -2266,7 +2277,25 @@ $_SESSION['stc'] = $stc1['AccountID'];
           </div>
 
         </div>
+        <!-- /. End of Disbursement Analysis Content -->
+
+
+        <!-- Begin HBL Inovice Content -->
+        <div class="container-fluid sub-basic-setup" id="disbursement-analysis-approval-panel">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">UNAUTHORISED DISBURSEMENT ANALYSIS</h1>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row" id="display_disbursement_analysis_panel">
+            Loading ...
+          </div>
+
+        </div>
         <!-- /. End of HBL Invoice Content -->
+
 
 
         <!-- Begin Dr GL Cr Icome Content -->

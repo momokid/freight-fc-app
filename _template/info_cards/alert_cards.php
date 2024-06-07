@@ -15,8 +15,8 @@
   </div>
 </div>
 
-<!-- Online Request -->
-<div class="col-xl-3 col-md-6 mb-4 freight_alerts" data-toggle="modal" data-target="#disbursementAnalysis" id="disbursement_analysis">
+<!--Disbursement Analysis -->
+<div class="col-xl-3 col-md-6 mb-4 freight_alerts disbursement_analysis" data-toggle="modal" <?php if ($disbursement_auth) { ?> data-target="#disbursementAnalysis" <?php } ?>>
   <div class="card border-left-info shadow h-100 py-2">
     <div class="card-body">
       <div class="row no-gutters align-items-center">
