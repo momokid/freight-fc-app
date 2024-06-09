@@ -248,6 +248,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
             <a class="collapse-item" id="rpt-consigment-details">Consignment Details</a>
             <a class="collapse-item" id="rpt-client-trans-details">Client Trans. Details</a>
             <a class="collapse-item" id="rpt-accounting-report">Transaction Report</a>
+            <a class="collapse-item" id="rpt-disbursement-report">Disbursement Report</a>
             <a class="collapse-item" id="rpt-other-report">Other Report</a>
             <div class="collapse-divider"></div>
           </div>
@@ -2669,6 +2670,8 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
 
         </div>
         <!-- /. End of View Other Report Content -->
+
+        <?php require("views/disbursement/disbursement_report.view.php"); ?>
 
 
         <!-- Begin Cargo manifestation Content -->

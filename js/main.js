@@ -446,6 +446,13 @@ $(function () {
   });
 
   //
+  $("#rpt-disbursement-report").click(function () {
+    $(".sub-basic-setup").hide();
+    //$('.sel_branch_rpt').load('load_distinct_income_account_rpt.php');
+    $("#view-disbursement-report").slideDown();
+  });
+
+  //
   $("#rpt-consigment-details").click(function () {
     $(".sub-basic-setup").hide();
     $("#new-consignment-details").slideDown();
@@ -516,24 +523,23 @@ $(function () {
     $("#recent_disbursement_bl").load("disbursement_recent_bl.php");
   });
 
-function SpinnerLoader(){
-  return `
+  function SpinnerLoader(props) {
+    return `
   $(".progress-loader").remove();
-  $("#disbursement-analysis-panel").append(
+  $(${props}).append(
     '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
   );
-  `
-}
+  `;
+  }
 
-function rmvSpinner(){
-  return ` $(".progress-loader").remove();`
-}
+  function rmvSpinner() {
+    return ` $(".progress-loader").remove();`;
+  }
 
   //Disbursement Ananlysis Approval
   $("#new-disbursement-approval-review-tab").click(function () {
-    
-    SpinnerLoader();
-    
+    SpinnerLoader("#disbursement-analysis-panel");
+
     $(".sub-basic-setup").hide();
     $("#display_disbursement_analysis_panel").load(
       "load_disbursement_analysis_approval.php"
@@ -7351,6 +7357,35 @@ function rmvSpinner(){
       function (a) {
         $("#view_other_report_search_result").html(a);
         $(".progress-loader").remove();
+      }
+    );
+  });
+
+  $("#btn_disbursement_summary_rpt").click(function () {
+    let fdt = $.trim($("#sel_disbursement_summary_fdate").val());
+    let ldt = $.trim($("#sel_disbursement_summary_ldate").val());
+
+    if (fdt == "") {
+      alert("Select First Date");
+      $("#sel_disbursement_summary_fdate").focus();
+      return false;
+    } else if (ldt == "") {
+      alert("Select Last Date");
+      $("#sel_disbursement_summary_ldate").focus();
+      return false;
+    }
+
+    $(".progress-loader").remove();
+    $("#disbursement_report_view_card").append(
+      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+    );
+
+    $.get(
+      "fetch_processed_declaration_income.php",
+      { fdt: fdt, ldt: ldt },
+      function (a) {
+        $("#view_other_report_search_result").html(a);
+        //$(".progress-loader").remove();
       }
     );
   });

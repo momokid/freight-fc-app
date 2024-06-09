@@ -224,6 +224,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
           <div class="bg-success py-2 collapse-inner rounded">
             <a class="collapse-item" id="rpt-consigment-details">Consignment Details</a>
             <a class="collapse-item" id="rpt-client-trans-details">Client Trans. Details</a>
+            <a class="collapse-item" id="rpt-disbursement-report">Disbursement Report</a>
             <a class="collapse-item" id="rpt-other-report">Other Report</a>
             <div class="collapse-divider"></div>
           </div>
@@ -1190,134 +1191,134 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
 
         </div>
         <!-- /. End of HBL Invoice Content -->
-          
-                <!-- Begin HBL Inovice Content -->
-                <div class="container-fluid sub-basic-setup" id="new-customer-waybill-panel">
 
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h3 mb-0 text-gray-800">Customer Waybill</h1>
-</div>
+        <!-- Begin HBL Inovice Content -->
+        <div class="container-fluid sub-basic-setup" id="new-customer-waybill-panel">
 
-<!-- Content Row -->
-<div class="row">
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Customer Waybill</h1>
+          </div>
 
-  <!-- Content Column -->
-  <div class="col-sm-7 mb-7">
-    <!-- Project Card Example -->
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">House BL Search</h6>
-      </div>
-      <div class="card-body">
+          <!-- Content Row -->
+          <div class="row">
 
-        <div class="form-group row">
-          <div class="col-sm-12 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Search House BL#</label> <i class="fas fa-eye text-warning float-right" data-toggle="modal" data-target="#consigneeInProcessModal" id="load_consignee_in_process_others"></i>
-            <label type="text" class="form-control ep lbl-client-search-id" hidden='' id='seach_hbl_invoicing_consignee'></label>
-            <input type="text" class="form-control form-control-user ep" id="txt_housebl_customer_waybill" autocomplete="off" placeholder="Enter House BL#">
-            <div id='display_hBL_waybill_search_info' class='div_search_box'></div>
+            <!-- Content Column -->
+            <div class="col-sm-7 mb-7">
+              <!-- Project Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">House BL Search</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Search House BL#</label> <i class="fas fa-eye text-warning float-right" data-toggle="modal" data-target="#consigneeInProcessModal" id="load_consignee_in_process_others"></i>
+                      <label type="text" class="form-control ep lbl-client-search-id" hidden='' id='seach_hbl_invoicing_consignee'></label>
+                      <input type="text" class="form-control form-control-user ep" id="txt_housebl_customer_waybill" autocomplete="off" placeholder="Enter House BL#">
+                      <div id='display_hBL_waybill_search_info' class='div_search_box'></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-5 mb-2">
+              <!-- Project Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Existing Waybill</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-1 mb-sm-0 ep" id="cosignee_hbl_invoice_display_details">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-7 mb-7">
+              <!-- Approach -->
+              <div class="card shadow mb-4" id="manifestation_breakdown_card">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary"> Waybill Details</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Consignee Name</label>
+                      <input type="text" class="form-control form-control-user ep" id="waybill_consignee_name">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Vehicle No.</label>
+                      <input type="text" class="form-control form-control-user ep" id="waybill_vehicle_no">
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Driver's Name</label>
+                      <input type="text" class="form-control form-control-user ep" id="waybill_driver_name">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Port</label>
+                      <input type="text" class="form-control form-control-user ep" id="waybill_port">
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Driver's License No.</label>
+                      <input type="text" class="form-control form-control-user ep" id="waybill_driver_license">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Package</label>
+                      <input class="form-control form-control-user ep" id="waybill_package" />
+                    </div>
+
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Description</label>
+                      <input class="form-control form-control-user ep" id="waybill_description" />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Quantity</label>
+                      <input class="form-control form-control-user ep" id="waybill_qty" />
+                    </div>
+
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Date</label>
+                      <input class="form-control form-control-user ep datepicker" id="waybill_date" />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <form class="user">
+                      <a class="btn btn-success btn-user btn-block" id="btn_add_new_waybill">
+                        Add New Waybill
+                      </a>
+                    </form>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0" id="cosignee_house_bl_display_details">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-5 mb-2">
-    <!-- Project Card Example -->
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Existing Waybill</h6>
-      </div>
-      <div class="card-body">
-
-        <div class="form-group row">
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-12 mb-1 mb-sm-0 ep" id="cosignee_hbl_invoice_display_details">
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-7 mb-7">
-    <!-- Approach -->
-    <div class="card shadow mb-4" id="manifestation_breakdown_card">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary"> Waybill Details</h6>
-      </div>
-      <div class="card-body">
-
-        <div class="form-group row">
-          <div class="col-sm-12 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Consignee Name</label>
-            <input type="text" class="form-control form-control-user ep" id="waybill_consignee_name">
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Vehicle No.</label>
-            <input type="text" class="form-control form-control-user ep" id="waybill_vehicle_no">
-          </div>
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Driver's Name</label>
-            <input type="text" class="form-control form-control-user ep" id="waybill_driver_name">
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Port</label>
-            <input type="text" class="form-control form-control-user ep" id="waybill_port">
-          </div>
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Driver's License No.</label>
-            <input type="text" class="form-control form-control-user ep" id="waybill_driver_license">
-          </div>
-          </div>
-        <div class="form-group row">
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Package</label>
-            <input class="form-control form-control-user ep" id="waybill_package" />
-          </div>
-
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Description</label>
-            <input class="form-control form-control-user ep" id="waybill_description" />
-          </div>
-          </div>
-        <div class="form-group row">
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Quantity</label>
-            <input class="form-control form-control-user ep" id="waybill_qty" />
-          </div>
-
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Date</label>
-            <input class="form-control form-control-user ep datepicker" id="waybill_date" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <form class="user">
-            <a class="btn btn-success btn-user btn-block" id="btn_add_new_waybill">
-              Add New Waybill
-            </a>
-          </form>
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-12 mb-3 mb-sm-0" id="cosignee_house_bl_display_details">
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-</div>
-<!-- /. End of HBL Invoice Content -->
+        <!-- /. End of HBL Invoice Content -->
 
         <!-- Begin Cargo manifestation Content -->
         <div class="container-fluid sub-basic-setup" id="new-other-serv-invoice-panel">
@@ -1555,148 +1556,148 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
         </div>
         <!-- /. End of Receive Invoice Charges Content -->
 
-<!-- Begin Cargo manifestation Content -->
-<div class="container-fluid sub-basic-setup" id="new-non-manifest-invoice-panel">
+        <!-- Begin Cargo manifestation Content -->
+        <div class="container-fluid sub-basic-setup" id="new-non-manifest-invoice-panel">
 
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h3 mb-0 text-gray-800">Non-Manifest Invoice</h1>
-</div>
-
-<!-- Content Row -->
-<div class="row">
-
-  <!-- Content Column -->
-  <div class="col-sm-5 mb-2">
-    <!-- Project Card Example -->
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Client Search</h6>
-      </div>
-      <div class="card-body">
-
-        <div class="form-group row">
-          <div class="col-sm-12 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Search Client Name/ BL#</label> <i class="fas fa-plus text-danger float-right ml-3 addNewConsignee" data-toggle="modal" data-target="#newConsigneeModal" id="addCleintModal"></i><i class="fas fa-eye text-warning float-right sr-only" data-toggle="modal" data-target="#consigneeInProcessModal" id="load_consignee_in_process_others"></i>
-            <label type="text" class="form-control label-form-control-user sr-only ep new_consignee_id" id='consignee_id_invoice_nonm'></label>
-            <input type="text" class="form-control form-control-user ep new_consignee_name" id="search_consignee_manifest" autocomplete="off" placeholder="">
-            <div id='display_hBL_invoicing_search_info' class='div_search_box client-search-show'></div>
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Non-Manifest Invoice</h1>
           </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Content Column -->
+            <div class="col-sm-5 mb-2">
+              <!-- Project Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Client Search</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Search Client Name/ BL#</label> <i class="fas fa-plus text-danger float-right ml-3 addNewConsignee" data-toggle="modal" data-target="#newConsigneeModal" id="addCleintModal"></i><i class="fas fa-eye text-warning float-right sr-only" data-toggle="modal" data-target="#consigneeInProcessModal" id="load_consignee_in_process_others"></i>
+                      <label type="text" class="form-control label-form-control-user sr-only ep new_consignee_id" id='consignee_id_invoice_nonm'></label>
+                      <input type="text" class="form-control form-control-user ep new_consignee_name" id="search_consignee_manifest" autocomplete="off" placeholder="">
+                      <div id='display_hBL_invoicing_search_info' class='div_search_box client-search-show'></div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">BL#</label>
+                      <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg ep" id="sel_bl_invoice_nonm">
+                        <option></option>
+                      </select>
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Item</label>
+                      <input type="text" class="form-control form-control-user ep" id="client_desc_invoice_nonm" autocomplete="off" placeholder="">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">D.O.T</label>
+                      <input type="text" class="form-control form-control-user ep datepicker" id="client_dot_invoice_nonm" autocomplete="off" placeholder="">
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Transaction ID</label>
+                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="client_rcpt_id_invoice_nonm"></label>
+                      <label class="form-control form-control-user label-form-control-user ep" id="client_rcpt_no_invoice_nonm"></label>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-7 mb-2 sr-only">
+              <!-- Project Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Recent Client's Activity</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-1 mb-sm-0 ep" id="cosignee_hbl_invoice_display_details">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-7 mb-1">
+              <!-- Approach -->
+              <div class="card shadow mb-1" id="manifestation_breakdown_card">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Charges Added</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-1 mb-sm-0 ep" id="client_charges_display_details_nonm">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-sm-5 mb-4">
+              <!-- Approach -->
+              <div class="card shadow mb-4" id="manifestation_breakdown_card">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Add Charges</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Select Account</label>
+                      <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg ep" id="sel_ots_acc_invoice_nonm">
+                        <option></option>
+                      </select>
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Amount</label>
+                      <input type="number" class="form-control form-control-user ep epp" id="client_amt_invoice_nonm">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" data-toggle="toggle" checked class="custom-control-input checkStatus" id="customSwitch2">
+                      <label class="custom-control-label" for="customSwitch2">Taxable</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+
+                    <button class="btn btn-success btn-user btn-block p-2" style="border-radius: 50px;" id="btn_add_charge_client_invoice_nonm">
+                      Add/Update Charge
+                    </button>
+
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0" id="">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
         </div>
-        
-        <div class="form-group row">
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">BL#</label>
-            <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg ep" id="sel_bl_invoice_nonm">
-              <option></option>
-            </select>
-          </div>
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Item</label>
-            <input type="text" class="form-control form-control-user ep" id="client_desc_invoice_nonm" autocomplete="off" placeholder="">
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">D.O.T</label>
-            <input type="text" class="form-control form-control-user ep datepicker" id="client_dot_invoice_nonm" autocomplete="off" placeholder="">
-          </div>
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Transaction ID</label>
-            <label class="form-control form-control-user label-form-control-user ep sr-only" id="client_rcpt_id_invoice_nonm"></label>
-            <label class="form-control form-control-user label-form-control-user ep" id="client_rcpt_no_invoice_nonm"></label>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-7 mb-2 sr-only">
-    <!-- Project Card Example -->
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Recent Client's Activity</h6>
-      </div>
-      <div class="card-body">
-
-        <div class="form-group row">
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-12 mb-1 mb-sm-0 ep" id="cosignee_hbl_invoice_display_details">
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-7 mb-1">
-    <!-- Approach -->
-    <div class="card shadow mb-1" id="manifestation_breakdown_card">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Charges Added</h6>
-      </div>
-      <div class="card-body">
-
-        <div class="form-group row">
-          <div class="col-sm-12 mb-1 mb-sm-0 ep" id="client_charges_display_details_nonm">
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  <div class="col-sm-5 mb-4">
-    <!-- Approach -->
-    <div class="card shadow mb-4" id="manifestation_breakdown_card">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Add Charges</h6>
-      </div>
-      <div class="card-body">
-
-        <div class="form-group row">
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Select Account</label>
-            <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg ep" id="sel_ots_acc_invoice_nonm">
-              <option></option>
-            </select>
-          </div>
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Amount</label>
-            <input type="number" class="form-control form-control-user ep epp" id="client_amt_invoice_nonm">
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="custom-control custom-switch">
-            <input type="checkbox"data-toggle="toggle" checked class="custom-control-input checkStatus" id="customSwitch2">
-            <label class="custom-control-label" for="customSwitch2">Taxable</label>
-          </div>
-        </div>
-
-        <div class="form-group row">
-
-          <button class="btn btn-success btn-user btn-block p-2" style="border-radius: 50px;" id="btn_add_charge_client_invoice_nonm">
-            Add/Update Charge
-          </button>
-
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-12 mb-3 mb-sm-0" id="">
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-
-</div>
-
-</div>
-<!-- /. End of Cargo manifestation Content -->
+        <!-- /. End of Cargo manifestation Content -->
 
 
 
@@ -2148,128 +2149,132 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
         </div>
         <!-- /. End of View Other Report Content -->
 
-<!-- Begin Disbursement Analysis Content -->
-<div class="container-fluid sub-basic-setup" id="disbursement-analysis-panel">
 
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h3 mb-0 text-gray-800">Disbursement Analysis</h1>
-</div>
+        <?php require ("views/disbursement/disbursement_report.view.php"); ?>
 
-<!-- Content Row -->
-<div class="row">
 
-  <!-- Content Column -->
-  <div class="col-sm-5 mb-2">
-    <!-- Project Card Example -->
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Disbursement Search Details</h6>
-      </div>
-      <div class="card-body">
+        <!-- Begin Disbursement Analysis Content -->
+        <div class="container-fluid sub-basic-setup" id="disbursement-analysis-panel">
 
-        <div class="form-group row">
-          <div class="col-sm-12 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Search By Main BL</label> <i class="fas fa-broom text-danger float-right" title="Clear disbursment analysis" id="clearDisbursementAnalysis"></i> <i class="fas fa-eye text-primary float-right" title="View disbursment analysis" id="viewDisbursementAnalysis"></i>
-            <label type="text" class="form-control ep lbl-client-search-id" hidden='' id='seach_hbl_invoicing_consignee'></label>
-            <input type="text" class="form-control form-control-user ep" id="txt_disbursement_bl_search" autocomplete="off" placeholder="Enter BL #">
-            <div id='disbursement_search_info' class='div_search_box'></div>
-            <div id="recent_disbursement_bl"></div>
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Disbursement Analysis</h1>
           </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Content Column -->
+            <div class="col-sm-5 mb-2">
+              <!-- Project Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Disbursement Search Details</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Search By Main BL</label> <i class="fas fa-broom text-danger float-right" title="Clear disbursment analysis" id="clearDisbursementAnalysis"></i> <i class="fas fa-eye text-primary float-right" title="View disbursment analysis" id="viewDisbursementAnalysis"></i>
+                      <label type="text" class="form-control ep lbl-client-search-id" hidden='' id='seach_hbl_invoicing_consignee'></label>
+                      <input type="text" class="form-control form-control-user ep" id="txt_disbursement_bl_search" autocomplete="off" placeholder="Enter BL #">
+                      <div id='disbursement_search_info' class='div_search_box'></div>
+                      <div id="recent_disbursement_bl"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-7 mb-2">
+              <!-- Project Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Main BL Details</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-1 mb-sm-0 ep" id="disbursement_fcl_bl_display_details">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-5 mb-4">
+              <!-- Approach -->
+              <div class="card shadow mb-4" id="manifestation_breakdown_card">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Transaction Summary</h6>
+                </div>
+                <div class="card-body">
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Total Income</label>
+                      <input type="number" class="form-control form-control-user ep" autocomplete="off" placeholder="Enter Income Received" id="txtTotalDisbursementIncome">
+
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Balance Outstanding</label>
+                      <label class="form-control form-control-user label-form-control-user" id="lblTotalDisbursement"></label>
+                    </div>
+                  </div>
+                  <div class="form-group row mt-3">
+
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Receipt No.</label>
+                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_rcpt_id_invoice"></label>
+                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_hblid_invoice"></label>
+                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_mblid_invoice"></label>
+                      <label class="form-control form-control-user label-form-control-user ep" id="hBL_rcpt_no_invoice"></label>
+                    </div>
+
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Date of Transaction</label>
+                      <input type="text" class="form-control form-control-user datepicker ep" id="txt_disbursement_DOT">
+                    </div>
+
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0" id="cosignee_house_bl_display_details">
+                      <form class="user">
+                        <a class="btn btn-success btn-user btn-block" id="btn_save_disbursement">
+                          Save Disbursement
+                        </a>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-sm-7 mb-1">
+              <!-- Approach -->
+              <div class="card shadow mb-1" id="disbursement_analysis_display_card">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Disbursement Account Details</h6>
+                </div>
+                <div class="card-body">
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-1 mb-sm-0 ep" id="disbursement_fcl_account_display">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-7 mb-2">
-    <!-- Project Card Example -->
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Main BL Details</h6>
-      </div>
-      <div class="card-body">
-
-        <div class="form-group row">
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-12 mb-1 mb-sm-0 ep" id="disbursement_fcl_bl_display_details">
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-5 mb-4">
-    <!-- Approach -->
-    <div class="card shadow mb-4" id="manifestation_breakdown_card">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Transaction Summary</h6>
-      </div>
-      <div class="card-body">
-        <div class="form-group row">
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Total Income</label>
-            <input type="number" class="form-control form-control-user ep" autocomplete="off" placeholder="Enter Income Received" id="txtTotalDisbursementIncome">
-
-          </div>
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Balance Outstanding</label>
-            <label class="form-control form-control-user label-form-control-user" id="lblTotalDisbursement"></label>
-          </div>
-        </div>
-        <div class="form-group row mt-3">
-
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Receipt No.</label>
-            <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_rcpt_id_invoice"></label>
-            <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_hblid_invoice"></label>
-            <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_mblid_invoice"></label>
-            <label class="form-control form-control-user label-form-control-user ep" id="hBL_rcpt_no_invoice"></label>
-          </div>
-
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Date of Transaction</label>
-            <input type="text" class="form-control form-control-user datepicker ep" id="txt_disbursement_DOT">
-          </div>
-
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-12 mb-3 mb-sm-0" id="cosignee_house_bl_display_details">
-            <form class="user">
-              <a class="btn btn-success btn-user btn-block" id="btn_save_disbursement">
-                Save Disbursement
-              </a>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="col-sm-7 mb-1">
-    <!-- Approach -->
-    <div class="card shadow mb-1" id="disbursement_analysis_display_card">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Disbursement Account Details</h6>
-      </div>
-      <div class="card-body">
-
-        <div class="form-group row">
-          <div class="col-sm-12 mb-1 mb-sm-0 ep" id="disbursement_fcl_account_display">
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-</div>
-<!-- /. End of Disbursement Analysis Content -->
+        <!-- /. End of Disbursement Analysis Content -->
 
 
         <!-- Begin Cargo manifestation Content -->
