@@ -10,7 +10,7 @@
 <div class="row">
 
   <!-- Content Column -->
-  <div class="col-sm-5 mb-1">
+  <div class="col-sm-3 mb-1">
     <div class="row">
       <!-- Project Card Example -->
       <div class="col-sm-12 mb-2">
@@ -48,15 +48,15 @@
         <!-- Project Card Example -->
         <div class="card shadow mb-2">
           <div class="card-header py-2 bg-danger">
-            <h6 class="m-0 font-weight-bold text-white">Handling Cost Income View</h6>
+            <h6 class="m-0 font-weight-bold text-white">Disbursement by Container#</h6>
           </div>
           <div class="card-body">
 
             <div class="form-group row">
               <div class="col-sm-12 mb-1 mb-sm-0">
-                <label for="exampleFormControlInput1">House BL#</label>
+                <label for="exampleFormControlInput1">Search Details</label>
                 <label type="text" class="form-control ep" hidden='' id='hbl_id_profile_view_search'></label>
-                <input type="text" class="form-control form-control-user ep" id="search_housebl_profile_handling_cost_view" placeholder="Enter House BL# or Client Name">
+                <input type="text" class="form-control form-control-user ep" id="search_housebl_profile_handling_cost_view" placeholder="Enter Container#">
                 <div id='display_hbl_handling_cost_view_search_info' class='div_search_box'></div>
               </div>
             </div>
@@ -67,7 +67,7 @@
     </div>
   </div>
 
-  <div class="col-sm-7 mb-1">
+  <div class="col-sm-9 mb-1">
     <!-- Approach -->
     <div class="card shadow mb-1" id="disbursement_report_view_card">
       <div class="card-header py-2">
@@ -76,7 +76,7 @@
       <div class="card-body">
 
         <div class="form-group row">
-          <div class="col-sm-12 mb-1 mb-sm-0" id="view_other_report_search_result">
+          <div class="col-sm-12 mb-1 mb-sm-0" id="view_disbursement_report_search_result">
 
           </div>
         </div>

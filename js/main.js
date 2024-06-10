@@ -7381,11 +7381,11 @@ $(function () {
     );
 
     $.get(
-      "fetch_processed_declaration_income.php",
-      { fdt: fdt, ldt: ldt },
+      "fetch_disbursement_summary_by_date.php",
+      { fdt, ldt },
       function (a) {
-        $("#view_other_report_search_result").html(a);
-        //$(".progress-loader").remove();
+        $("#view_disbursement_report_search_result").html(a);
+        $(".progress-loader").remove();
       }
     );
   });
