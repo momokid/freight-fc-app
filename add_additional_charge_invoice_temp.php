@@ -11,24 +11,37 @@ $BranchID = mysqli_real_escape_string($dbc, $_SESSION['BranchID']);
 $ActiveDate= mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 $acc=  intval(trim(mysqli_real_escape_string($dbc,$_POST['acc'])));
 $amt=  floatval(trim(mysqli_real_escape_string($dbc,$_POST['amt'])));
+$mbl=  (trim(mysqli_real_escape_string($dbc,$_POST['mbl'])));
 $taxStatus=  trim(mysqli_real_escape_string($dbc,$_POST['taxStatus']));
 
 
 if(!isset( $_SESSION['Uname'])){	
 	header('Location: login');
 }elseif($acc==''){
-    die('Select Account');
+    $result = [
+        'code'=>401,
+        'msg'=>'Select Account',
+    ];
 }elseif($amt<=0){
-    die('Enter Amount');
+    $result = [
+        'code'=>401,
+        'msg'=>'Select Amount',
+    ];
 }else{
-    $t = mysqli_query($dbc, "select * from charge_taxes");
+    $t = mysqli_query($dbc, "SELECT * from charge_taxes");
     if(mysqli_num_rows($t)==0){
-        die('Taxes not setup');
+        $result = [
+            'code'=>401,
+            'msg'=>'Taxes not configured',
+        ];
     }else{
-    $a = mysqli_query($dbc, "select * from hbl_invoice_consignee_temp where Username<>'$Uname'");
+    $a = mysqli_query($dbc, "SELECT * FROM hbl_invoice_consignee_temp WHERE Username<>'$Uname'");
     
     if(mysqli_num_rows($a)>0){
-        die('Invoicing already initiated by '.$Uname);
+        $result = [
+            'code'=>401,
+            'msg'=>'Invoicing already initiated by '.$Uname,
+        ];
     }else{
 
         $tn = mysqli_fetch_assoc($t);
@@ -38,28 +51,43 @@ if(!isset( $_SESSION['Uname'])){
             $tn['Covid']=0;
         }
 
-        $b = mysqli_query($dbc, "select distinct MainBL,HouseBL, ConsignmentID,ConsigneeID from hbl_invoice_consignee_temp where Username='$Uname'"); 
+        $b = mysqli_query($dbc, "SELECT DISTINCT MainBL,HouseBL, ConsignmentID FROM hbl_invoice_consignee_temp WHERE Username='$Uname'"); 
         
         if(mysqli_num_rows($b)>1){
-            die('Multiple processing detecting for this user');
+            $result = [
+                'code'=>401,
+                'msg'=>'Multiple processing detecting for this user',
+            ];
         }else{
             $an = mysqli_fetch_assoc($b);
-            $e = mysqli_query($dbc, "select * from hbl_invoice_consignee_temp where Username='$Uname' and AccountNo='$acc'");
+            $e = mysqli_query($dbc, "SELECT * FROM hbl_invoice_consignee_temp WHERE Username='$Uname' AND AccountNo='$acc'");
             
             if(mysqli_num_rows($e)>0){
-                $c = mysqli_query($dbc, "update hbl_invoice_consignee_temp set Amount='$amt',VAT='$tn[VAT]',Covid='$tn[Covid]',GetFundNHIL='$tn[GetFund]' where Username='$Uname' and AccountNo='$acc' and ConsigneeID='$an[ConsigneeID]' and MainBL='$an[MainBL]' and HouseBL='$an[HouseBL]' and ConsignmentID='$an[ConsignmentID]'");
+                $c = mysqli_query($dbc, "UPDATE hbl_invoice_consignee_temp SET Amount='$amt',VAT='$tn[VAT]',Covid='$tn[Covid]',GetFundNHIL='$tn[GetFund]' where Username='$Uname' and AccountNo='$acc' and MainBL='$an[MainBL]'  and ConsignmentID='$an[ConsignmentID]'");
                 if($c){
-                    echo '1';
+                    $result = [
+                        'code'=>200,
+                        'msg'=>'Update successfully',
+                    ];
                 }else{
-                    die($ERR);
+                    $result = [
+                        'code'=>401,
+                        'msg'=>$ERR,
+                    ];
                 }
             }else{
-                $c = $dbc->query("insert into hbl_invoice_consignee_temp values('$an[ConsignmentID]','$an[MainBL]','$an[HouseBL]','$an[ConsigneeID]','$acc','$tn[GetFund]','$tn[Covid]','$tn[VAT]','$amt','$ajaxDate','$ajaxTime','$Uname') ");
+                $c = $dbc->query("INSERT INTO hbl_invoice_consignee_temp VALUES('','$mbl','$an[HouseBL]','$an[ConsigneeID]','$acc','$tn[GetFund]','$tn[Covid]','$tn[VAT]','$amt','$ajaxDate','$ajaxTime','$Uname') ");
             
                 if($c){
-                    echo '1';
+                    $result = [
+                        'code'=>200,
+                        'msg'=>'Account added successfully',
+                    ];
                 }else{
-                    die($ERR);
+                    $result = [
+                        'code'=>401,
+                        'msg'=>$ERR,
+                    ];
                 }
             }
             
@@ -69,3 +97,5 @@ if(!isset( $_SESSION['Uname'])){
     } 
         
 }
+
+echo json_encode($result);

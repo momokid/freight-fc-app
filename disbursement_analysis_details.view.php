@@ -32,7 +32,7 @@ if (mysqli_num_rows($date) == 0) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>
-        Disbursement Details By Container #:<?= $containerNo ?>
+           CONTAINER DISBURSEMENT DETAILS REPORT:<?= $containerNo ?>
         </title>
 
         <?php include('script.php'); ?>
@@ -51,10 +51,10 @@ if (mysqli_num_rows($date) == 0) {
 
             <table class='table'>
                 <thead class='thead-dark'>
-                    <th>CONTAINER DETAILS</th>
+                    <th>CONTAINER DISBURSEMENT DETAILS</th>
                     <th></th>
                     <th></th>
-                    <th>ACTION</th>
+                    <th></th>
                 </thead>
 
                 <?php
@@ -72,7 +72,7 @@ if (mysqli_num_rows($date) == 0) {
                     $c = mysqli_query($dbc, "SELECT DISTINCT TotalCashReceipt FROM  disbursement_analysis_view_1 WHERE ContainerNo='$containerNo'");
                     while ($cn = mysqli_fetch_assoc($c)) { ?>
                         <tr>
-                            <td>TOTAL CASH RECEIVED:</td>
+                            <td>TOTAL CASH REVENUE:</td>
                             <td colspan="2" class="text-primary font-weight-bold"><?= formatToCurrency($cn['TotalCashReceipt']); ?></td>
                             <td></td>
                             <td></td>
@@ -131,7 +131,7 @@ if (mysqli_num_rows($date) == 0) {
                             <td></td>
                             <td class="border border-dark border-right-0">PROFIT/LOSS (#<?= $bn["ContainerNo"] ?>)</td>
                             <td class="border border-dark border-left-0 <?= $pnl > 0 ? "text-success" : "text-danger" ?>"> <span class="font-weight-bold"><?= formatToCurrency($pnl); ?></span></td>
-                            <td><i class="fas fa-check-square fa-lg bg-transparent" title="Print this document"></i></td>
+                            <td><i class="fas fa-print fa-lg bg-transparent cursor-pointer no-print" onClick="window.print()" title="Print this document"></i></td>
                         </tr>
 
                     <?php } ?>
@@ -149,64 +149,12 @@ if (mysqli_num_rows($date) == 0) {
     ?>
 
     </body>
-
-
     </html>
+
     <style>
-        .fa-btn {
-            cursor: pointer;
+        @media print {
+            .no-print {
+                display: none;
+            }
         }
     </style>
-
-    <script>
-        //Authorize disrbursement analysis
-        $('.btn-approve-disbursement').click(function() {
-            let receiptNo = $.trim($(this).attr('id'))
-
-            $(".progress-loader").remove();
-            $("#disbursementAnalysisModalContent").append(
-                '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
-            );
-
-            let ansa = confirm("Approved disbursement?");
-
-            if (ansa) {
-                $.post('disbursement_analysis_approved.php', {
-                    receiptNo
-                }, function(data) {
-                    let result = JSON.parse(data);
-
-                    alert(result.msg)
-                    $("#display_disbursement_analysis").load("load_disbursement_analysis_approval.php");
-                    $(".progress-loader").remove();
-                });
-            }
-
-        });
-
-
-        $('.btn-reject-disbursement').click(function() {
-            let receiptNo = $.trim($(this).attr('id'))
-            let userName = $.trim($(this).attr('user'))
-
-            $(".progress-loader").remove();
-            $("#disbursementAnalysisModalContent").append(
-                '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
-            );
-            // alert(`${userName} ${receiptNo}`);
-            let ansa = confirm("Reject disbursement?");
-
-            if (ansa) {
-                $.post('disbursement_analysis_reject.php', {
-                    receiptNo,
-                    userName
-                }, function(data) {
-                    let result = JSON.parse(data);
-
-                    alert(result.msg)
-                    $("#display_disbursement_analysis").load("load_disbursement_analysis_approval.php");
-                    $(".progress-loader").remove();
-                });
-            }
-        })
-    </script>

@@ -112,7 +112,7 @@ if (!isset($_SESSION['Uname'])) {
                 $dbc->autocommit(FALSE);
                 $an = mysqli_fetch_assoc($a);
                 $r = $dbc->query("insert into receipt_main values('$recid','$dot','$recno','$Uname','$ajaxTime')");
-                $c = $dbc->query("insert into container_main values('$cid','$carid','$rtt','$shpid','$vessel','$vyg','$an[SealNo]','$eta','$bl','$an[ContainerNo]','$an[ContainerSize]','$recno','$pois','$dois','$sob','$polid','$podid','0','0','$agent','$Uname','$BranchID','$dot','$ajaxTime','1')");
+                $c = $dbc->query("insert into container_main values('$cid','$carid','$rtt','$shpid','$vessel','$vyg','$an[SealNo]','$eta','$bl','$an[ContainerNo]','$an[ContainerSize]','$recno','$pois','$dois','$sob','$polid','$podid','0','0','$agent','NO_OFFICER','$Uname','$BranchID','$dot','$ajaxTime','1')");
 
                 while ($dn = mysqli_fetch_assoc($d)) {
                     $e = $dbc->query("insert into container_details values('$cid','$bl','$dn[SealNo]','$dn[ContainerNo]','$dn[ContainerSize]','$dn[Weight]','$dn[HandlingCost]','$Uname','$BranchID','$dot','$ajaxTime')");

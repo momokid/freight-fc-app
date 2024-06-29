@@ -21,6 +21,10 @@ function formatToCurrency($value)
     return $Crnc . number_format($value, 2, '.', ',');
 }
 
+function formatNumber($value){
+    return number_format($value, 2, '.', ',');
+}
+
 //format date into Day/Month/Year
 function formatDate($date, $format="%b %d, %Y"){
     return strftime($format, strtotime($date));

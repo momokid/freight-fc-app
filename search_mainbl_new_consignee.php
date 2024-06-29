@@ -1,4 +1,4 @@
-<?php
+0.<?php
 
 //start the session
 session_start();
@@ -19,13 +19,11 @@ if (!isset($_SESSION['Uname'])) {
 } elseif (!isset($e)) {
     die('Search key not found');
 } else {
-    $result = mysqli_query($dbc, "select * from container_main_view_3 where BL like '%$e%'");
+    $result = mysqli_query($dbc, "SELECT * from container_main_view_3 where BL like '%$e%'");
 
     while ($f = mysqli_fetch_assoc($result)) {
-        //echo '<div class="student_search_display-wrap"><span class="search_student_details first-search-span">'.$f['StudentID'].'</span><span class="search_student_details second-search-span">'.$f['FullName'].'</span><span class="search_student_details third-search-span">'.$f['CurrentClass'].'</span>'
-        //      . '<div class="wrap-details"></div></div><br>';
 
-        echo "<div class='return_search_results form_master_search hide_div_note'  cns=" . $f['ConsignmentID'] . " id='$f[BL]' cnt=" . $f['ContainerNo'] . "><b>" . $f['BL'] . "</b> " . $f['ShipperName'] . " ~ " . $f['ContainerNo'] . "</div>";
+        echo "<div class='return_search_results form_master_search hide_div_note' cns='" . $f['ConsignmentID'] . "'  officer='" . $f['OfficerAssignedName'] . "'  id='" . $f['BL'] . "'  cnt='" . $f['ContainerNo'] . "'> <b>" . $f['BL'] . "</b> " . $f['ShipperName'] . " ~ " . $f['ContainerNo'] . "</div>";
     }
 }
 
@@ -38,11 +36,13 @@ if (!isset($_SESSION['Uname'])) {
         var cns = $(this).attr('cns');
         var bl = $(this).attr('id');
         var cnt = $(this).attr('cnt');
+        var officer = $(this).attr('officer');
         var m = $(this).text();
 
         //$('#edit_std_info_display_board').html(e);
         $('#mainBL_search_conisgnee').val(m);
         $('#seach_mainBL_new_consignee').text(bl);
+        $('#current_assignee_mapped').val(officer)
 
         $.post('add_mainbl_newconsignee.php', {
             cns: cns,
@@ -51,9 +51,10 @@ if (!isset($_SESSION['Uname'])) {
         }, function(a) {
             if (a == 1) {
                 $('#cosignee_main_bl_display_details').load('load_temp_mainbl_new_consignee.php');
-                $.post('get_new_house_bl_number.php', {}, function(a) {
-                    $('#houseBL_consignee_breakown').val(a);
-                });
+                // $.post('get_new_house_bl_number.php', {}, function(a) {
+                //     $('#seach_mainBL_new_consignee').html(bl);
+                //     $('#houseBL_consignee_breakown').val(a);
+                // });
 
             } else {
                 alert(a);

@@ -11,25 +11,27 @@ $PixDir = 'img/members/';
 $CRC = 'Error encountered. Contact your system administrator';
 $ERR =
   'This process has encountered an error. Contact your system administrator.';
-$loc = 'http://localhost/app-freight-diary';
+$loc = 'http://localhost/app-freight-diary-v2';
 $logo_ext = '.png';
 $fasm = 'font-awesome-4.7.0';
 
 #Database connection here....
-($dbc = mysqli_connect('localhost', 'root', '', 'primesur_freight')) or
+($dbc = mysqli_connect('localhost', 'root', '', 'freight_fc')) or
   die('Cannot Locate Server Port Number. Contact your system administrator');
 $dtf = '%b %d, %Y';
 //$mysqli = new mysqli('localhost','anwar','lagari','app_freight');
 
 //Dont cache witht this code
 //header("Cache-Control: no-cache, must-revalidate");
-$imgloc = "url('http://localhost/app-freight-diary/img/logo.png')";
+$imgloc = "url('http://localhost/app-freight-diary-v2/img/logo.png')";
 
 ini_set('display_errors', 0);
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 require "Core/functions.php";
 require "Core/account_config.php";
+
+$result= [];
 ?>
 
 <?php

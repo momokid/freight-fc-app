@@ -60,224 +60,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
   <!-- Page Wrapper -->
   <div id="wrapper">
 
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
-
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admin-model">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-ship"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">P.S.I.L</div>
-      </a>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="admin-model">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        SETUP & CONFIG
-      </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Basic Setup</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-success py-2 collapse-inner">
-            <h6 class="collapse-header sr-only">Custom Components:</h6>
-            <a class="collapse-item" id="ledger_control_panel">Ledger Control</a>
-            <a class="collapse-item" id="ledger_control_category_panel">Ledger Category</a>
-            <a class="collapse-item" id="ledger_control_account_panel">Ledger Account</a>
-            <a class="collapse-item" id="handling_charges_setup_tab">Handling Charges Setup</a>
-            <a class="collapse-item" id="disbursement_charges_setup_tab">Disbursement Setup</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Nav Item - Consignment Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseConsignment" aria-expanded="true" aria-controls="collapseConsignment">
-          <i class="fas fa-fw fa-dolly"></i>
-          <span>Consignment Register</span>
-        </a>
-        <div id="collapseConsignment" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-success py-2 collapse-inner rounded">
-            <h6 class="collapse-header sr-only">Consignment Utilities:</h6>
-            <a class="collapse-item" id="new-consignment-tab">New Consignment</a>
-            <a class="collapse-item" id="new-cargo-manifestation-tab">Cargo Manifest</a>
-
-          </div>
-        </div>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        General Transactions
-      </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-file-invoice-dollar"></i>
-          <span>Generate Invoice</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-success py-2 collapse-inner rounded">
-            <a class="collapse-item" id="new-house-bl-invoice-tab">House BL Invoice</a>
-            <a class="collapse-item" id="new-customer-waybill">Customer Waybill</a>
-            <a class="collapse-item" id="new-other-serv-invoice-tab">Other Serv. Invoice</a>
-            <a class="collapse-item" id="new-non-manifest-invoice-tab">Non-Manifest Invoice</a>
-            <div class="collapse-divider"></div>
-          </div>
-        </div>
-      </li>
-
-
-
-      <?php $exp_q = mysqli_query(
-        $dbc,
-        "select * from user_expense_petty_cash where Username='$Uname'"
-      ); ?>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#OtherTransPages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-money-bill-alt"></i>
-          <span>Payment Transactions</span>
-        </a>
-        <div id="OtherTransPages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-success py-2 collapse-inner rounded">
-            <a class="collapse-item" id="rcv-process-decalartion-tab">Process Declaration</a>
-            <a class="collapse-item" id="rcv-invoice-charge-tab">Receive Handl. Charge</a>
-            <a class="collapse-item" id="rcv-service-charge-tab">Receive Service Charge</a>
-            <a class="collapse-item" id="pay-invoice-charge-tab">Handl. Charge Expense</a>
-            <?php if (mysqli_num_rows($exp_q) == 1) {
-              echo ' <a class="collapse-item" id="expense-transaction-tab">Expenditure Transaction</a>';
-            } ?>
-            <div class="collapse-divider"></div>
-          </div>
-        </div>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#LedgerTransactions" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-money-bill"></i>
-          <span>Ledger Transaction</span>
-        </a>
-        <div id="LedgerTransactions" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-success py-2 collapse-inner rounded">
-            <a class="collapse-item" id="singleEntryTransaction_GL">G.L. Transfer (Sngl Entry)</a>
-            <a class="collapse-item" id="transaction_GL">G.L. Transfer (Dbl Entry)</a>
-            <a class="collapse-item" id="drGlCrIncometab">Dr G.L. - Cr Income</a>
-            <a class="collapse-item" id="crGlDrExpensetab">Cr G.L. - Dr Expense</a>
-            <a class="collapse-item" id="expense-transaction-tab">Cr G.L. - Dr Income</a>
-            <a class="collapse-item" id="expense-transaction-tab">Dr G.L. - Cr Expense</a>
-
-            <div class="collapse-divider"></div>
-          </div>
-        </div>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#disbursement-panel" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-layer-group"></i>
-          <span>Disbursement Analysis</span>
-        </a>
-        <div id="disbursement-panel" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-success py-2 collapse-inner rounded">
-            <a class="collapse-item" id="new-disbursement-fcl-tab">Disbursement</a>
-            <?php if ($disbursement_auth) { ?>
-              <a class="collapse-item disbursement_analysis" id="new-disbursement-approval-review-tab" data-toggle="modal" data-target="#disbursementAnalysisNA">Approval Review</a>
-            <?php } ?>
-            <div class="collapse-divider"></div>
-          </div>
-        </div>
-      </li>
-
-
-      <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Edit Panel
-      </div>
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-toggle="collapse" data-target="#EditDataTab" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-user-edit"></i>
-          <span>Edit Data</span>
-        </a>
-        <div id="EditDataTab" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-success py-2 collapse-inner rounded">
-            <a class="collapse-item" id="edit-consigment-details">Edit Consignment</a>
-            <a class="collapse-item" id="edit-consigment-weight">Edit Weight</a>
-            <a class="collapse-item" id="reverse-transaction">Reverse Transaction</a>
-            <div class="collapse-divider"></div>
-          </div>
-        </div>
-      </li>
-
-      <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        System Report
-      </div>
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-toggle="collapse" data-target="#ReportViewTab" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Report Viewer</span>
-        </a>
-        <div id="ReportViewTab" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-success py-2 collapse-inner rounded">
-            <a class="collapse-item" id="rpt-consigment-details">Consignment Details</a>
-            <a class="collapse-item" id="rpt-client-trans-details">Client Trans. Details</a>
-            <a class="collapse-item" id="rpt-accounting-report">Transaction Report</a>
-            <a class="collapse-item" id="rpt-disbursement-report">Disbursement Report</a>
-            <a class="collapse-item" id="rpt-other-report">Other Report</a>
-            <div class="collapse-divider"></div>
-          </div>
-        </div>
-      </li>
-
-      <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Chart Display
-      </div>
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
-
-    </ul>
-    <!-- End of Sidebar -->
+    <?php require("_template/views/sidebar-nav.php"); ?>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -306,7 +89,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
           <div class="row">
 
             <!-- Area Chart -->
-            <div class="col-xl-8 col-lg-7">
+            <div class="col-xl-12 col-lg-12">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -326,47 +109,8 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
+                  <div class="card-body" id="display_new_consignment">
 
-            <!-- Pie Chart -->
-            <div class="col-xl-4 col-lg-5">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                  </div>
-                  <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-info"></i> Referral
-                    </span>
                   </div>
                 </div>
               </div>
@@ -1005,11 +749,10 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Pending Consigment</h6>
                 </div>
-                <div class="card-body" id="display_new_consignment">
+                <div class="card-body" id="display_new_consignment00">
 
                 </div>
               </div>
-
             </div>
           </div>
 
@@ -1021,7 +764,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Cargo Manifest</h1>
+            <h1 class="h3 mb-0 text-gray-800">Assign Officer</h1>
           </div>
 
           <!-- Content Row -->
@@ -1033,22 +776,24 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">House BL Details</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">BL Details</h6>
                 </div>
-                <div class="card-body">
 
+                <div class="card-body">
                   <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0 sr-only">
                       <label for="exampleFormControlInput1">Consignment ID</label>
                       <label class="form-control form-control-user label-form-control-user" id="newConsignmentID"></label>
                     </div>
+
                     <div class="col-sm-5 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">Search Main BL </label>
                       <label type="text" class="form-control" hidden='' id='seach_mainBL_new_consignee'></label>
-                      <input type="text" class="form-control form-control-user ep" id="mainBL_search_conisgnee" placeholder="Enter Main BL">
+                      <input type="text" class="form-control form-control-user ep" id="mainBL_search_conisgnee" placeholder="Enter Main BL" autocomplete="off">
                       <div id='display_mainBL_search_info' class='div_search_box'></div>
                     </div>
                   </div>
+
                   <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0" id="cosignee_main_bl_display_details">
 
@@ -1063,11 +808,11 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
               <!-- Approach -->
               <div class="card shadow mb-4" id="manifestation_breakdown_card">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Manifest Breakdown </h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Assignee Details </h6>
                 </div>
                 <div class="card-body">
 
-                  <div class="form-group row">
+                  <!-- <div class="form-group row">
                     <div class="col-sm-2 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">House BL#</label>
                       <input class="form-control form-control-user ep" id="houseBL_consignee_breakown" />
@@ -1106,36 +851,33 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                         <option>UNIT</option>
                       </select>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="form-group row">
-                    <div class="col-sm-2 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Item Type*</label>
-                      <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg" id="sel_hBL_conisgnee_item_type">
-                        <option></option>
-                        <option>GOODS</option>
-                        <option>VEHICLE</option>
-                        <option>MOTORBIKE</option>
+                    <div class="col-sm-5 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Current Assigned Officer</label>
+                      <input type="text" class="form-control form-control-user ep" id="current_assignee_mapped" disabled>
+                    </div>
+                    <div class="col-sm-5 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Select Officer</label>
+                      <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg" id="sel_mbl_assignee_officer">
                       </select>
                     </div>
-                    <div class="col-sm-4 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Description*</label>
-                      <textarea type="text" class="form-control form-control-user ep" id="hBL_conisgnee_description"></textarea>
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
+
+                    <!-- <div class="col-sm-3 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">VIN **</label>
                       <textarea type="text" class="form-control form-control-user ep" id="hBL_conisgnee_vin"></textarea>
-                    </div>
+                    </div> -->
 
-                    <div class="col-sm-3 mb-3 mb-sm-0">
+                    <!-- <div class="col-sm-3 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">Other Info **</label>
                       <textarea type="text" class="form-control form-control-user ep" id="hBL_conisgnee_other_info"></textarea>
-                    </div>
+                    </div> -->
                   </div>
 
                   <div class="form-group row">
                     <form class="user">
                       <a class="btn btn-success btn-user btn-block" id="btn_consignee_manifestation">
-                        Add Consignee Breakdown
+                        Assign Officer
                       </a>
                     </form>
                   </div>
@@ -1158,7 +900,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">House BL Invoicing</h1>
+            <h1 class="h3 mb-0 text-gray-800">BL Invoicing</h1>
           </div>
 
           <!-- Content Row -->
@@ -1169,14 +911,14 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Consignee Manifest Search</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Bill Of Lading Search</h6>
                 </div>
                 <div class="card-body">
 
                   <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Search Consignee Name or House BL#</label> <i class="fas fa-eye text-warning float-right" data-toggle="modal" data-target="#consigneeInProcessModal" id="load_consignee_in_process_others"></i>
-                      <label type="text" class="form-control ep lbl-client-search-id" hidden='' id='seach_hbl_invoicing_consignee'></label>
+                      <label for="exampleFormControlInput1">Search BL#</label> <i class="fas fa-eye text-warning float-right" data-toggle="modal" data-target="#consigneeInProcessModal" id="load_consignee_in_process_others"></i>
+                      <label type="text" class="form-control ep lbl-client-search-id" hidden='' id='mbl_invoice_search'></label>
                       <input type="text" class="form-control form-control-user ep" id="invoicing_hbl_search_conisgnee" autocomplete="off" placeholder="Enter Consignee Name/ House BL#">
                       <div id='display_hBL_invoicing_search_info' class='div_search_box'></div>
                     </div>
@@ -1189,7 +931,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Consignee Manifest Details</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Container Details</h6>
                 </div>
                 <div class="card-body">
 
@@ -1699,7 +1441,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                     <div class="col-sm-12 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">Search Client Invoice</label>
                       <label type="text" class="form-control ep" hidden='' id='consignee_id_invoice_pmt'></label>
-                      <input type="text" class="form-control form-control-user ep" id="consignee_invoice_payment">
+                      <input type="text" class="form-control form-control-user ep" id="consignee_invoice_payment" autocomplete="off">
                       <div id='display_consginee_invoice_pmt_info' class='div_search_box'></div>
                     </div>
                   </div>
@@ -1803,7 +1545,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                   <div class="form-group row">
                     <div class="col-sm-3 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">Enter BL #</label>
-                      <input type="text" class="form-control form-control-user ep" placeholder="Search BL No." id="dclr_prcs_bl_search">
+                      <input type="text" class="form-control form-control-user ep" placeholder="Search BL No." id="dclr_prcs_bl_search" autocomplete="off">
                       <div id='display_dclr_prcs_bl_search' class='div_search_box'></div>
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-0">
@@ -1895,7 +1637,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                     <div class="col-sm-12 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">Search Main BL#</label>
                       <label type="text" class="form-control ep" hidden='' id='consignee_id_pmt_expense'></label>
-                      <input type="text" class="form-control form-control-user ep" id="consignee_invoice_rcv">
+                      <input type="text" class="form-control form-control-user ep" id="consignee_invoice_rcv" autocomplete="off">
                       <div id='display_consginee_invoice_rcv_info' class='div_search_box'></div>
                     </div>
                   </div>
@@ -2218,8 +1960,8 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                 <div class="card-body">
                   <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Total Income</label>
-                      <input type="number" class="form-control form-control-user ep" autocomplete="off" placeholder="Enter Income Received" id="txtTotalDisbursementIncome">
+                      <label for="exampleFormControlInput1">Total Cash Revenue</label>
+                      <input type="number" class="form-control form-control-user ep" autocomplete="off" placeholder="Enter Cash Revenue" id="txtTotalDisbursementIncome">
 
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
@@ -2494,7 +2236,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                     <div class="col-sm-12 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">Client Name or TIN#</label>
                       <label type="text" class="form-control ep" hidden='' id='client_id_profile_search'></label>
-                      <input type="text" class="form-control form-control-user ep" id="search_client_profile_rpt" placeholder="Enter Consignee Name/ House BL#">
+                      <input type="text" class="form-control form-control-user ep" id="search_client_profile_rpt" placeholder="Enter Consignee Name/ House BL#" autocomplete="off">
                       <div id='display_client_profile_search_info' class='div_search_box'></div>
                     </div>
                   </div>
@@ -2617,7 +2359,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                         <div class="col-sm-12 mb-1 mb-sm-0">
                           <label for="exampleFormControlInput1">House BL#</label>
                           <label type="text" class="form-control ep" hidden='' id='hbl_id_profile_view_search'></label>
-                          <input type="text" class="form-control form-control-user ep" id="search_housebl_profile_handling_cost_view" placeholder="Enter House BL# or Client Name">
+                          <input type="text" class="form-control form-control-user ep" id="search_housebl_profile_handling_cost_view" placeholder="Enter House BL# or Client Name" autocomplete="off">
                           <div id='display_hbl_handling_cost_view_search_info' class='div_search_box'></div>
                         </div>
                       </div>
@@ -2637,7 +2379,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                         <div class="col-sm-12 mb-1 mb-sm-0">
                           <label for="exampleFormControlInput1">Search Client Name</label>
                           <label type="text" class="form-control ep sr-only" id='client_id_nom_bill_search'></label>
-                          <input type="text" class="form-control form-control-user ep" id="client_nonm_bill_view" placeholder="Enter Client Name">
+                          <input type="text" class="form-control form-control-user ep" id="client_nonm_bill_view" placeholder="Enter Client Name" autocomplete="off">
                           <div id='display_nonm_bill_client_Search' class='div_search_box'></div>
                         </div>
                       </div>
@@ -2698,7 +2440,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                     <div class="col-sm-12 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">Bill of Lading #</label>
                       <label type="text" class="form-control ep" hidden='' id='cns_id_profile_search'></label>
-                      <input type="text" class="form-control form-control-user ep" id="search_consignment_profile_rpt" placeholder="Enter Bill of Laden/ Carrier/ Vessel Name">
+                      <input type="text" class="form-control form-control-user ep" id="search_consignment_profile_rpt" placeholder="Enter Bill of Laden/ Carrier/ Vessel Name" autocomplete="off">
                       <div id='display_cns_profile_search_info' class='div_search_box'></div>
                     </div>
                   </div>

@@ -12,6 +12,8 @@ $(function () {
     }
   });
 
+  $("#display_new_consignment").load("load_new_pending_consignment.php");
+
   //Loader/ Spinner function
   function Spinner() {
     return `<div style="display:flex;align-items:center;justify-content:center;">
@@ -360,15 +362,16 @@ $(function () {
   $("#new-cargo-manifestation-tab").click(function () {
     $(".sub-basic-setup").hide();
     $("#new-cargo-manifestation-panel").slideDown();
-    $("#newConsignmentID").load("get_new_consignment_id.php");
-    $("#display_new_consignment").load("load_new_pending_consignment.php");
+    // $("#newConsignmentID").load("get_new_consignment_id.php");
+    // $("#display_new_consignment").load("load_new_pending_consignment.php");
     $("#cosignee_main_bl_display_details").load(
       "load_temp_mainbl_new_consignee.php"
     );
-    $("#houseBL_consignee_breakown").load("get_new_house_bl_number.php");
-    $("#cosignee_house_bl_display_details").load(
-      "load_cosignee_manifestation_temp.php"
-    );
+    $('#sel_mbl_assignee_officer').load('load_sel_user_account.php');
+    // $("#houseBL_consignee_breakown").load("get_new_house_bl_number.php");
+    // $("#cosignee_house_bl_display_details").load(
+    //   "load_cosignee_manifestation_temp.php"
+    // );
     $("#mainBL_search_conisgnee").focus();
   });
 
@@ -376,8 +379,24 @@ $(function () {
   $("#new-house-bl-invoice-tab").click(function () {
     $(".sub-basic-setup").hide();
     $("#new-house-bl-invoice-panel").slideDown();
+    $.post("load_consignee_handling_charges_temp_tbl.php",{},function (a) {
+        $("#cosignee_hbl_invoice_charges_display").html(a);
+        // $("#sel_hBL_acc_invoice").load("");
+        $("#hBL_amt_invoice").val("");
+        $(".progress-loader").remove();
+      }
+    );
     $("#invoicing_hbl_search_conisgnee").focus();
   });
+
+  //Search Consignee for HBL Invoice
+  $('#invoicing_hbl_search_conisgnee').keyup(function () {
+    var e = $.trim($(this).val())
+
+    $.post('search_hbl_invoicing_consignee.php', { e: e }, function (a) {
+      $('#display_hBL_invoicing_search_info').html(a)
+    })
+  })
 
   //Customer Waybill
   $("#new-customer-waybill").click(function () {
@@ -538,14 +557,40 @@ $(function () {
 
   //Disbursement Ananlysis Approval
   $("#new-disbursement-approval-review-tab").click(function () {
-    SpinnerLoader("#disbursement-analysis-panel");
+    $('#display_disbursement_analysis_panel').html('<span>Loading...</span><i class="fa fa-spinner faa-spin animated fa-2x"></i>');
 
     $(".sub-basic-setup").hide();
+    $(".progress-loader").remove();
     $("#display_disbursement_analysis_panel").load(
       "load_disbursement_analysis_approval.php"
     );
     $("#disbursement-analysis-approval-panel").slideDown();
   });
+
+//
+$('#btn_disbursement_search_summary_rpt').click(function(){
+  let id = $('#text_search_disbursement_details_view').val();
+
+  if(id === ""){
+    alert("Enter Container# Or BL#");
+    $('#text_search_disbursement_details_view').focus();  
+    return false;
+  }else{
+    $(".progress-loader").remove();
+    $("#disbursement_report_view_card").append(
+      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+    );
+
+    $.get(
+      "fetch_disbursement_summary_by_id.php",
+      { id },
+      function (a) {
+        $("#view_disbursement_report_search_result").html(a);
+        $(".progress-loader").remove();
+      }
+    );
+  }
+})
 
   //Debit GL Credit Income
   $("#drGlCrIncometab").click(function () {
@@ -688,26 +733,28 @@ $(function () {
     });
   });
 
+  
+  
   //
   $("#btn_add_charge_consignee_invoice").click(function (e) {
     e.preventDefault();
 
     let acc = $.trim($("#sel_hBL_acc_invoice :selected").attr("id"));
     let amt = $.trim($("#hBL_amt_invoice").val());
+    let mbl=$.trim($('#mbl_invoice_search').text());
 
     $("#new-house-bl-invoice-panel").append(
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
     );
     $.post(
       "add_additional_charge_invoice_temp.php",
-      { acc: acc, amt: amt, taxStatus: taxStatus },
+      { acc, amt, taxStatus, mbl },
       function (a) {
-        if (a == 1) {
+        let data = JSON.parse(a);
+        if (data.code == 200) {
+          alert(data.msg)
           //Display Consignee handling charges
-          $.post(
-            "load_consignee_handling_charges_temp_tbl.php",
-            {},
-            function (a) {
+          $.post("load_consignee_handling_charges_temp_tbl.php",{},function (a) {
               $("#cosignee_hbl_invoice_charges_display").html(a);
               $("#sel_hBL_acc_invoice").load("load_sel_billing_account.php");
               $("#hBL_amt_invoice").val("");
@@ -718,6 +765,8 @@ $(function () {
           alert(a);
           $(".progress-loader").remove();
         }
+
+        $(".progress-loader").remove();
       }
     );
   });
@@ -1011,7 +1060,11 @@ $(function () {
   $("#mainBL_search_conisgnee").keyup(function () {
     var e = $.trim($(this).val());
 
+    if(e ===''){
+      return false ;
+    }
     $.post("search_mainbl_new_consignee.php", { e: e }, function (a) {
+      // alert(a)
       $("#display_mainBL_search_info").html(a);
     });
   });
@@ -1071,88 +1124,56 @@ $(function () {
   });
 
   $("#btn_consignee_manifestation").click(function () {
-    let hbl = $.trim($("#houseBL_consignee_breakown").val());
-    let cns = $.trim($("#hbl_consignee_id").text());
-    let cns2 = $.trim($("#hbl_consignee2_id").text());
-    let wgt = $.trim($("#hBL_conisgnee_weight").val());
-    let type = $.trim($("#sel_hBL_conisgnee_item_type").val());
-    let vin = $.trim($("#hBL_conisgnee_vin").val());
-    let oif = $.trim($("#hBL_conisgnee_other_info").val());
-    let pkg = $.trim($("#hBL_conisgnee_pkg").val());
-    let unit = $.trim($("#sel_hBL_conisgnee_unit").val());
-    let dsc = $.trim($("#hBL_conisgnee_description").val());
+    let newOfficer = $.trim($("#sel_mbl_assignee_officer :selected").attr('id'));
+    // let cns = $.trim($("#hbl_consignee_id").text());
 
-    if (hbl == "") {
-      alert("House BL not found");
-      return false;
-    } else if (cns == "") {
-      alert("Enter Consignee Full Name");
-      $("#search_hbl_consignee_fname").focus();
-      return false;
-    } else if (cns2 == "") {
-      alert("Notify party details missing");
-      $("#search_hbl_consignee2_fname").focus();
-      return false;
-    } else if (pkg == "") {
-      alert("Enter Package");
-      $("#hBL_conisgnee_pkg").focus();
-      return false;
-    } else if (unit == "") {
-      alert("Select Packge Unit");
-      $("#sel_hBL_conisgnee_unit").focus();
-      return false;
-    } else if (wgt == "") {
-      alert("Enter Weight");
-      $("#hBL_conisgnee_weight").focus();
-      return false;
-    } else if (type == "") {
-      alert("Select Item Type");
-      $("#sel_hBL_conisgnee_item_type").focus();
-      return false;
-    } else if (dsc == "") {
-      alert("Enter Description");
-      $("#hBL_conisgnee_description").focus();
-      return false;
-    } else if (vin == "" && type == "VEHICLE") {
-      alert("Enter VIN");
-      $("#hBL_conisgnee_vin").focus();
+    if (newOfficer == "") {
+      alert("Select Officer");
       return false;
     } else {
-      let q = confirm("Save consignee manifest breakdown?");
+      let q = confirm("Assign Officer to BL?");
       if (q) {
-        $("#manifestation_breakdown_card").append(
+        $("body").append(
           '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
         );
         $.post(
-          "add_new_consignee_breakdown.php",
+          "assign_new_officer_to_bl.php",
           {
-            type: type,
-            oif: oif,
-            vin: vin,
-            hbl: hbl,
-            cns: cns,
-            cns2: cns2,
-            wgt: wgt,
-            pkg: pkg,
-            unit: unit,
-            dsc: dsc,
+           newOfficer
           },
           function (a) {
-            if (a == 1) {
+
+            let data = JSON.parse(a);
+            if(data.code == 200){
+
               $(".ep").text("");
               $(".ep").val("");
-              $.post("get_new_house_bl_number.php", {}, function (a) {
-                $("#houseBL_consignee_breakown").val(a);
-              });
-              $("#cosignee_house_bl_display_details").load(
-                "load_cosignee_manifestation_temp.php"
-              );
               $(".progress-loader").remove();
+              $('#cosignee_main_bl_display_details').load('load_temp_mainbl_new_consignee.php');
+              
               $("#search_hbl_consignee_fname").focus();
-            } else {
-              alert(a);
+            }else{
+              alert(data.msg)
               $(".progress-loader").remove();
             }
+
+            
+
+            // if (a == 1) {
+            //   $(".ep").text("");
+            //   $(".ep").val("");
+            //   $.post("get_new_house_bl_number.php", {}, function (a) {
+            //     $("#houseBL_consignee_breakown").val(a);
+            //   });
+            //   $("#cosignee_house_bl_display_details").load(
+            //     "load_cosignee_manifestation_temp.php"
+            //   );
+            //   $(".progress-loader").remove();
+            //   $("#search_hbl_consignee_fname").focus();
+            // } else {
+            //   alert(a);
+            //   $(".progress-loader").remove();
+            // }
           }
         );
       } else {

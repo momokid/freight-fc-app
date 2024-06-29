@@ -13,56 +13,44 @@ $e = mysqli_real_escape_string($dbc, $_POST['cns']);
 
 if (!isset($_SESSION['Uname'])) {
   header('Location: login');
-} else {
-  $a = mysqli_query($dbc, "select * from temp_mainbl_new_consignee where Username='$Uname'");
+} else { ?>
 
+  <div class="table-responsive">
+    <table class="table table-bordered" style="padding:0px;" id="dataTables">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">SHIPPER</th>
+          <th scope="col">MAIN BL</th>
+          <th scope="col">CONTAINER NO/SIZE</th>
+          <th scope="col">WEIGHT</th>
+          <th scope="col">OFFICE ASSIGNED</th>
 
-  if (mysqli_num_rows($a) == 0) {
-    echo '<div class="table-responsive"><table class="table table-bordered" style="padding:0px;" id="dataTables">
-                    <thead class="thead-dark">
-                      <tr>
-                        <th scope="col">SHIPPER</th>
-                        <th scope="col">VESSEL NAME</th>
-                        <th scope="col">MAIN BL</th>
-                        <th scope="col">CONTAINER NO/SIZE</th>
-                        <th scope="col">WEIGHT</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      
-                    </tbody>
-                  </table></div>';
-  } else {
+        </tr>
+      </thead>
+      <tbody>
 
-    // echo'<label style="text-align:center;margin-top:0px;width:100%;font-weight:bold;text-transform:uppercase;border:1px solid black;">'.$zn[FullName].'</label>';
-    echo '<div class="table-responsive">
-                 <table class="table table-bordered table-stripered" style="padding:0px;" id="LedgerControlTbl">
-                    <thead class="thead-dark">
-                      <tr>
-                        <th scope="col">SHIPPER</th>
-                        <th scope="col">VESSEL NAME</th>
-                        <th scope="col">MAIN BL</th>
-                        <th scope="col">CONTAINER NO/SIZE</th>
-                        <th scope="col">WEIGHT</th>
-                      </tr>
-                    </thead>
-                   <tbody>';
-    //  $b = mysqli_query($dbc, "select distinct SubjectID,SubjectName from temp_staff_class_subj_mapp_view where Username='$Uname' ORDER by SubjectName");
-    while ($an = mysqli_fetch_assoc($a)) {
-      echo '
-                <tr>
-                  <td scope="col">' . $an['ShipperName'] . '</td>
-                  <td scope="col">' . $an['VesselName'] . '</td>
-                  <td scope="col">' . $an['MainBL'] . '</td>
-                  <td scope="col">' . $an['ContainerNo'] . '/' . $an['ContainerSize'] . '</td>
-                  <td scope="col">' . number_format($an['ContWeight'], 2, '.', ',') . '</td>
-                </tr> ';
-    }
+        <?php
 
-    echo '</tbody>
-             </table></div>';
-  }
-}
+        $a = mysqli_query($dbc, "select * from temp_mainbl_new_consignee where Username='$Uname'");
+        $mbl = "";
+
+        if (mysqli_num_rows($a) > 0) {
+          while ($an = mysqli_fetch_assoc($a)) { ?>
+  
+            <tr>
+              <td scope="col"><?= $an['ShipperName'] ?> </td>
+              <td scope="col"><?= $an['MainBL']  ?></td>
+              <td scope="col"><?= $an['ContainerNo'] . '/' . $an['ContainerSize']  ?></td>
+              <td scope="col"><?= number_format($an['ContWeight'], 2, '.', ',')  ?></td>
+              <td scope="col" class="text-primary font-weight-bold"><?= $an['OfficerAssignedName']  ?></td>
+            </tr>
+          <?php } ?>
+
+      </tbody>
+    </table>
+  </div>
+<?php }
+      }
 ?>
 
 <style>

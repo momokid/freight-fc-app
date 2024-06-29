@@ -154,7 +154,7 @@ if (!isset($_SESSION['Uname'])) {
                 let result = JSON.parse(data);
 
                 alert(result.msg)
-                $("#display_disbursement_analysis").load("load_disbursement_analysis_approval.php");
+                $("#display_disbursement_analysis_panel").load("load_disbursement_analysis_approval.php");
                 $(".progress-loader").remove();
             });
         }
@@ -181,7 +181,8 @@ if (!isset($_SESSION['Uname'])) {
                 let result = JSON.parse(data);
 
                 alert(result.msg)
-                $("#display_disbursement_analysis").load("load_disbursement_analysis_approval.php");
+                $("#display_disbursement_analysis_panel").load("load_disbursement_analysis_approval.php");
+              
                 $(".progress-loader").remove();
             });
         }

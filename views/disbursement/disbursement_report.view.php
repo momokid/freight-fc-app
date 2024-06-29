@@ -39,7 +39,6 @@
               </div>
             </div>
 
-
           </div>
         </div>
       </div>
@@ -56,10 +55,18 @@
               <div class="col-sm-12 mb-1 mb-sm-0">
                 <label for="exampleFormControlInput1">Search Details</label>
                 <label type="text" class="form-control ep" hidden='' id='hbl_id_profile_view_search'></label>
-                <input type="text" class="form-control form-control-user ep" id="search_housebl_profile_handling_cost_view" placeholder="Enter Container#">
+                <input type="text" class="form-control form-control-user ep" id="text_search_disbursement_details_view" placeholder="Enter Container# || BL#">
                 <div id='display_hbl_handling_cost_view_search_info' class='div_search_box'></div>
               </div>
             </div>
+
+            <div class="form-group row">
+             
+             <div class="col-sm-12 mb-1 mb-sm-0">
+               <button type="button" class="btn btn-success" id="btn_disbursement_search_summary_rpt">Search Disburmsement</button>
+             </div>
+           </div>
+
           </div>
         </div>
       </div>
