@@ -20,7 +20,7 @@ if(!isset($_SESSION['Uname'])){
 }elseif(!isset ($e)){
     die('Search key not found'); 
 }else{
-    $result = mysqli_query($dbc,"select * from  consignment_profile_view where BL like '%$e%'");
+    $result = mysqli_query($dbc,"SELECT * FROM  consignment_profile_view WHERE BL LIKE '%$e%' AND Status <> 0");
     
   while( $f = mysqli_fetch_assoc($result)){
        //echo '<div class="student_search_display-wrap"><span class="search_student_details first-search-span">'.$f['StudentID'].'</span><span class="search_student_details second-search-span">'.$f['FullName'].'</span><span class="search_student_details third-search-span">'.$f['CurrentClass'].'</span>'

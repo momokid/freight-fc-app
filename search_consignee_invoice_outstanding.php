@@ -20,7 +20,7 @@ if(!isset($_SESSION['Uname'])){
 }elseif(!isset ($e)){
     die('Search key not found'); 
 }else{
-    $result = mysqli_query($dbc,"select * from student_fee_outstading_view_1 where (FullName like '%$e%') or (SubClassID like '%$e%') or (CouponID like '%$e%')");
+    $result = mysqli_query($dbc,"SELECT * FROM student_fee_outstading_view_1 WHERE (FullName like '%$e%') or (SubClassID like '%$e%') or (CouponID like '%$e%')");
     
   while( $f = mysqli_fetch_assoc($result)){
        //echo '<div class="student_search_display-wrap"><span class="search_student_details first-search-span">'.$f['StudentID'].'</span><span class="search_student_details second-search-span">'.$f['FullName'].'</span><span class="search_student_details third-search-span">'.$f['CurrentClass'].'</span>'

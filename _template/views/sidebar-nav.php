@@ -1,12 +1,12 @@
    <!-- Sidebar -->
-   <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+   <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admin-model">
-  <div class="sidebar-brand-icon rotate-n-15">
-    <i class="fas fa-ship"></i>
+  <div class="sidebar-brand-icon">
+    <i class="fas fa-gem"></i>
   </div>
-  <div class="sidebar-brand-text mx-3">P.S.I.L</div>
+  <div class="sidebar-brand-text mx-1"><?= COMPANY_INIT; ?></div>
 </a>
 
 <!-- Divider -->
@@ -23,18 +23,18 @@
 <hr class="sidebar-divider">
 
 <!-- Heading -->
-<div class="sidebar-heading">
+<div class="sidebar-heading <?= $_SESSION['Nature'] !='Admin-0' ? "sr-only": "" ?> ">
   SETUP & CONFIG
 </div>
 
 <!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item">
+<li class="nav-item <?= $_SESSION['Nature'] !='Admin-0' ? "sr-only": "" ?> ">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
     <i class="fas fa-fw fa-cog"></i>
     <span>Basic Setup</span>
   </a>
   <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-    <div class="bg-success py-2 collapse-inner">
+    <div class="bg-dark py-2 collapse-inner">
       <h6 class="collapse-header sr-only">Custom Components:</h6>
       <a class="collapse-item" id="ledger_control_panel">Ledger Control</a>
       <a class="collapse-item" id="ledger_control_category_panel">Ledger Category</a>
@@ -45,6 +45,12 @@
   </div>
 </li>
 
+<!-- Divider -->
+<hr class="sidebar-divider">
+
+<div class="sidebar-heading">
+  consignment utilities
+</div>
 <!-- Nav Item - Consignment Collapse Menu -->
 <li class="nav-item">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseConsignment" aria-expanded="true" aria-controls="collapseConsignment">
@@ -52,10 +58,10 @@
     <span>Consignment Register</span>
   </a>
   <div id="collapseConsignment" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-    <div class="bg-success py-2 collapse-inner rounded">
+    <div class="bg-dark py-2 collapse-inner rounded">
       <h6 class="collapse-header sr-only">Consignment Utilities:</h6>
       <a class="collapse-item" id="new-consignment-tab">New Consignment</a>
-      <a class="collapse-item" id="new-cargo-manifestation-tab">Assign Officer</a>
+      <a class="collapse-item <?= $_SESSION['Nature'] !='Admin-0' ? "sr-only": "" ?>" id="new-cargo-manifestation-tab">Assign Officer</a>
 
     </div>
   </div>
@@ -76,11 +82,11 @@
     <span>Generate Invoice</span>
   </a>
   <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-success py-2 collapse-inner rounded">
+    <div class="bg-dark py-2 collapse-inner rounded">
       <a class="collapse-item" id="new-house-bl-invoice-tab">BL Invoice</a>
       <a class="collapse-item" id="new-customer-waybill">Customer Waybill</a>
       <a class="collapse-item" id="new-other-serv-invoice-tab">Other Serv. Invoice</a>
-      <a class="collapse-item" id="new-non-manifest-invoice-tab">Non-Manifest Invoice</a>
+      <a class="collapse-item" id="new-non-manifest-invoice-tab">Non-BL Invoice</a>
       <div class="collapse-divider"></div>
     </div>
   </div>
@@ -96,7 +102,7 @@
     <span>Payment Transactions</span>
   </a>
   <div id="OtherTransPages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-success py-2 collapse-inner rounded">
+    <div class="bg-dark py-2 collapse-inner rounded">
       <a class="collapse-item" id="rcv-process-decalartion-tab">Process Declaration</a>
       <a class="collapse-item" id="rcv-invoice-charge-tab">Receive Handl. Charge</a>
       <a class="collapse-item" id="rcv-service-charge-tab">Receive Service Charge</a>
@@ -109,13 +115,13 @@
   </div>
 </li>
 
-<li class="nav-item">
+<li class="nav-item <?= $_SESSION['Nature'] !='Admin-0' ? "sr-only": "" ?>">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#LedgerTransactions" aria-expanded="true" aria-controls="collapsePages">
     <i class="fas fa-fw fa-money-bill"></i>
     <span>Ledger Transaction</span>
   </a>
   <div id="LedgerTransactions" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-success py-2 collapse-inner rounded">
+    <div class="bg-dark py-2 collapse-inner rounded">
       <a class="collapse-item" id="singleEntryTransaction_GL">G.L. Transfer (Sngl Entry)</a>
       <a class="collapse-item" id="transaction_GL">G.L. Transfer (Dbl Entry)</a>
       <a class="collapse-item" id="drGlCrIncometab">Dr G.L. - Cr Income</a>
@@ -134,7 +140,7 @@
     <span>Disbursement Analysis</span>
   </a>
   <div id="disbursement-panel" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-success py-2 collapse-inner rounded">
+    <div class="bg-dark py-2 collapse-inner rounded">
       <a class="collapse-item" id="new-disbursement-fcl-tab">Disbursement</a>
       <?php if ($disbursement_auth) { ?>
         <a class="collapse-item disbursement_analysis" id="new-disbursement-approval-review-tab" data-toggle="modal" data-target="#disbursementAnalysisNA">Approval Review</a>
@@ -158,7 +164,7 @@
     <span>Edit Data</span>
   </a>
   <div id="EditDataTab" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-success py-2 collapse-inner rounded">
+    <div class="bg-dark py-2 collapse-inner rounded">
       <a class="collapse-item" id="edit-consigment-details">Edit Consignment</a>
       <a class="collapse-item" id="edit-consigment-weight">Edit Weight</a>
       <a class="collapse-item" id="reverse-transaction">Reverse Transaction</a>
@@ -180,7 +186,7 @@
     <span>Report Viewer</span>
   </a>
   <div id="ReportViewTab" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-success py-2 collapse-inner rounded">
+    <div class="bg-dark py-2 collapse-inner rounded">
       <a class="collapse-item" id="rpt-consigment-details">Consignment Details</a>
       <a class="collapse-item" id="rpt-client-trans-details">Client Trans. Details</a>
       <a class="collapse-item" id="rpt-accounting-report">Transaction Report</a>

@@ -9,8 +9,7 @@ $ajaxTime = date('Y-m-d H:i:s');
 $Crnc = 'GHC';
 $PixDir = 'img/members/';
 $CRC = 'Error encountered. Contact your system administrator';
-$ERR =
-  'This process has encountered an error. Contact your system administrator.';
+$ERR = 'This process has encountered an error. Contact your system administrator.';
 $loc = 'http://localhost/app-freight-diary-v2';
 $logo_ext = '.png';
 $fasm = 'font-awesome-4.7.0';
@@ -20,6 +19,16 @@ $fasm = 'font-awesome-4.7.0';
   die('Cannot Locate Server Port Number. Contact your system administrator');
 $dtf = '%b %d, %Y';
 //$mysqli = new mysqli('localhost','anwar','lagari','app_freight');
+
+//PDO Connection
+// Database connection
+try {
+  $pdo = new PDO("mysql:host=localhost;dbname=freight_fc", "root", "");
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (Exception $e) {
+  die($e->getMessage());
+}
+
 
 //Dont cache witht this code
 //header("Cache-Control: no-cache, must-revalidate");
@@ -31,7 +40,8 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 require "Core/functions.php";
 require "Core/account_config.php";
 
-$result= [];
+define("COMPANY_INIT", "FreightPro");
+
 ?>
 
 <?php
@@ -76,4 +86,3 @@ class Database
     return $this->conn;
   }
 }
-

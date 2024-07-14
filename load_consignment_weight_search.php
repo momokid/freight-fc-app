@@ -89,11 +89,11 @@ if (!isset($_SESSION['Uname'])) {
             </td>
         </tr>
 
-        <tr>
+        <!-- <tr>
             <td colspan="5" class="text-center font-weight-bold">MANIFEST BREAKDOWN DETAILS</td>
-        </tr>
+        </tr> -->
 
-        <?php
+        <!-- <?php
 
         $c = mysqli_query($dbc, "select * from manifestation_breakdown_view where MainBL='$an[LDate]' and ConsignmentID='$an[SubjectID]' ");
         if (mysqli_num_rows($c) == 0) {
@@ -140,7 +140,7 @@ if (!isset($_SESSION['Uname'])) {
                 </tr>
         <?php   }
         }
-        ?>
+        ?> -->
 
 
         <tr>

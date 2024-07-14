@@ -28,12 +28,12 @@ if(!isset($_SESSION['Uname'])){
 }else if(!$_POST['newETA']){
 	echo json_encode(array('code'=>500,'msg'=>'ETA not found.'));
 }else{
-	$a = mysqli_query($dbc, "SELECT * from eta_web_track where MainBL='$bl'");
+	$a = mysqli_query($dbc, "SELECT * from container_main where BL='$bl'");
 
 	if(mysqli_num_rows($a)<>1){
 		echo json_encode(array('code'=>500,'msg'=>'Cannot process multiple Main BL'));
 	}else{
-		$b = mysqli_query($dbc,"UPDATE eta_web_track set ETA='$newETA', Status='$status_code' WHERE MainBL='$bl'");
+		$b = mysqli_query($dbc,"UPDATE container_main set ETA='$newETA', LastUpdate='$ajaxTime' WHERE BL='$bl'");
 
 		if($b){
 			echo json_encode(array('code'=>200,'msg'=>'Records updated successfully.'));

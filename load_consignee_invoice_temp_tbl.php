@@ -15,6 +15,8 @@ $mbl =  (trim(mysqli_real_escape_string($dbc, $_POST['mbl'])));
 if (!isset($_SESSION['Uname'])) {
   header('Location: login');
 } else {
+
+  
   $a = mysqli_query($dbc, "SELECT * FROM container_main_view_3 WHERE BL='$mbl'");
 ?>
 
@@ -24,7 +26,7 @@ if (!isset($_SESSION['Uname'])) {
         <th scope="col">SHIPPER</th>
         <th scope="col">BL#</th>
         <th scope="col">ETA</th>
-        <th scope="col">WEIGHT (KG)</th>
+        <th scope="col">WEIGHT(KG)</th>
         <th scope="col">OFFICER</th>
       </tr>
     </thead>
@@ -34,7 +36,7 @@ if (!isset($_SESSION['Uname'])) {
 
         //  $b = mysqli_query($dbc, "select distinct SubjectID,SubjectName from temp_staff_class_subj_mapp_view where Username='$Uname' ORDER by SubjectName");
         while ($an = mysqli_fetch_assoc($a)) { ?>
-          
+
           <tr>
             <td scope="col"><?= $an['ShipperName'] ?> </td>
             <td scope="col"><?= $an['BL'] ?> </td>

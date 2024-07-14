@@ -19,10 +19,10 @@ if (!isset($_SESSION['Uname'])) {
 } elseif (!isset($e)) {
     die('Search key not found');
 } else {
-    $result = mysqli_query($dbc, "SELECT DISTINCT MainBL FROM manifestation_breakdown_view_0 WHERE MainBL LIKE '%$e%'");
+    $result = mysqli_query($dbc, "SELECT * FROM container_main_view_0 WHERE BL LIKE '%$e%'");
 
     while ($f = mysqli_fetch_assoc($result)) {
-        echo "<div class='return_search_results consignee_hbl_invoicing_search hide_div_note' fullName='$f[FullName]' cnm='$f[ConsignmentID]' containerNo='$f[ContainerNo]' cns='$f[ConsigneeID]' hbl='$f[HouseBL]' mbl='$f[MainBL]' ><b>" . $f['MainBL'] . "</b> </div>";
+        echo "<div class='return_search_results consignee_hbl_invoicing_search hide_div_note' fullName='$f[ConsigneeName]' cnm='$f[ConsignmentID]' containerNo='$f[ContainerNo]' cns='$f[ConsigneeID]' hbl='$f[BL]' mbl='$f[BL]' ><b>" . $f['BL'] . "</b> </div>";
     }
 }
 ?>
@@ -59,4 +59,4 @@ if (!isset($_SESSION['Uname'])) {
 
         $('.consignee_hbl_invoicing_search').toggle();
     });
-</script>
+</script>   

@@ -47,7 +47,7 @@ if (!isset($_SESSION['Uname'])) {
 </head>
 
 <body style="border: 0px solid green;">
-    <?php $d = mysqli_query($dbc, "select * from pnl_transaction_general where AccountID='$an[Value1]' and (Date BETWEEN '$an[FDate]' and '$an[LDate]')");
+    <?php $d = mysqli_query($dbc, "SELECT * from pnl_transaction_general WHERE (Date BETWEEN '$an[FDate]' and '$an[LDate]')");
     $dn = mysqli_fetch_assoc($d);
 
     ?>
@@ -66,7 +66,7 @@ if (!isset($_SESSION['Uname'])) {
                 <td width="300;">
                     <div style="margin-top:-2rem;padding:0.5rem;float:right;background:orangered;color:white;">
                         <span style="font-size: 15px;">INCOME STATEMENT</span><br>
-                        <span style="font-size: 15px;">BRANCH: <?php echo $dn['AccountName']; ?></span><br>
+                        <span style="font-size: 15px;">BRANCH: <?php echo $dn['BranchName']; ?></span><br>
                         <span style="font-size: 15px;">DATE: <?php echo strftime("$dtf", strtotime($an['FDate'])); ?> <em>TO</em> <?php echo strftime("$dtf", strtotime($an['LDate'])); ?></span>
                     </div>
                 </td>

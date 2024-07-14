@@ -56,7 +56,7 @@ if (!isset($_SESSION['Uname'])) {
 
                 </head>
 
-                <body style="color: black;  border:1px solid red;background-color:black;">
+                <body style="color: black;  border:4px solid black;">
                     <div class="no-print"><button id="btn-convert-val">Convert</button> <input type='number' id="convert-val" placeholder="Conversion Rate"> <input type='text' id="conversion-currency" placeholder="USD, EUR, CFA"></div>
                     <div class='bg-success m-3 div-header-footer'></div>
                     <div style="height:1200px;">

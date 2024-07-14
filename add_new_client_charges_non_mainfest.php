@@ -59,8 +59,8 @@ if (!isset($_SESSION['Uname'])) {
                 while ($an = mysqli_fetch_assoc($a)) {
                     $c = mysqli_query($dbc, "insert into other_invoice values('$cid','$desc','$mbl','$hbl','$rno','$an[AccountNo]','BILL','$rno','$an[Amount]','$an[GetFund]','$an[VAT]','$dt','$an[Time]','$Uname','2')");
                     $d = mysqli_query($dbc, "insert into student_fee values('$cid','$mbl','$rno','$an[AccountNo]','BL_NONBL','$an[Description]','$rno','$an[GTotal]','0','$dt','$ajaxTime','$Uname','1')");
-                    $g = mysqli_query($dbc, "insert into journal values('$fc','$fc','Cr','NCash','$rno','0','$an[GTotal]','$an[Description]','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','2')");
-                    $h = mysqli_query($dbc, "insert into journal values('$stc','$cid','Dr','NCash','$rno','$an[GTotal]','0','$an[Description]','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','2')");
+                    //$g = mysqli_query($dbc, "insert into journal values('$fc','$fc','Cr','NCash','$rno','0','$an[GTotal]','$an[Description]','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','2')");
+                    //$h = mysqli_query($dbc, "insert into journal values('$stc','$cid','Dr','NCash','$rno','$an[GTotal]','0','$an[Description]','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','2')");
                 }
                 if ($r and $d and $c and $g and $h) {
                     $e = mysqli_query($dbc, "delete from temp_other_invoice_non_manifest where Username='$Uname'");

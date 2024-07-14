@@ -11,6 +11,7 @@ $BranchID = mysqli_real_escape_string($dbc, $_SESSION['BranchID']);
 $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 $shpid =  intval(trim(mysqli_real_escape_string($dbc, $_POST['shpid'])));
 $cid =  intval(trim(mysqli_real_escape_string($dbc, $_POST['cid'])));
+$cns =  intval(trim(mysqli_real_escape_string($dbc, $_POST['cns'])));
 $vessel =  trim(mysqli_real_escape_string($dbc, $_POST['vessel']));
 $dot =  trim(mysqli_real_escape_string($dbc, strftime("%Y-%m-%d", strtotime($_POST['dot']))));
 $eta =  trim(mysqli_real_escape_string($dbc, strftime("%Y-%m-%d", strtotime($_POST['eta']))));
@@ -61,7 +62,9 @@ if (!isset($_SESSION['Uname'])) {
     die('Missing agent\'s contact');
 } elseif ($recid == '' || $recno == '') {
     die('Transaction Nos. not found');
-} else {
+} else if($cns == ''){
+    die("Select Consignee Name");
+}else {
     $a = mysqli_query($dbc, "select * from ledger_control where ControlID='$cid'");
     $f = mysqli_query($dbc, "select * from active_handling_cost");
     $inc = mysqli_query($dbc, "select * from  active_ie");
@@ -104,7 +107,7 @@ if (!isset($_SESSION['Uname'])) {
                     die('D.O.T. must be on or before ' . strftime("%d %b, %Y", strtotime($ajaxDate)));
                 }
 
-                $q = mysqli_query($dbc, "select * from receipt_main where ReceiptNo='$rcpt'");
+                $q = mysqli_query($dbc, "SELECT * from receipt_main where ReceiptNo='$rcpt'");
                 if (mysqli_num_rows($q) > 0) {
                     die("Receipt no. already exist");
                 }
@@ -112,16 +115,16 @@ if (!isset($_SESSION['Uname'])) {
                 $dbc->autocommit(FALSE);
                 $an = mysqli_fetch_assoc($a);
                 $r = $dbc->query("insert into receipt_main values('$recid','$dot','$recno','$Uname','$ajaxTime')");
-                $c = $dbc->query("insert into container_main values('$cid','$carid','$rtt','$shpid','$vessel','$vyg','$an[SealNo]','$eta','$bl','$an[ContainerNo]','$an[ContainerSize]','$recno','$pois','$dois','$sob','$polid','$podid','0','0','$agent','NO_OFFICER','$Uname','$BranchID','$dot','$ajaxTime','1')");
+                $c = $dbc->query("insert into container_main values('$cid','$carid','$cns','$rtt','$shpid','$vessel','$vyg','$an[SealNo]','$eta','$bl','$an[ContainerNo]','$an[ContainerSize]','$recno','$pois','$dois','$sob','$polid','$podid','0','0','$agent','NO_OFFICER','$Uname','$BranchID','$dot','$ajaxTime','$ajaxTime','1')");
 
                 while ($dn = mysqli_fetch_assoc($d)) {
-                    $e = $dbc->query("insert into container_details values('$cid','$bl','$dn[SealNo]','$dn[ContainerNo]','$dn[ContainerSize]','$dn[Weight]','$dn[HandlingCost]','$Uname','$BranchID','$dot','$ajaxTime')");
-                    $f = $dbc->query("insert into journal values('$vn[AccountNo]','$vn[AccountNo]','Dr','Cash','$recno','$dn[HandlingCost]','0','CONSIGNMENT PROCESSING CHARGES IFO ~ $dn[ContainerNo]~$bl','$dot','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
-                    $m = $dbc->query("insert into journal values('$in[AccountID]','$fn[AccountNo]','Cr','Cash','$recno','0','$dn[HandlingCost]','CONSIGNMENT PROCESSING CHARGES IFO ~ $dn[ContainerNo]~$bl','$dot','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
-                    $n = $dbc->query("insert into pnl_transaction values('$fn[AccountNo]','BL','Cr','$bl','$dn[ContainerNo]','$recno','CONSIGNMENT PROCESSING CHARGES IFO ~ $an[ContainerNo]~$bl','0','$dn[HandlingCost]','$dot','$ajaxTime','$BranchID','$Uname','1')");
+                    $e = $dbc->query("INSERT INTO container_details values('$cid','$bl','$dn[SealNo]','$dn[ContainerNo]','$dn[ContainerSize]','$dn[Weight]','$dn[HandlingCost]','$Uname','$BranchID','$dot','$ajaxTime')");
+                    $f = $dbc->query("INSERT INTO journal values('$vn[AccountNo]','$vn[AccountNo]','Dr','Cash','$recno','$dn[HandlingCost]','0','CONSIGNMENT PROCESSING CHARGES IFO ~ $dn[ContainerNo]~$bl','$dot','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+                    $m = $dbc->query("INSERT INTO journal values('$in[AccountID]','$fn[AccountNo]','Cr','Cash','$recno','0','$dn[HandlingCost]','CONSIGNMENT PROCESSING CHARGES IFO ~ $dn[ContainerNo]~$bl','$dot','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+                    $n = $dbc->query("INSERT INTO pnl_transaction values('$fn[AccountNo]','BL','Cr','$bl','$dn[ContainerNo]','$recno','CONSIGNMENT PROCESSING CHARGES IFO ~ $an[ContainerNo]~$bl','0','$dn[HandlingCost]','$dot','$ajaxTime','$BranchID','$Uname','1')");
                 }
                 if ($c and $e and $f and $m and $n and $r) {
-                    $del = mysqli_query($dbc, "delete from new_container_temp where Username='$Uname'");
+                    $del = mysqli_query($dbc, "DELETE FROM new_container_temp WHERE Username='$Uname'");
                     $dbc->commit();
                     echo '1';
                 } else {

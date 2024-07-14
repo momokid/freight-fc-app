@@ -49,11 +49,11 @@ if(!isset($_SESSION['Uname'])){
        $('#hbl_consignee2_id').text(cns);
        $('#search_client_oth_serv_id').text(cns);
        $('#search_client_other_invoice').val(m);
-       $('#hBL_conisgnee_weight').focus();
+    //    $('#hBL_conisgnee_weight').focus();
        
        $('#sel_ots_acc_invoice').load('load_sel_billing_account.php');
        $('#sel_ots_acc_invoice_nonm').load('load_sel_billing_account.php');
-        $('.datepicker').focus();
+        //$('.datepicker').focus();
        $('.consignee_details_0_search').toggle();
     });
 </script>

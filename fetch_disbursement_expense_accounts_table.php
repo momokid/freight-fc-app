@@ -21,64 +21,64 @@ if (!isset($_SESSION['Uname'])) {
 
 
   $c = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis_view_0 WHERE Username='$Uname' AND BL='$mbl' AND HouseBL='$hbl' and ConsigneeID='$consigneeID' ORDER BY Type DESC");
-  $cn = mysqli_fetch_assoc($c);
+  $cn = mysqli_fetch_assoc($c); ?>
 
-  echo '  <table>
-              <tr>
-                <td colspan="3" class="table-title">  ' . $cn['HouseBL'] . ' ' . $cn['ConsigneeName'] . '</td>
-              </tr> 
-            <table/>';
+<div class="table-responsive">
+  <table  class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <tr>
+      <td colspan="3" class="table-title"> <?= $cn['BL'] . ' ' . $cn['ConsigneeName'] ?></td>
+    </tr>
+  </table>
 
-  echo '<table class="table table-bordered table-responsive" style="padding:0px;">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">ACCOUNT NAME</th>
-                  <th scope="col">CASH RECEIVED</th>
-                  <th scope="col">EXPENSE</th>
-                </tr>
-              </thead>
-              <tbody>';
-
-  $a = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis_view_0 WHERE Username='$Uname' AND BL='$mbl' AND HouseBL='$hbl' and ConsigneeID='$consigneeID' ORDER BY Type DESC");
-
-  if (mysqli_num_rows($a) > 0) {
+  <table class="table table-bordered table-responsive" style="padding:0px;">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">ACCOUNT NAME</th>
+        <th scope="col">EXPENSE</th>
+      </tr>
+    </thead>
+    <tbody>
 
 
+      <?php
+      $a = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis_view_0 WHERE Username='$Uname' AND BL='$mbl' AND HouseBL='$hbl' and ConsigneeID='$consigneeID' ORDER BY Type DESC");
 
-    while ($an = mysqli_fetch_assoc($a)) {
+      if (mysqli_num_rows($a) > 0) {
 
-      echo '
-            <tr>
-              <td scope="col" class="expense_input_label">' . $an['AccountName'] . '</td>
-              <td scope="col"></td>
-              <td scope="col"><input class="income_input_value" type="number" value="' . $an['Amount'] . '"  data-consignee="' . $an['ConsigneeID'] . '" data-hbl="' . $an['HouseBL'] . '" data-accountno="' . $an['AccountNo'] . '" /></td>
-            </tr> ';
-    }
-  } else {
-  }
 
-  $f = totalDisbursementExpenseBL($hbl, $consigneeID);
-  $g = totalDisbursementExpense($Uname);
 
-  echo '
-              <tr>
+        while ($an = mysqli_fetch_assoc($a)) { ?>
+
+          <tr>
+            <td scope="col" class="expense_input_label"><?= $an['AccountName'] ?></td>
+            <td scope="col"><input class="income_input_value" type="number" value="<?= $an['Amount'] ?>" data-consignee="<?= $an['ConsigneeID'] ?>" data-hbl="<?= $an['HouseBL'] ?>" data-accountno="<?= $an['AccountNo'] ?>" /></td>
+          </tr>
+      <?php  }
+      } else {
+      }
+
+      $f = totalDisbursementExpenseBL($hbl, $consigneeID);
+      $g = totalDisbursementExpense($Uname);
+      ?>
+
+      <!-- <tr>
                 <td>BL SUBTOTAL</td>
                 <td colspan="2">
-                    <label class="text-danger font-weight-bold" id="txtSubTotalExpnsePerBL">'.formatToCurrency($f).'</label>
+                    <label class="text-danger font-weight-bold" id="txtSubTotalExpnsePerBL">' . formatToCurrency($f) . '</label>
                 </td>
-              </tr>
+              </tr> -->
 
-              <tr>
-                <td>DISBURSEMENT TOTAL</td>
-                <td colspan="2">
-                    <label class="text-danger font-weight-bold" id="txtDisbursementTotalExpense">'.formatToCurrency($g).'</label>
-                </td>
-              </tr>
+      <tr>
+        <td>DISBURSEMENT TOTAL</td>
+        <td colspan="2">
+          <label class="text-danger font-weight-bold" id="txtDisbursementTotalExpense"><?= formatToCurrency($g) ?></label>
+        </td>
+      </tr>
 
-
-          </tbody>
-        </table>';
-}
+    </tbody>
+  </table>
+</div>
+<?php  }
 
 ?>
 
@@ -138,10 +138,14 @@ if (!isset($_SESSION['Uname'])) {
         accountNo,
       }, function(data) {
         let result = JSON.parse(data);
-        
-        if(result.status_code == 201){
-          
-          $.post('disbursement_fetch_subtotal_bl.php',{consigneeID, hbl,totalAmount},function(data){
+
+        if (result.status_code == 201) {
+
+          $.post('disbursement_fetch_subtotal_bl.php', {
+            consigneeID,
+            hbl,
+            totalAmount
+          }, function(data) {
             let result = JSON.parse(data);
             $('#txtSubTotalExpnsePerBL').html(result.totalExpenditureBL);
             $('#txtDisbursementTotalExpense').html(result.totalExpenditure);
@@ -149,7 +153,7 @@ if (!isset($_SESSION['Uname'])) {
             console.log(data)
           });
 
-        }else{
+        } else {
           console.error('error gettting the resul');
         }
 

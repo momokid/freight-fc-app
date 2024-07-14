@@ -21,12 +21,14 @@ function formatToCurrency($value)
     return $Crnc . number_format($value, 2, '.', ',');
 }
 
-function formatNumber($value){
+function formatNumber($value)
+{
     return number_format($value, 2, '.', ',');
 }
 
 //format date into Day/Month/Year
-function formatDate($date, $format="%b %d, %Y"){
+function formatDate($date, $format = "%b %d, %Y")
+{
     return strftime($format, strtotime($date));
 }
 
@@ -139,5 +141,48 @@ function fetchDisbursementAuthorisor()
         return true;
     } else {
         return false;
+    }
+}
+
+//
+$consignment_status = [
+    "pending" => "primary",
+    "arrived"=>"success",
+    "overdue"=>"danger"
+];
+
+//Get Color for ETA days
+function getNotificationColor($dayCount)
+{
+    if (($dayCount >= 3) ) {
+        echo "primary";
+    } else if (($dayCount < 3 && $dayCount > 0)  ) {
+        echo "warning";
+    } else if (($dayCount == 0)) {
+        echo "success";
+    }else if (($dayCount < 0)) {
+        echo "danger";
+    }
+}
+
+//Get Color for ETA days
+function setStatusColor($status)
+{
+    if (($status == "PENDING")) {
+        echo "primary";
+    }else if (($status =="ARRIVED")) {
+        echo "success";
+    }else if (($status == "OVERDUE")) {
+        echo "danger";
+    }
+}
+
+//Set Disbursement Statue alert
+function setStatusAlert($status)
+{
+    if ($status == 2) {
+        echo "<i class='fas fa-exclamation text-warning'></i>";
+    } else if ($status == 0) {
+        echo "<i class='fas fa-check text-success'></i>";
     }
 }

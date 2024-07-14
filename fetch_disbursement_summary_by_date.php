@@ -20,7 +20,7 @@ if (!isset($_SESSION['Uname'])) {
         <thead class="thead-lig">
             <tr>
                 <th scope="col">DATE</th>
-                <th scope="col">CONTAINER #</th>
+                <th scope="col">BL #</th>
                 <th scope="col">NO. OF BL</th>
                 <th scope="col">TOTAL REVENUE</th>
                 <th scope="col">TOTAL EXPENDITURE</th>
@@ -41,7 +41,7 @@ if (!isset($_SESSION['Uname'])) {
 
                     <tr data-toggle="modal" id="<?= $an['ContainerNo'] ?>" data-target="#viewDisbursementDetails" class="trProcessedDisbursement">
                         <td scope="col"><?= strftime("%B %d, %Y", strtotime($an['Date'])) ?></td>
-                        <td scope="col"><?= $an['ContainerNo'] ?></td>
+                        <td scope="col"><?= $an['BL'] ?></td>
                         <td scope="col"><?= $an['BL_COUNT'] ?></td>
                         <td scope="col"><?= number_format($an['TotalCashReceipt'], 2, '.', ',') ?></td>
                         <td scope="col"><?= number_format($an['TExpenditure'], 2, '.', ',') ?></td>

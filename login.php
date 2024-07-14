@@ -18,7 +18,7 @@ if (isset($_POST['btn_login_1'])) {
   } elseif (strpos($UPass, ";")) {
     die();
   } else {
-    $a = mysqli_query($dbc, "select * from kaina_view where ID='$Uname' and NewPass=md5('$UPass')");
+    $a = mysqli_query($dbc, "SELECT * FROM kaina_view WHERE ID='$Uname' AND NewPass=md5('$UPass')");
 
     if (mysqli_num_rows($a) == 1) {
       $an = mysqli_fetch_assoc($a);
@@ -26,28 +26,26 @@ if (isset($_POST['btn_login_1'])) {
       if ($an['ID'] == $Uname and $an['NewPass'] == md5($UPass)) {
         if ($an['Stats'] == 0) {
           echo "<script>Account is disabled. Contact your system administrator</script>";
+
         } else {
-          if ($an['Nature'] == 'Admin-0') {
-            $_SESSION['Uname'] = trim($Uname);
-            $_SESSION['UPass'] = trim($UPass);
-            $_SESSION['FName'] = trim($an['FullName']);
-            $_SESSION['Initial'] = trim($an['Initial']);
-            $_SESSION['BranchID'] = trim($an['BranchID']);
-            $_SESSION['BranchName'] = trim($an['BranchName']);
 
-            //  header('Location: my-online-platform-0026201803');
+          $_SESSION['Uname'] = trim($Uname);
+          $_SESSION['UPass'] = trim($UPass);
+          $_SESSION['FName'] = trim($an['FullName']);
+          $_SESSION['Initial'] = trim($an['Initial']);
+          $_SESSION['BranchID'] = trim($an['BranchID']);
+          $_SESSION['Nature'] = trim($an['Nature']);
+          $_SESSION['BranchName'] = trim($an['BranchName']);
+          $_SESSION['Nature'] = trim($an['Nature']);
+
+          if ($_SESSION['Nature']== 'Admin-0') {
+           //  header('Location: my-online-platform-0026201803');
             echo "<script>window.location.href='admin-model'</script>";
-          } elseif ($an['Nature'] == 'FrontDesk') {
-            $_SESSION['Uname'] = trim($Uname);
-            $_SESSION['UPass'] = trim($UPass);
-            $_SESSION['FName'] = trim($an['FullName']);
-            $_SESSION['Initial'] = trim($an['Initial']);
-            $_SESSION['BranchID'] = trim($an['BranchID']);
-            $_SESSION['BranchName'] = trim($an['BranchName']);
 
+          } elseif ($_SESSION['Nature'] == 'FrontDesk') {
+          //  header('Location: my-online-platform-0026201803');
+            echo "<script>window.location.href='front-desk'</script>";
 
-            //  header('Location: my-online-platform-0026201803');
-            echo "<script>window.location.href='front-desk-model'</script>";
           }
         }
       } else {
@@ -76,7 +74,7 @@ if (isset($_POST['btn_login_1'])) {
 
 </head>
 
-<body class="bg-gradient-success">
+<body class="bg-gradient-dark">
 
   <div class="container">
 
@@ -108,7 +106,7 @@ if (isset($_POST['btn_login_1'])) {
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
-                    <button class="btn btn-primary btn-user btn-block" type="submit" name="btn_login_1">
+                    <button class="btn btn-dark btn-user btn-block" type="submit" name="btn_login_1">
                       Login
                     </button>
                     <hr>

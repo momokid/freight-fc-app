@@ -22,7 +22,7 @@ if (!isset($_SESSION['Uname'])) {
           <th scope="col">SHIPPER</th>
           <th scope="col">MAIN BL</th>
           <th scope="col">CONTAINER NO/SIZE</th>
-          <th scope="col">WEIGHT</th>
+          <th scope="col">WEIGHT(KG)</th>
           <th scope="col">OFFICE ASSIGNED</th>
 
         </tr>

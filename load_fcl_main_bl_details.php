@@ -18,54 +18,51 @@ if (!isset($_SESSION['Uname'])) {
 } else {
     $b = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$mbl'");
 
-    if (mysqli_num_rows($b) > 0) {
-        echo "<table class='table table-bordered table-stripered' style='padding:0px;' id='LedgerControlTbl'>
-        <thead class='thead-dark'>
-            <tr>
-              <em>Disbursement already captured for <b>{$mbl}</b></em>
-            </tr>
-        </thead>
-        <tbody>";
-    } else {
+    if (mysqli_num_rows($b) > 0) { ?>
 
-
-        $a = mysqli_query($dbc, "SELECT * FROM  manifestation_breakdown_view_0 WHERE MainBL='$mbl'");
-
-        echo '<table class="table table-bordered table-stripered" style="padding:0px;" id="LedgerControlTbl">
-        <thead class="thead-dark">
-            <tr>
-            <th scope="col">CONSIGNEE</th>
-            <th scope="col">MAIN BL</th>
-            <th scope="col">CONTAINER#</th>
-            <th scope="col">PARTICULARS</th>
-            <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>';
-
-        if (mysqli_num_rows($a) > 0) {
-            while ($an = mysqli_fetch_assoc($a)) {
-                echo '
+        <table class='table table-bordered table-stripered' style='padding:0px;' id='LedgerControlTbl'>
+            <thead class='thead-dark'>
                 <tr>
-                  <td scope="col">' . $an['FullName'] . '</td>
-                  <td scope="col">' . $an['HouseBL'] . '</td>
-                  <td scope="col">' . $an['ContainerNo'] . '</td>
-                  <td scope="col">' . $an['Description'] . '</td>
-                  <td scope="col"><i class="fa fa-download fa-lg text-primary get_disbursement" mbl="' . $an['MainBL'] . '" consigneeID="' . $an['ConsigneeID'] . '" hbl="' . $an['HouseBL'] . '" containerNo="' . $an['ContainerNo'] . '" title="Download disbursement account"></i></td>
-                </tr> ';
-            }
-        } else {
-            echo '
-                <tr>
-                  <td scope="col" colspan="5">This BL contains multiple House BL. Try using LCL1 option.</td>
-                </tr> ';
-        }
+                    <em>Disbursement already captured for <b><?= $mbl; ?></b></em>
+                </tr>
+            </thead>
+            <tbody>
 
-        echo '</tbody>
-        </table>';
+            <?php } else {
+
+            $a = mysqli_query($dbc, "SELECT * FROM container_main_view_3 WHERE BL='$mbl'"); ?>
+
+                <table class="table table-bordered table-stripered" style="padding:0px;" id="LedgerControlTbl">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">CONSIGNEE</th>
+                            <th scope="col">BL</th>
+                            <th scope="col">CONTAINER#</th>
+                            <th scope="col">OFFICER</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <?php if (mysqli_num_rows($a) > 0) {
+                            while ($an = mysqli_fetch_assoc($a)) { ?>
+
+                                <tr>
+                                    <td scope="col"><?= $an['ConsigneeName'] ?></td>
+                                    <td scope="col"><?= $an['BL'] ?></td>
+                                    <td scope="col"><?= $an['ContainerNo'] ?></td>
+                                    <td scope="col"><?= $an['OfficerAssignedName'] ?></td>
+                                    <td scope="col"><i class="fa fa-download fa-lg text-primary get_disbursement" mbl="<?= $an['BL'] ?>" consigneeID="<?= $an['ConsigneeID'] ?>" hbl="<?= $an['HouseBL'] ?>" containerNo="<?= $an['ContainerNo'] ?>" title="Download disbursement account"></i></td>
+                                </tr>
+
+                        <?php      }
+                        } ?>
+
+                    </tbody>
+                </table>
+        <?php   }
     }
-}
-?>
+        ?>
 
 <style>
     .thead-lig {
@@ -89,7 +86,7 @@ if (!isset($_SESSION['Uname'])) {
 
         $('.get_disbursement').click(function() {
 
-            const hbl = $.trim($(this).attr('hbl'));
+            const hbl = $.trim($(this).attr('mbl'));
             const consigneeID = $.trim($(this).attr('consigneeID'));
             const containerNo = $.trim($(this).attr('containerNo'));
             const mbl = $.trim($(this).attr('mbl'));

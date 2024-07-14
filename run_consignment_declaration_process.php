@@ -50,7 +50,7 @@ if (!isset($_SESSION['Uname'])) {
 } else {
     $DclID = 0;
 
-    $z = mysqli_query($dbc, "select * from declaration_main where Declaration='$dcl'");
+    $z = mysqli_query($dbc, "select * from declaration_main where DeclarationNo='$dcl'");
     if (mysqli_num_rows($z) > 0) {
         die('Error: Declaration No. already exists');
     } else {
@@ -99,7 +99,7 @@ if (!isset($_SESSION['Uname'])) {
                             $n = $dbc->query("insert into pnl_transaction values('$dn[AccountNo]','NB','Cr','$bl','$bl','$recno','DECLARATION CHARGE IFO ~ $dcl','0','$amt','$dt','$ajaxTime','$BranchID','$Uname','1')");
                             $i = $dbc->query("insert into declaration_main values('$DclID','$bl','$dcl','$desc','$duty','$amt','$agnm','$tel','$csz','$recno','$dt','$ajaxTime','$Uname','$BranchID','1')");
 
-                            if ($e and $f and $m and $n and $i) {
+                            if ($e AND $f AND $m AND $n AND $i) {
                                 $dbc->commit();
                                 echo '1';
                             } else {

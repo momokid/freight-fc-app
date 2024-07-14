@@ -1,4 +1,5 @@
 $(function () {
+
   $(".show_hide_password a").on("click", function (event) {
     event.preventDefault();
     if ($(".show_hide_password input").attr("type") == "text") {
@@ -11,8 +12,6 @@ $(function () {
       $(".show_hide_password i").addClass("fa-eye");
     }
   });
-
-  $("#display_new_consignment").load("load_new_pending_consignment.php");
 
   //Loader/ Spinner function
   function Spinner() {
@@ -235,6 +234,7 @@ $(function () {
     $("#ledger-control-panel").slideDown();
     $("#newledgerControlID").load("get_new_ledger_controlID.php");
     $("#display_new_control_ledger").load("load_ledger_control_tbl.php");
+
   });
 
   //Setup Ledger Control
@@ -557,7 +557,7 @@ $(function () {
 
   //Disbursement Ananlysis Approval
   $("#new-disbursement-approval-review-tab").click(function () {
-    $('#display_disbursement_analysis_panel').html('<span>Loading...</span><i class="fa fa-spinner faa-spin animated fa-2x"></i>');
+    $('#display_disbursement_analysis_panel').html('<span>Loading disbursement for approval...</span><i class="fa fa-spinner faa-spin animated fa-2x"></i>');
 
     $(".sub-basic-setup").hide();
     $(".progress-loader").remove();
@@ -663,7 +663,7 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
   $("#customSwitch2").change(function () {
     //taxStatus = document.getElementById("customSwitch2").checked;
     getTaxStatus("customSwitch2");
-    alert(taxStatus);
+    //alert(taxStatus);
   });
 
   //Search Function
@@ -697,7 +697,7 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     let bl = $.trim($("#txt_disbursement_bl_search").val());
 
     $(".progress-loader").remove();
-    $("#disbursement_analysis_display_card").append(
+    $("body").append(
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
     );
 
@@ -743,7 +743,7 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     let amt = $.trim($("#hBL_amt_invoice").val());
     let mbl=$.trim($('#mbl_invoice_search').text());
 
-    $("#new-house-bl-invoice-panel").append(
+    $("#body").append(
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
     );
     $.post(
@@ -1037,6 +1037,13 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
       $("#display_cns_profile_edit_info").html(a);
     });
   });
+
+  //
+  $('#btn-search-container-details').click(function(){
+    let id  = $.trim($('#txt-tracked-shipment-container-details').val());
+
+    alert(id);
+  })
 
   //Search Client Profile Edit
   $("#search_housebl_profile_rpt").keyup(function () {
@@ -1383,6 +1390,7 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     let agent = $.trim($("#agent_contact_new_conisgnment").val());
     let rcptid = $.trim($("#new_consignment_rcptid").text());
     let rcptno = $.trim($("#new_consignment_rcptno").text());
+    let cns = $.trim($('#hbl_consignee_id').text());
 
     if (dot == "") {
       alert("Select Transaction Date");
@@ -1439,7 +1447,10 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     } else if (rcptid == "" || rcptno == "") {
       alert("Transaction ID not found");
       return false;
-    } else {
+    } else if(cns == ""){
+      alert('Select Consignee Name');
+      return false;
+    }else {
       let q = confirm("Save consignment details?");
       if (q) {
         $("body").append(
@@ -1465,6 +1476,7 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
             agent: agent,
             rcptid: rcptid,
             rcptno: rcptno,
+            cns:cns,
           },
           function (a) {
             if (a == 1) {
@@ -1475,7 +1487,7 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
               $("#sel_pol_new_conisgnment").load("load_sel_pol_list.php");
               $("#sel_pod_new_conisgnment").load("load_sel_pod_list.php");
               $("#display_new_consignment").load(
-                "load_new_pending_consignment.php"
+                "load_new_pending_consignment_new.php"
               );
               $("#display_new_container_details").load(
                 "load_new_pending_container_details_temp.php"
@@ -4138,11 +4150,11 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     $("#tracked_shipping_count").load("load_tracked_shipping_count.php");
   }, 150000);
 
-  //Online request for both payment confirmation and delivery order
-  // $("#online_request_count").load("load_online_request_count.php");
-  // setInterval(() => {
-  //   $("#online_request_count").load("load_online_request_count.php");
-  // }, 150000);
+  //
+  $("#display_new_consignment").load("load_new_pending_consignment_new.php");
+ setInterval(() => {
+     $("#display_new_consignment").load("load_new_pending_consignment_new.php");
+   }, 150000);
 
   //Admin Notification
   setInterval(function () {
@@ -7248,6 +7260,8 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     let rid = $.trim($("#dclr_prcs_rcpt_id").text());
     let rno = $.trim($("#dclr_prcs_rcpt_no").text());
     let acc = $.trim($("#dclr_prcs_sel_cash_acc :selected").attr("id"));
+
+    $(".progress-loader").remove();
 
     let q = confirm("Save the declaration?");
     if (q) {

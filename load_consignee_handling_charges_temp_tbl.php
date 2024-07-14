@@ -29,21 +29,6 @@ if (!isset($_SESSION['Uname'])) {
 
     if (mysqli_num_rows($a) > 0) {
 
-      // if (mysqli_num_rows($a) == 1) {
-      //   while ($an = mysqli_fetch_assoc($a)) {
-      //     $Total = $an['GetFund'] + $an['VAT'];
-      //     echo '
-      //         <tr>
-      //           <td scope="col">' . $an['AccountName'] . '</td>
-      //           <td scope="col">' . formatToCurrency($an['Amount']) . '</td>
-      //           <td scope="col">' . formatToCurrency($an['SubTotalTax']) . '</td>
-      //           <td scope="col"></td>
-      //         </tr> ';
-      //   }
-      // } else {
-        
-      // }
-
       while ($an = mysqli_fetch_assoc($a)) {
         $Total = $an['GetFund'] + $an['VAT'];
         echo '
@@ -51,7 +36,7 @@ if (!isset($_SESSION['Uname'])) {
               <td scope="col">' . $an['AccountName'] . '</td>
               <td scope="col">' . formatToCurrency($an['Amount']) . '</td>
               <td scope="col">' . formatToCurrency($an['SubTotalTax']) . '</td>
-              <td scope="col"><i class="fa fa-trash text-danger rm-cns-charges" acc="' . $an['AccountNo'] . '" mbl="' . $an['BL'] . '"></i></td>
+              <td scope="col"><i class="fa fa-trash text-danger rm-cns-charges" acc="' . $an['AccountNo'] . '" mbl="' . $an['MainBL'] . '"></i></td>
             </tr> ';
       }
 
@@ -73,7 +58,7 @@ if (!isset($_SESSION['Uname'])) {
                 <div class="form-group row">
                     <form class="user">
                       <a class="btn btn-success btn-user btn-block" id="btn_save_consignee_invoice">
-                        Save Consignee Invoice
+                        Save Invoice
                       </a>
                     </form>
                 </div>';
@@ -96,31 +81,33 @@ if (!isset($_SESSION['Uname'])) {
 
     <script>
       $('#btn_save_consignee_invoice').click(function() {
-        let rid = $.trim($('#hBL_rcpt_id_invoice').text());
-        let rno = $.trim($('#hBL_rcpt_no_invoice').text());
+        $('.progress-loader').remove();
+        // let rid = $.trim($('#hBL_rcpt_id_invoice').text());
+        // let rno = $.trim($('#hBL_rcpt_no_invoice').text());
 
-        $('#manifestation_breakdown_card').append('<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>');
-        q = confirm("Save consignment handling charges?");
+        $('body').append('<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>');
+        q = confirm("Save BLnvoice?");
 
         if (q) {
-          $.post('add_new_consignee_handling_charges.php', {
-            rid: rid,
-            rno: rno
-          }, function(a) {
-            if (a == 1) {
+          $.post('add_new_consignee_handling_charges.php', {}, function(a) {
+            let data = JSON.parse(a);
+
+            if (data.code == 200) {
               $('.ep').text('');
               $('.ep').val('');
+
               $.post('load_consignee_handling_charges_temp_tbl.php', {}, function(a) {
                 $('#cosignee_hbl_invoice_charges_display').html(a);
               });
+
               $.post('load_consignee_invoice_temp_tbl.php', {}, function(a) {
                 $('#cosignee_hbl_invoice_display_details').html(a);
               });
 
-              q = confirm('Proceed to generate House BL and Invoice?');
+              q = confirm('Proceed to generate BL Invoice?');
               if (q) {
                 $.post('insert_recno_rpt.php', {
-                  sid: rno
+                  sid: data.recNo
                 }, function() {
                   var win = window.open();
                   win.location = "rpt_consignee_housebl_invoice.php", "_blank";
@@ -150,10 +137,8 @@ if (!isset($_SESSION['Uname'])) {
       });
 
       $('.rm-cns-charges').click(function() {
-        let cns = $.trim($(this).attr('cns'));
-        let cnm = $.trim($(this).attr('cnm'));
+
         let acc = $.trim($(this).attr('acc'));
-        let hbl = $.trim($(this).attr('hbl'));
         let mbl = $.trim($(this).attr('mbl'));
 
         q = confirm('Remove account?');
@@ -161,11 +146,8 @@ if (!isset($_SESSION['Uname'])) {
         if (q) {
           $('#new-house-bl-invoice-panel').append('<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>');
           $.post('remove_handling_charge_account_temp.php', {
-            cns: cns,
-            cnm: cnm,
-            acc: acc,
-            hbl: hbl,
-            mbl: mbl
+            acc,
+            mbl,
           }, function(a) {
             if (a == 1) {
               //Display Consignee handling charges
