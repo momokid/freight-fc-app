@@ -89,7 +89,7 @@
 
                   <div class="form-group row">
 
-                    <button class="btn btn-success btn-user btn-block p-2" style="border-radius: 50px;" id="btn_add_charge_client_invoice">
+                    <button class="btn btn-success btn-user btn-block p-2" style="border-radius: 0px;" id="btn_add_charge_client_invoice">
                       Add/Update Charge
                     </button>
 

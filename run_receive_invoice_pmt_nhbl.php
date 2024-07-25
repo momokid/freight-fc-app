@@ -36,13 +36,13 @@ if(!isset( $_SESSION['Uname'])){
 }elseif($hbl==''){
     die('Missing Data: Receipt Schedule');
 }else{
-    $z = mysqli_query($dbc, "select * from  other_invoice where ClientID='$stid' and Schedules='$hbl'");
+    $z = mysqli_query($dbc, "SELECT * FROM  other_invoice where ClientID='$stid' and Schedules='$hbl'");
     if(mysqli_num_rows($z)==0){
         die('Error: Unknown Receipt Schedule');
     }else{
         $zn = mysqli_fetch_assoc($z);
         
-    $a = mysqli_query($dbc, "select * from  receipt_main where ReceiptNo='$recno'");
+    $a = mysqli_query($dbc, "SELECT * FROM  receipt_main where ReceiptNo='$recno'");
      if(mysqli_num_rows($a)>0){
          die('Receipt No already exists '.$recno);
      }else{
@@ -51,7 +51,7 @@ if(!isset( $_SESSION['Uname'])){
              if($dt<$zn['TDate']){
                  die('All payments must be after '. strftime("%d %b, %Y", strtotime($zn['TDate'])));
              }else{
-                 $c = mysqli_query($dbc, "select * from student_fee_outstading_view_0 where StudentID='$stid' and CouponID='$hbl' and Balance>0");
+                 $c = mysqli_query($dbc, "SELECT * FROM student_fee_outstading_view_0 where StudentID='$stid' and CouponID='$hbl' and Balance>0");
                  if(mysqli_num_rows($c)==0){
                      die('Student debt details not found');
                  }else{
@@ -61,7 +61,7 @@ if(!isset( $_SESSION['Uname'])){
                      }else{
                      
                      //Find the highest number in ccdb
-                        $cc = mysqli_query($dbc, "select * from ccdb");
+                        $cc = mysqli_query($dbc, "SELECT * FROM ccdb");
                         if(mysqli_num_rows($cc)==0){
                             $ccd = '1';
                         }else{
@@ -72,13 +72,13 @@ if(!isset( $_SESSION['Uname'])){
                         }    
                          
                      //Get Activ IE account
-                     $inc = mysqli_query($dbc, "select * from  active_ie");
+                     $inc = mysqli_query($dbc, "SELECT * FROM  active_ie");
                      if(mysqli_num_rows($inc)<>1){
                          die('Active IE account not configured');
                      }else{
                       $in = mysqli_fetch_assoc($inc);
                       
-                     $d = mysqli_query($dbc, "select * from student_fee_outstading_view_order_1 where StudentID='$stid' and CouponID='$hbl' order by  PmtOrder");
+                     $d = mysqli_query($dbc, "SELECT * FROM student_fee_outstading_view_order_1 where StudentID='$stid' and CouponID='$hbl' order by  PmtOrder");
                     if(mysqli_num_rows($d)==0){
                         echo 'Debt details not found';
                     }else{
@@ -96,16 +96,16 @@ if(!isset( $_SESSION['Uname'])){
                         
                         $dbc->autocommit(FALSE);
 
-                        $e = $dbc->query("insert into receipt_main values('$recid','$dt','$recno','$Uname','$ajaxTime')");
-                        $f = $dbc->query("insert into journal values('$accid','$accid','Dr','NCash','$recno','$amt','0','$desc','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
-                        $m = $dbc->query("insert into journal values('$fc','$fc','Cr','NCash','$recno','$amt','0','$desc','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
-                        $n = $dbc->query("insert into journal values('$stc','$stc','Dr','NCash','$recno','0','$amt','$desc','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+                        $e = $dbc->query("INSERT INTO receipt_main VALUES('$recid','$dt','$recno','$Uname','$ajaxTime')");
+                        $f = $dbc->query("INSERT INTO journal VALUES('$accid','$accid','Dr','NCash','$recno','$amt','0','$desc','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+                        $m = $dbc->query("INSERT INTO journal VALUES('$fc','$fc','Cr','NCash','$recno','$amt','0','$desc','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+                        $n = $dbc->query("INSERT INTO journal VALUES('$stc','$stc','Dr','NCash','$recno','0','$amt','$desc','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
 
                         while($dn = mysqli_fetch_assoc($d)){
                             if($NB>=$dn['Balance']){
-                                $g = $dbc->query("insert into student_fee values('$stid','$zn[MainBL]','$zn[Schedules]','$dn[AccountNo]','BL','$desc','$recno','0','$dn[Balance]','$dt','$ajaxTime','$Uname','1')");
-                               // $g1 = $dbc->query("insert into pnl_transaction values('$dn[AccountNo]','BL','Cr','$zn[MainBL]','$zn[HouseBL]','$recno','$desc','0','$dn[Balance]','$dt','$ajaxTime','$BranchID','$Uname','1')");
-                                $g2 = $dbc->query("insert into journal values('$in[AccountID]','$dn[AccountNo]','Cr','NCash','$recno','0','$dn[Balance]','$desc','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+                                $g = $dbc->query("INSERT INTO student_fee VALUES('$stid','$zn[MainBL]','$zn[Schedules]','$dn[AccountNo]','BL','$desc','$recno','0','$dn[Balance]','$dt','$ajaxTime','$Uname','1')");
+                               // $g1 = $dbc->query("INSERT INTO pnl_transaction VALUES('$dn[AccountNo]','BL','Cr','$zn[MainBL]','$zn[HouseBL]','$recno','$desc','0','$dn[Balance]','$dt','$ajaxTime','$BranchID','$Uname','1')");
+                                $g2 = $dbc->query("INSERT INTO journal VALUES('$in[AccountID]','$dn[AccountNo]','Cr','NCash','$recno','0','$dn[Balance]','$desc','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
                                 if($g and $g1){
                                    // $dbc->commit();
                                    
@@ -115,30 +115,30 @@ if(!isset( $_SESSION['Uname'])){
                                 
                                 $NB=$NB-$dn['Balance'];
                                 if($NB<=0){
-                                    $h1= mysqli_query($dbc, "select * from kaina");
-                                    $h2= mysqli_query($dbc, "select * from kaina");
-                                    $h= mysqli_query($dbc, "select * from kaina");
+                                    $h1= mysqli_query($dbc, "SELECT * FROM  kaina");
+                                    $h2= mysqli_query($dbc, "SELECT * FROM  kaina");
+                                    $h= mysqli_query($dbc, "SELECT * FROM  kaina");
                                     break;
                                 }
                             }elseif($NB<$dn['Balance']){
-                                 $h = $dbc->query("insert into student_fee values('$stid','$zn[MainBL]','$zn[Schedules]','$dn[AccountNo]','BL','$desc','$recno','0','$NB','$dt','$ajaxTime','$Uname','1')");
-                                // $h1 = $dbc->query("insert into pnl_transaction values('$dn[AccountNo]','BL','Cr','$zn[MainBL]','$zn[HouseBL]','$recno','$desc','0','$NB','$dt','$ajaxTime','$BranchID','$Uname','1')");
-                                 $h2 = $dbc->query("insert into journal values('$in[AccountID]','$dn[AccountNo]','Cr','NCash','$recno','0','$NB','$desc','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+                                 $h = $dbc->query("INSERT INTO student_fee VALUES('$stid','$zn[MainBL]','$zn[Schedules]','$dn[AccountNo]','BL','$desc','$recno','0','$NB','$dt','$ajaxTime','$Uname','1')");
+                                // $h1 = $dbc->query("INSERT INTO pnl_transaction VALUES('$dn[AccountNo]','BL','Cr','$zn[MainBL]','$zn[HouseBL]','$recno','$desc','0','$NB','$dt','$ajaxTime','$BranchID','$Uname','1')");
+                                 $h2 = $dbc->query("INSERT INTO journal VALUES('$in[AccountID]','$dn[AccountNo]','Cr','NCash','$recno','0','$NB','$desc','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
                                  if($h and $h1){
                                     //$dbc->commit();
                                     
                                 }else{
                                     die($ERR);
                                 }
-                                    $g1= mysqli_query($dbc, "select * from kaina");
-                                    $g2= mysqli_query($dbc, "select * from kaina");
-                                    $g= mysqli_query($dbc, "select * from kaina");
+                                    $g1= mysqli_query($dbc, "SELECT * FROM  kaina");
+                                    $g2= mysqli_query($dbc, "SELECT * FROM  kaina");
+                                    $g= mysqli_query($dbc, "SELECT * FROM  kaina");
                                 break;
                             }
                            // echo $dn['AccountName']." is ".$dn['Balance']." and the Order is ".$dn['PmtOrder']." ";
 
                        }
-                       $ccdb = $dbc->query("insert into ccdb values('$ccd','$desc IFO ~$stid on $dt','$Uname','$ajaxTime')");
+                       $ccdb = $dbc->query("INSERT INTO ccdb VALUES('$ccd','$desc IFO ~$stid on $dt','$Uname','$ajaxTime')");
                        
                        if($h and $h1 and $h2 and $g and $g1 and $g2 and $m and $n and $ccdb){
                             $dbc->commit();

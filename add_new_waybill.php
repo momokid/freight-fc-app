@@ -45,8 +45,8 @@ if(!isset( $_SESSION['Uname'])){
        $b = mysqli_query($dbc,"select max(id) as ID from waybill_main");
        if(mysqli_num_rows($b)==1){
            $bn = mysqli_fetch_assoc($b);
-           $c = mysqli_query($dbc,"delete from rpt_multi_values_0 where Username='$Uname'");
-           $d = $dbc->query("insert  rpt_multi_values_0 values('','','$bn[ID]','','','$Uname','$ajaxTime')");
+           $c = mysqli_query($dbc,"DELETE FROM rpt_multi_values_0 WHERE Username='$Uname'");
+           $d = $dbc->query("INSERT INTO  rpt_multi_values_0 VALUES('','','$bn[ID]','','','$Uname','$ajaxTime')");
 
            echo json_encode(array("code"=>200,"msg"=>"Waybill saved successfully"));
        }else{

@@ -50,15 +50,15 @@ if (!isset($_SESSION['Uname'])) {
 } else {
     $DclID = 0;
 
-    $z = mysqli_query($dbc, "select * from declaration_main where DeclarationNo='$dcl'");
+    $z = mysqli_query($dbc, "SELECT * FROM declaration_main where DeclarationNo='$dcl'");
     if (mysqli_num_rows($z) > 0) {
         die('Error: Declaration No. already exists');
     } else {
-        $t = mysqli_query($dbc, "select * from declaration_main where BL='$bl'");
+        $t = mysqli_query($dbc, "SELECT * FROM declaration_main where BL='$bl'");
         if (mysqli_num_rows($t) > 0) {
             die('Bill of lading number already processed');
         } else {
-            $a = mysqli_query($dbc, "select * from  receipt_main where ReceiptNo='$recno'");
+            $a = mysqli_query($dbc, "SELECT * FROM  receipt_main where ReceiptNo='$recno'");
             if (mysqli_num_rows($a) > 0) {
                 die('Receipt No already exists ' . $recno);
             } else {
@@ -69,23 +69,23 @@ if (!isset($_SESSION['Uname'])) {
                 } else {
 
                     //Get Active IE account
-                    $inc = mysqli_query($dbc, "select * from  active_ie");
+                    $inc = mysqli_query($dbc, "SELECT * FROM  active_ie");
                     if (mysqli_num_rows($inc) <> 1) {
                         die('Active IE account not configured');
                     } else {
                         $in = mysqli_fetch_assoc($inc);
 
-                        $p = mysqli_query($dbc, "select * from declaration_main");
+                        $p = mysqli_query($dbc, "SELECT * FROM declaration_main");
                         if (mysqli_num_rows($p) == 0) {
                             $DclID = 100001;
                         } else {
-                            $l = mysqli_query($dbc, "select max(DeclarationID) as ID from declaration_main");
+                            $l = mysqli_query($dbc, "SELECT max(DeclarationID) AS ID FROM declaration_main");
                             $ln = mysqli_fetch_assoc($l);
 
                             $DclID = $ln['ID'] + 1;
                         }
 
-                        $d = mysqli_query($dbc, "select * from active_declaration_income");
+                        $d = mysqli_query($dbc, "SELECT * FROM active_declaration_income");
                         if (mysqli_num_rows($d) == 0) {
                             die('Active declaration income account not found');
                         } else {
@@ -93,11 +93,11 @@ if (!isset($_SESSION['Uname'])) {
                             $dn = mysqli_fetch_assoc($d);
                             $dbc->autocommit(FALSE);
 
-                            $e = $dbc->query("insert into receipt_main values('$recid','$dt','$recno','$Uname','$ajaxTime')");
-                            $f = $dbc->query("insert into journal values('$acc','$acc','Dr','Cash','$recno','$amt','0','DECLARATION CHARGE IFO ~ $dcl','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
-                            $m = $dbc->query("insert into journal values('$in[AccountID]','$dn[AccountNo]','Cr','Cash','$recno','0','$amt','DECLARATION CHARGE IFO ~ $dcl','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
-                            $n = $dbc->query("insert into pnl_transaction values('$dn[AccountNo]','NB','Cr','$bl','$bl','$recno','DECLARATION CHARGE IFO ~ $dcl','0','$amt','$dt','$ajaxTime','$BranchID','$Uname','1')");
-                            $i = $dbc->query("insert into declaration_main values('$DclID','$bl','$dcl','$desc','$duty','$amt','$agnm','$tel','$csz','$recno','$dt','$ajaxTime','$Uname','$BranchID','1')");
+                            $e = $dbc->query("INSERT INTO receipt_main values('$recid','$dt','$recno','$Uname','$ajaxTime')");
+                            $f = $dbc->query("INSERT INTO journal values('$acc','$acc','Dr','Cash','$recno','$amt','0','DECLARATION CHARGE IFO ~ $dcl','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+                            $m = $dbc->query("INSERT INTO journal values('$in[AccountID]','$dn[AccountNo]','Cr','Cash','$recno','0','$amt','DECLARATION CHARGE IFO ~ $dcl','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+                            $n = $dbc->query("INSERT INTO pnl_transaction values('$dn[AccountNo]','NB','Cr','$bl','$bl','$recno','DECLARATION CHARGE IFO ~ $dcl','0','$amt','$dt','$ajaxTime','$BranchID','$Uname','1')");
+                            $i = $dbc->query("INSERT INTO declaration_main values('$DclID','$bl','$dcl','$desc','$duty','$amt','$agnm','$tel','$csz','$recno','$dt','$ajaxTime','$Uname','$BranchID','1')");
 
                             if ($e AND $f AND $m AND $n AND $i) {
                                 $dbc->commit();

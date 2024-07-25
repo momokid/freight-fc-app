@@ -57,24 +57,26 @@
                 </div>
                 <div class="card-body">
                   <div class="form-group row">
+
                     <div class="col-sm-6 mb-3 mb-sm-0">
                       <label for="exampleFormControlInput1">Total Cash Revenue</label>
                       <input type="number" class="form-control form-control-user ep" autocomplete="off" placeholder="Enter Cash Revenue" id="txtTotalDisbursementIncome">
 
                     </div>
+
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Balance Outstanding</label>
-                      <label class="form-control form-control-user label-form-control-user" id="lblTotalDisbursement"></label>
+                      <label for="exampleFormControlInput1">Cash Revenue Source</label>
+                      <select  class="custom-select custom-select-sm sl-form-ctrl form-control" title="Select Cash Source" id="txtTotalDisbursementSource">
+                      </select>
                     </div>
+
                   </div>
+
                   <div class="form-group row mt-3">
 
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Receipt No.</label>
-                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_rcpt_id_invoice"></label>
-                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_hblid_invoice"></label>
-                      <label class="form-control form-control-user label-form-control-user ep sr-only" id="hBL_mblid_invoice"></label>
-                      <label class="form-control form-control-user label-form-control-user ep" id="hBL_rcpt_no_invoice"></label>
+                      <label for="exampleFormControlInput1">Balance Outstanding</label>
+                      <label class="form-control form-control-user label-form-control-user" id="lblTotalDisbursement"></label>
                     </div>
 
                     <div class="col-sm-6 mb-3 mb-sm-0">

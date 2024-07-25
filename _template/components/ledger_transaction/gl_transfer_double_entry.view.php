@@ -21,23 +21,23 @@
                   <div class="form-group row">
 
                     <div class="col-sm-3 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Debit Account</label>
+                      <label for="exampleFormControlInput1">Receiving Account</label>
                       <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg gl_account ep" id="sel_glDr_account">
                         <option></option>
                       </select>
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Debit Account Balance</label>
+                      <label for="exampleFormControlInput1">Receiving Account Balance</label>
                       <label class="form-control form-control-user label-form-control-user ep" id="txt_rglDr_cash_bal"></label>
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Credit Account</label>
+                      <label for="exampleFormControlInput1">Withdrawal Account</label>
                       <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg gl_account ep" id="sel_glCr_account">
                         <option></option>
                       </select>
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Credit Account Balance</label>
+                      <label for="exampleFormControlInput1">Withdrawal Account Balance</label>
                       <label class="form-control form-control-user label-form-control-user ep" id="txt_rglCr_cash_bal"></label>
                     </div>
 

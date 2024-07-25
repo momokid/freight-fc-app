@@ -30,10 +30,10 @@ if(!isset( $_SESSION['Uname'])){
     if(mysqli_num_rows($a)==0){
         die('Taxes not setup');
     }else{
-    $e = mysqli_query($dbc, "select * from temp_other_invoice_non_manifest where Username='$Uname' and AccountNo='$acc'");
+    $e = mysqli_query($dbc, "SELECT * FROM temp_other_invoice_non_manifest where Username='$Uname' and AccountNo='$acc'");
 
     if(mysqli_num_rows($e)>0){
-        $c = mysqli_query($dbc, "update temp_other_invoice_non_manifest set Amount='$amt' where Username='$Uname' and AccountNo='$acc' ");
+        $c = mysqli_query($dbc, "UPDATE temp_other_invoice_non_manifest SET Amount='$amt' where Username='$Uname' and AccountNo='$acc' ");
         if($c){
             echo '1';
         }else{
@@ -48,7 +48,7 @@ if(!isset( $_SESSION['Uname'])){
             $an['Covid']=0;
         }
 
-        $c = $dbc->query("insert into temp_other_invoice_non_manifest values('','$acc','$amt','$taxStatus','$an[GetFund]','$an[NHIL]','$an[Covid]','$an[VAT]','$Uname','$ajaxTime') ");
+        $c = $dbc->query("INSERT INTO temp_other_invoice_non_manifest VALUES('','$acc','$amt','$taxStatus','$an[GetFund]','$an[NHIL]','$an[Covid]','$an[VAT]','$Uname','$ajaxTime') ");
 
         if($c){
             echo '1';

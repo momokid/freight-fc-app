@@ -28,7 +28,7 @@
           <div class="form-group row">
             <div class="col-sm-12 mb-3 mb-sm-0">
               <label for="exampleFormControlInput1">Control Name</label>
-              <input type="text" class="form-control form-control-user ep" id="txt-newCtryName">
+              <input type="text" class="form-control form-control-user ep" id="txt_newCtryName">
             </div>
           </div>
           <a href="#" class="btn btn-success btn-user btn-block" id="btn-new-control-ledger">

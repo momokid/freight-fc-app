@@ -111,7 +111,7 @@ if (!isset($_SESSION['Uname'])) {
                         <tr class="tbl-data">
                             <td class="no-border"></td>
                             <td colspan="2"><?php echo $dn['AccountName'] ?></td>
-                            <td colspan="2"><?php echo $dn['TBal'] ?></td>
+                            <td colspan="2"><?php echo formatToCurrency($dn['TBal']); ?></td>
                         </tr>
                     <?php }
                     $e = mysqli_query($dbc, "select round(sum(TBal),2) as CatBal from financial_statement_view_1 where SubCategoryID='$cn[SubCategoryID]' and RptUser='$Uname'");
@@ -119,7 +119,7 @@ if (!isset($_SESSION['Uname'])) {
                         <tr class="tbl-data tbl-final">
                             <td colspan="2" class="no-border"></td>
                             <td colspan="1">TOTAL <?php echo $cn['SubCategoryName'] ?></td>
-                            <td colspan="2"><?php echo $en['CatBal'] ?></td>
+                            <td colspan="2"><?php echo formatToCurrency($en['CatBal']) ?></td>
                         </tr>
                     <?php };
                 }
@@ -129,7 +129,7 @@ if (!isset($_SESSION['Uname'])) {
                         <td colspan="2" class="no-border"></td>
                         <td class=" no-border"></td>
                         <td colspan="1" class="bg-black">TOTAL <?php echo $bn['CategoryName'] ?></td>
-                        <td colspan="2" class="bg-black"><?php echo $fn['TBal'] ?></td>
+                        <td colspan="2" class="bg-black"><?php echo formatToCurrency($fn['TBal']) ?></td>
                     </tr>
                     <tr>
                         <td class="no-border">.</td>
@@ -140,7 +140,7 @@ if (!isset($_SESSION['Uname'])) {
             $g = mysqli_query($dbc, "select round(sum(TBal),2) as TBal from financial_statement_view_1 where RptUser='$Uname'");
             while ($gn = mysqli_fetch_assoc($g)) { ?>
                 <tr class="tbl-data tbl-final">
-                    <td colspan="5">DIFFERENCE : <?php echo $gn['TBal'] ?></td>
+                    <td colspan="5">DIFFERENCE : <?php echo formatToCurrency($gn['TBal']) ?></td>
                 </tr>
             <?php }
             ?>

@@ -55,12 +55,12 @@
                     </div>
                     <div class="form-group row">
 
-                        <div class="col-sm-3 mb-3 mb-sm-0">
+                        <div class="col-sm-3 mb-3 mb-sm-0 sr-only">
                             <label for="exampleFormControlInput1">Transaction ID</label>
                             <label class="form-control form-control-user label-form-control-user ep sr-only" id="service_charge_rcpt_id"></label>
                             <label class="form-control form-control-user label-form-control-user ep" id="service_charge_rcpt_no"></label>
                         </div>
-                        <div class="col-sm-9 mb-9 mb-sm-0">
+                        <div class="col-sm-12 mb-9 mb-sm-0">
                             <label for="exampleFormControlInput1"></label>
                             <form class="user">
                                 <a class="btn btn-success btn-user btn-block" id="btn_save_service_charge">

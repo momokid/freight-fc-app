@@ -1,5 +1,4 @@
 $(function () {
-
   $(".show_hide_password a").on("click", function (event) {
     event.preventDefault();
     if ($(".show_hide_password input").attr("type") == "text") {
@@ -234,7 +233,6 @@ $(function () {
     $("#ledger-control-panel").slideDown();
     $("#newledgerControlID").load("get_new_ledger_controlID.php");
     $("#display_new_control_ledger").load("load_ledger_control_tbl.php");
-
   });
 
   //Setup Ledger Control
@@ -367,7 +365,7 @@ $(function () {
     $("#cosignee_main_bl_display_details").load(
       "load_temp_mainbl_new_consignee.php"
     );
-    $('#sel_mbl_assignee_officer').load('load_sel_user_account.php');
+    $("#sel_mbl_assignee_officer").load("load_sel_user_account.php");
     // $("#houseBL_consignee_breakown").load("get_new_house_bl_number.php");
     // $("#cosignee_house_bl_display_details").load(
     //   "load_cosignee_manifestation_temp.php"
@@ -379,24 +377,23 @@ $(function () {
   $("#new-house-bl-invoice-tab").click(function () {
     $(".sub-basic-setup").hide();
     $("#new-house-bl-invoice-panel").slideDown();
-    $.post("load_consignee_handling_charges_temp_tbl.php",{},function (a) {
-        $("#cosignee_hbl_invoice_charges_display").html(a);
-        // $("#sel_hBL_acc_invoice").load("");
-        $("#hBL_amt_invoice").val("");
-        $(".progress-loader").remove();
-      }
-    );
+    $.post("load_consignee_handling_charges_temp_tbl.php", {}, function (a) {
+      $("#cosignee_hbl_invoice_charges_display").html(a);
+      // $("#sel_hBL_acc_invoice").load("");
+      $("#hBL_amt_invoice").val("");
+      $(".progress-loader").remove();
+    });
     $("#invoicing_hbl_search_conisgnee").focus();
   });
 
   //Search Consignee for HBL Invoice
-  $('#invoicing_hbl_search_conisgnee').keyup(function () {
-    var e = $.trim($(this).val())
+  $("#invoicing_hbl_search_conisgnee").keyup(function () {
+    var e = $.trim($(this).val());
 
-    $.post('search_hbl_invoicing_consignee.php', { e: e }, function (a) {
-      $('#display_hBL_invoicing_search_info').html(a)
-    })
-  })
+    $.post("search_hbl_invoicing_consignee.php", { e: e }, function (a) {
+      $("#display_hBL_invoicing_search_info").html(a);
+    });
+  });
 
   //Customer Waybill
   $("#new-customer-waybill").click(function () {
@@ -540,6 +537,7 @@ $(function () {
     $("#disbursement-analysis-panel").slideDown();
     $("#txt_disbursement_bl_search").focus();
     $("#recent_disbursement_bl").load("disbursement_recent_bl.php");
+    $("#txtTotalDisbursementSource").load("load_sel_cash_account.php");
   });
 
   function SpinnerLoader(props) {
@@ -557,7 +555,7 @@ $(function () {
 
   //Disbursement Ananlysis Approval
   $("#new-disbursement-approval-review-tab").click(function () {
-    $('#display_disbursement_analysis_panel').html('<span>Loading disbursement for approval...</span><i class="fa fa-spinner faa-spin animated fa-2x"></i>');
+    // $('#display_disbursement_analysis_panel').html('<span>Loading disbursement for approval...</span><i class="fa fa-spinner faa-spin animated fa-2x"></i>');
 
     $(".sub-basic-setup").hide();
     $(".progress-loader").remove();
@@ -567,30 +565,26 @@ $(function () {
     $("#disbursement-analysis-approval-panel").slideDown();
   });
 
-//
-$('#btn_disbursement_search_summary_rpt').click(function(){
-  let id = $('#text_search_disbursement_details_view').val();
+  //
+  $("#btn_disbursement_search_summary_rpt").click(function () {
+    let id = $("#text_search_disbursement_details_view").val();
 
-  if(id === ""){
-    alert("Enter Container# Or BL#");
-    $('#text_search_disbursement_details_view').focus();  
-    return false;
-  }else{
-    $(".progress-loader").remove();
-    $("#disbursement_report_view_card").append(
-      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
-    );
+    if (id === "") {
+      alert("Enter Container# Or BL#");
+      $("#text_search_disbursement_details_view").focus();
+      return false;
+    } else {
+      $(".progress-loader").remove();
+      $("#disbursement_report_view_card").append(
+        '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+      );
 
-    $.get(
-      "fetch_disbursement_summary_by_id.php",
-      { id },
-      function (a) {
+      $.get("fetch_disbursement_summary_by_id.php", { id }, function (a) {
         $("#view_disbursement_report_search_result").html(a);
         $(".progress-loader").remove();
-      }
-    );
-  }
-})
+      });
+    }
+  });
 
   //Debit GL Credit Income
   $("#drGlCrIncometab").click(function () {
@@ -695,6 +689,7 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     let amount = $.trim($("#txtTotalDisbursementIncome").val());
     let dOT = $.trim($("#txt_disbursement_DOT").val());
     let bl = $.trim($("#txt_disbursement_bl_search").val());
+    let account = $.trim($("#txtTotalDisbursementSource :selected").attr("id"));
 
     $(".progress-loader").remove();
     $("body").append(
@@ -703,10 +698,10 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
 
     $.post(
       "add_new_disbursement_analysis.php",
-      { amount, dOT, bl },
+      { amount, dOT, bl, account },
       function (data) {
         let result = JSON.parse(data);
-
+        // alert(data)
         if (result.status_code == 201) {
           alert(result.msg);
           $("#disbursement_fcl_bl_display_details").html("");
@@ -733,15 +728,13 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     });
   });
 
-  
-  
   //
   $("#btn_add_charge_consignee_invoice").click(function (e) {
     e.preventDefault();
 
     let acc = $.trim($("#sel_hBL_acc_invoice :selected").attr("id"));
     let amt = $.trim($("#hBL_amt_invoice").val());
-    let mbl=$.trim($('#mbl_invoice_search').text());
+    let mbl = $.trim($("#mbl_invoice_search").text());
 
     $("#body").append(
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
@@ -752,9 +745,12 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
       function (a) {
         let data = JSON.parse(a);
         if (data.code == 200) {
-          alert(data.msg)
+          alert(data.msg);
           //Display Consignee handling charges
-          $.post("load_consignee_handling_charges_temp_tbl.php",{},function (a) {
+          $.post(
+            "load_consignee_handling_charges_temp_tbl.php",
+            {},
+            function (a) {
               $("#cosignee_hbl_invoice_charges_display").html(a);
               $("#sel_hBL_acc_invoice").load("load_sel_billing_account.php");
               $("#hBL_amt_invoice").val("");
@@ -822,8 +818,9 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     let rid = $.trim($("#invoice_pmt_rcpt_id").text());
     let rno = $.trim($("#invoice_pmt_rcpt_no").text());
     let cns = $.trim($("#consignee_id_invoice_pmt").text());
-    let hbl = $.trim($("#invoice_pmt_hblid").text());
     let mbl = $.trim($("#invoice_pmt_mblid").text());
+
+    $(".progress-loader").remove();
 
     if (dot == "") {
       alert("Select Date of Transaction");
@@ -882,20 +879,19 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
         } else {
           //This line saves transactions for House BL invoice
           $.post(
-            "run_receive_invoice_pmt_hbl.php",
+            "run_receive_invoice_pmt_mbl.php",
             {
-              hbl: hbl,
-              mbl: mbl,
-              acc: acc,
-              amt: amt,
-              recid: rid,
-              recno: rno,
-              dt: dot,
-              stid: cns,
-              desc: desc,
+              mbl,
+              acc,
+              amt,
+              dot,
+              cns,
+              desc,
             },
-            function (a) {
-              if (a == 1) {
+            function (response) {
+              let data = JSON.parse(response);
+
+              if (data.code == 200) {
                 //Display Consignee handling charges
                 $("#consignee_invoice_payment").focus();
                 $(".ep").val("");
@@ -903,20 +899,24 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
 
                 let q = confirm("Print invoice payment receipt?");
                 if (q) {
-                  $.post("insert_recno_rpt.php", { cid: rno }, function (a) {
-                    if (a) {
-                      window.open("invoice_payment_receipt.php", "_blank");
-                      $(".progress-loader").remove();
-                    } else {
-                      $(".progress-loader").remove();
+                  $.post(
+                    "insert_recno_rpt.php",
+                    { cid: data.receiptNo },
+                    function (a) {
+                      if (a) {
+                        window.open("invoice_payment_receipt.php", "_blank");
+                        $(".progress-loader").remove();
+                      } else {
+                        $(".progress-loader").remove();
+                      }
                     }
-                  });
+                  );
                 } else {
                   $(".progress-loader").remove();
                   return false;
                 }
               } else {
-                alert(a);
+                alert(data.msg);
                 $(".progress-loader").remove();
               }
             }
@@ -1039,11 +1039,11 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
   });
 
   //
-  $('#btn-search-container-details').click(function(){
-    let id  = $.trim($('#txt-tracked-shipment-container-details').val());
+  $("#btn-search-container-details").click(function () {
+    let id = $.trim($("#txt-tracked-shipment-container-details").val());
 
     alert(id);
-  })
+  });
 
   //Search Client Profile Edit
   $("#search_housebl_profile_rpt").keyup(function () {
@@ -1067,8 +1067,8 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
   $("#mainBL_search_conisgnee").keyup(function () {
     var e = $.trim($(this).val());
 
-    if(e ===''){
-      return false ;
+    if (e === "") {
+      return false;
     }
     $.post("search_mainbl_new_consignee.php", { e: e }, function (a) {
       // alert(a)
@@ -1131,7 +1131,9 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
   });
 
   $("#btn_consignee_manifestation").click(function () {
-    let newOfficer = $.trim($("#sel_mbl_assignee_officer :selected").attr('id'));
+    let newOfficer = $.trim(
+      $("#sel_mbl_assignee_officer :selected").attr("id")
+    );
     // let cns = $.trim($("#hbl_consignee_id").text());
 
     if (newOfficer == "") {
@@ -1146,25 +1148,23 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
         $.post(
           "assign_new_officer_to_bl.php",
           {
-           newOfficer
+            newOfficer,
           },
           function (a) {
-
             let data = JSON.parse(a);
-            if(data.code == 200){
-
+            if (data.code == 200) {
               $(".ep").text("");
               $(".ep").val("");
               $(".progress-loader").remove();
-              $('#cosignee_main_bl_display_details').load('load_temp_mainbl_new_consignee.php');
-              
+              $("#cosignee_main_bl_display_details").load(
+                "load_temp_mainbl_new_consignee.php"
+              );
+
               $("#search_hbl_consignee_fname").focus();
-            }else{
-              alert(data.msg)
+            } else {
+              alert(data.msg);
               $(".progress-loader").remove();
             }
-
-            
 
             // if (a == 1) {
             //   $(".ep").text("");
@@ -1390,7 +1390,7 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     let agent = $.trim($("#agent_contact_new_conisgnment").val());
     let rcptid = $.trim($("#new_consignment_rcptid").text());
     let rcptno = $.trim($("#new_consignment_rcptno").text());
-    let cns = $.trim($('#hbl_consignee_id').text());
+    let cns = $.trim($("#hbl_consignee_id").text());
 
     if (dot == "") {
       alert("Select Transaction Date");
@@ -1447,10 +1447,10 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     } else if (rcptid == "" || rcptno == "") {
       alert("Transaction ID not found");
       return false;
-    } else if(cns == ""){
-      alert('Select Consignee Name');
+    } else if (cns == "") {
+      alert("Select Consignee Name");
       return false;
-    }else {
+    } else {
       let q = confirm("Save consignment details?");
       if (q) {
         $("body").append(
@@ -1476,7 +1476,7 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
             agent: agent,
             rcptid: rcptid,
             rcptno: rcptno,
-            cns:cns,
+            cns: cns,
           },
           function (a) {
             if (a == 1) {
@@ -3800,7 +3800,7 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
 
   $("#btn-new-control-ledger").click(function () {
     var CID = $.trim($("#newledgerControlID").text());
-    var CNM = $.trim($("#txt-newControlName").val());
+    var CNM = $.trim($("#txt_newCtryName").val());
 
     if (CID == "") {
       alert("Missing Data: Control ID");
@@ -4152,9 +4152,9 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
 
   //
   $("#display_new_consignment").load("load_new_pending_consignment_new.php");
- setInterval(() => {
-     $("#display_new_consignment").load("load_new_pending_consignment_new.php");
-   }, 150000);
+  setInterval(() => {
+    $("#display_new_consignment").load("load_new_pending_consignment_new.php");
+  }, 150000);
 
   //Admin Notification
   setInterval(function () {
@@ -7287,7 +7287,7 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
         function (e) {
           if (e == 1) {
             $(".progress-loader").remove();
-            alert("Success");
+            alert("Declaration charge saved successfully");
             $("#dclr_prcs_rcpt_id").load("get_receipt_id.php");
             $("#dclr_prcs_rcpt_no").load("get_receipt_no.php");
             $(".ep").val("");
@@ -7415,14 +7415,10 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
     );
 
-    $.get(
-      "fetch_disbursement_summary_by_date.php",
-      { fdt, ldt },
-      function (a) {
-        $("#view_disbursement_report_search_result").html(a);
-        $(".progress-loader").remove();
-      }
-    );
+    $.get("fetch_disbursement_summary_by_date.php", { fdt, ldt }, function (a) {
+      $("#view_disbursement_report_search_result").html(a);
+      $(".progress-loader").remove();
+    });
   });
 
   $("#updateUserPassword").click(function (e) {
@@ -7738,6 +7734,8 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
   });
 
   $("#btn_save_service_charge").click(function () {
+    $(".progress-loader").remove();
+
     let bl = $.trim($("#service_charge_bl_search").val());
     let dcl = $.trim($("#service_charge_decl_no").val());
     let dcl_id = $.trim($("#service_charge_declaration_id").text());
@@ -7750,43 +7748,35 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
     let rno = $.trim($("#service_charge_rcpt_no").text());
     let acc = $.trim($("#service_charge_sel_cash_acc :selected").attr("id"));
 
-    let q = confirm("Save the declaration?");
+    let q = confirm("Do you want to save this transaction?");
+
     if (q) {
       $("body").append(
         '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
       );
       $.post(
         "run_consignment_service_charge.php",
-        {
-          bl: bl,
-          dcl: dcl,
-          desc: desc,
-          amt: amt,
-          cons: cons,
-          dt: dt,
-          rid: rid,
-          rno: rno,
-          acc: acc,
-          cons_id: cons_id,
-          dcl_id: dcl_id,
-        },
-        function (e) {
-          if (e == 1) {
+        { bl, dcl, desc, amt, cons, dt, acc, cons_id, dcl_id },function (response) {
+
+          let data = JSON.parse(response)
+
+          if (data.code == "200") {
             $(".progress-loader").remove();
-            alert("Success");
-            //$('#dclr_prcs_rcpt_id').load('get_receipt_id.php');
-            //$('#dclr_prcs_rcpt_no').load('get_receipt_no.php');
+            alert(data.msg);
             $(".ep").val("");
             $(".ep").text("");
             $("#service_charge_sel_cash_acc").load("load_sel_cash_account.php");
             $("#service_charge_bl_search").focus();
+
           } else {
+          
             $(".progress-loader").remove();
-            alert(e);
+            alert(data.msg);
           }
         }
       );
     } else {
+      
       return false;
     }
   });
@@ -7952,3 +7942,5 @@ $('#btn_disbursement_search_summary_rpt').click(function(){
   });
   //End of Script.
 });
+
+

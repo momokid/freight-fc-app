@@ -28,7 +28,7 @@
                 </button>
             </div>
             <div class="modal-body" id="display_FinSttmntRpt">
-
+                <span>Loading...</span>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>

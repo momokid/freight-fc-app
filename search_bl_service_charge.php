@@ -25,7 +25,7 @@ if (!isset($_SESSION['Uname'])) {
         //echo '<div class="student_search_display-wrap"><span class="search_student_details first-search-span">'.$f['StudentID'].'</span><span class="search_student_details second-search-span">'.$f['FullName'].'</span><span class="search_student_details third-search-span">'.$f['CurrentClass'].'</span>'
         //      . '<div class="wrap-details"></div></div><br>';
 
-        echo "<div class='return_search_results cns_service_charge_search hide_div_note' bl='$f[MainBL]' cns_id='$f[ConsigneeID]' hbl='$f[HBL]' cons='$f[ConsigneeName]' desc='$f[ItemDescription]' dcl='$f[DeclarationNo]' dclid='$f[DeclarationID]'><b>" . $f['ConsigneeName'] . "</b> <e style='color:red;'> [" . $f['MainBL'] . "]</e> <b style='color:blue;'> " . $f['HBL'] . "</b></div>";
+        echo "<div class='return_search_results cns_service_charge_search hide_div_note' bl='$f[MainBL]' cns_id='$f[ConsigneeID]' hbl='$f[HBL]' cons='$f[ConsigneeName]' desc='$f[ItemDescription]' dcl='$f[DeclarationNo]' dclid='$f[DeclarationID]'><b>" . $f['ConsigneeName'] . "</b> <e style='color:red;'> [" . $f['MainBL'] . "]</e> <b style='color:blue;'> " . $f['ConsigneeName'] . "</b></div>";
     }
 }
 

@@ -19,9 +19,7 @@ if(!isset( $_SESSION['Uname'])){
    if(mysqli_num_rows($a)==0){
       echo '<option selected></option>';
    }else{
-     //  $an = mysqli_fetch_assoc($a);
-      // $b = mysqli_query($dbc, "select * from sub_class_subject_view where SubClassID='$an[SubClassID]'");
-       
+
        echo '<option selected></option>';
        
       while($an = mysqli_fetch_assoc($a)){

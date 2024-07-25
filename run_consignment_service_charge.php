@@ -17,12 +17,7 @@ $desc = trim(mysqli_real_escape_string($dbc, $_POST['desc']));
 $recid = trim(mysqli_real_escape_string($dbc, $_POST['rid']));
 $recno = trim(mysqli_real_escape_string($dbc, $_POST['rno']));
 $acc = trim(mysqli_real_escape_string($dbc, $_POST['acc']));
-$dt = trim(
-    mysqli_real_escape_string(
-        $dbc,
-        strftime('%Y-%m-%d', strtotime($_POST['dt']))
-    )
-);
+$dt = trim(mysqli_real_escape_string($dbc, strftime('%Y-%m-%d', strtotime($_POST['dt']))));
 $amt = floatval(trim(mysqli_real_escape_string($dbc, $_POST['amt'])));
 $cons = trim(mysqli_real_escape_string($dbc, $_POST['cons']));
 $cons_id = trim(mysqli_real_escape_string($dbc, $_POST['cons_id']));
@@ -30,22 +25,43 @@ $cons_id = trim(mysqli_real_escape_string($dbc, $_POST['cons_id']));
 if (!isset($_SESSION['Uname'])) {
     header('Location: case-login');
 } elseif ($bl == '') {
-    die('Missing Data: Enter BL No.');
+    $res = [
+        "code" => 301,
+        "msg" => "Missing Data: Enter BL No."
+    ];
 } elseif ($dcl == '') {
-    die('Missing Data: Enter Declaration No.');
+    $res = [
+        "code" => 301,
+        "msg" => "Missing Data: Enter Declaration No."
+    ];
 } elseif ($desc == '') {
-    die('Missing Data: Enter Item Description ');
+    $res = [
+        "code" => 301,
+        "msg" => "Missing Data: Enter Item Description"
+    ];
 } elseif ($cons == '') {
-    die('Missing Data: Enter Consignee\'s Name');
+    $res = [
+        "code" => 301,
+        "msg" => "Missing Data: Enter Consignee\'s Name"
+    ];
 } elseif ($amt <= 0) {
-    die('Missing Data: Enter Amount Charge');
+    $res = [
+        "code" => 301,
+        "msg" => "Missing Data: Enter Amount Charge"
+    ];
 } elseif ($acc == '') {
-    die('Missing Data: Select Credit Account');
+    $res = [
+        "code" => 301,
+        "msg" => "Missing Data: Select Credit Account"
+    ];
 } elseif ($dt == '1970-01-01') {
-    die('Missing Data: Select transaction date');
-} elseif ($recid == '' or $recno == '') {
-    die('Missing Data: Invalid Transaction ID/No');
-} else {
+    $res = [
+        "code" => 301,
+        "msg" => "Missing Data: Select transaction date"
+    ];
+}  else {
+
+
     if ($dcl_id === '') {
         $dcl_id = '0';
     }
@@ -57,93 +73,68 @@ if (!isset($_SESSION['Uname'])) {
 
     $z = mysqli_query(
         $dbc,
-        "select * from service_charge_main where DeclarationNo='$dcl'"
+        "SELECT * FROM  service_charge_main WHERE DeclarationNo='$dcl'"
     );
     if (mysqli_num_rows($z) > 0) {
-        die('Error: Declaration No. already exists');
+        $res = [
+            "code" => 301,
+            "msg" => "Error: Declaration No. already exists"
+        ];
     } else {
         $t = mysqli_query(
             $dbc,
-            "select * from service_charge_main where BL='$bl'"
+            "SELECT * FROM  service_charge_main WHERE BL='$bl'"
         );
         if (mysqli_num_rows($t) > 0) {
-            die('Bill of lading number already processed');
+            $res = [
+                "code" => 301,
+                "msg" => "Service charge for BL# [$bl] already captured."
+            ];
         } else {
-            $a = mysqli_query(
-                $dbc,
-                "select * from  receipt_main where ReceiptNo='$recno'"
-            );
-            if (mysqli_num_rows($a) > 0) {
-                die('Receipt No already exists ' . $recno);
+            //get receipt number and id
+            $rcpt = getReceiptDetails($dt);
+
+            //get active pnl
+            $activePNL = getActivePNL();
+
+            //get servcie charge income account
+            $serviceChargeId = getServiceChargeID();
+
+            //Get service charge income
+            $serviceChargeIncome = getServiceChargeIncome();
+
+            //$dn = mysqli_fetch_assoc($d);
+
+            $dbc->autocommit(false);
+
+            $receipt_number = $dbc->query("INSERT INTO receipt_main VALUES('$rcpt[Id]','$dt','$rcpt[number]','$Uname','$ajaxTime')");
+
+            $pnl_income = $dbc->query("INSERT INTO pnl_transaction VALUES('$serviceChargeIncome','NB','Cr','$bl','$bl','$rcpt[number]','SERVICE CHARGE IFO ~ $dcl~$bl','0','$amt','$dt','$ajaxTime','$BranchID','$Uname','1')");
+
+            $service_charge = $dbc->query("INSERT INTO service_charge_main VALUES('$DclID','$bl','$dcl_id','$dcl','$cons_id','$cons','$desc','$amt','$rcpt[number]','$dt','$ajaxTime','$Uname','$BranchID','1')");
+
+            $journal_dr = $dbc->query("INSERT INTO journal VALUES('$acc','$acc','Dr','Cash','$rcpt[number]','$amt','0','SERVICE CHARGE IFO ~ $dcl~$bl','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+           
+            $journal_cr = $dbc->query("INSERT INTO journal VALUES('$activePNL','$serviceChargeIncome','Cr','Cash','$rcpt[number]','0','$amt','SERVICE CHARGE IFO ~ $dcl~$bl','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+           
+            
+            if ($receipt_number) {
+
+                $dbc->commit();
+
+                $res = [
+                    "code" => 200,
+                    "msg" => "Service charge payment saved successfully"
+                ];
             } else {
-                //$bn = mysqli_fetch_assoc($b);
-                if ($dt > $ajaxDate) {
-                    die(
-                        'Transaction must be on or before ' .
-                            strftime('%d %b, %Y', strtotime($ajaxDate))
-                    );
-                } else {
-                    //Get Active IE account
-                    $inc = mysqli_query($dbc, 'select * from  active_ie');
-                    if (mysqli_num_rows($inc) != 1) {
-                        die('Active IE account not configured');
-                    } else {
-                        $in = mysqli_fetch_assoc($inc);
-
-                        $p = mysqli_query(
-                            $dbc,
-                            'select * from service_charge_main'
-                        );
-                        if (mysqli_num_rows($p) == 0) {
-                            $DclID = 200001;
-                        } else {
-                            $l = mysqli_query(
-                                $dbc,
-                                'select max(ServiceID) as ID from service_charge_main'
-                            );
-                            $ln = mysqli_fetch_assoc($l);
-
-                            $DclID = $ln['ID'] + 1;
-                        }
-
-                        $d = mysqli_query(
-                            $dbc,
-                            'select * from active_service_charge'
-                        );
-                        if (mysqli_num_rows($d) == 0) {
-                            die(
-                                'Active service charge income account not found'
-                            );
-                        } else {
-                            $dn = mysqli_fetch_assoc($d);
-                            $dbc->autocommit(false);
-
-                            $e = $dbc->query(
-                                "insert into receipt_main values('$recid','$dt','$recno','$Uname','$ajaxTime')"
-                            );
-                            $f = $dbc->query(
-                                "insert into journal values('$acc','$acc','Dr','Cash','$recno','$amt','0','SERVICE CHARGE IFO ~ $dcl','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')"
-                            );
-                            $m = $dbc->query(
-                                "insert into journal values('$in[AccountID]','$dn[AccountNo]','Cr','Cash','$recno','0','$amt','SERVICE CHARGE IFO ~ $dcl','$dt','$ajaxTime','$Uname','N.Auth','$BranchID','1')"
-                            );
-                            $n = $dbc->query(
-                                "insert into pnl_transaction values('$dn[AccountNo]','NB','Cr','$bl','$bl','$recno','SERVICE CHARGE IFO ~ $dcl','0','$amt','$dt','$ajaxTime','$BranchID','$Uname','1')"
-                            );
-                            $i = $dbc->query(
-                                "insert into service_charge_main values('$DclID','$bl','$dcl_id','$dcl','$cons_id','$cons','$desc','$amt','$recno','$dt','$ajaxTime','$Uname','$BranchID','1')"
-                            );
-
-                            if ($e and $f and $m and $n and $i) {
-                                $dbc->commit();
-                                echo '1';
-                            } else {
-                                die($CRC);
-                            }
-                        }
-                    }
-                }
+                $res = [
+                    "code" => 301,
+                    "msg" => $CRC,
+                ];
             }
         }
     }
 }
+
+
+echo json_encode($res);

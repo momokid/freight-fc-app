@@ -71,11 +71,11 @@ if (!isset($_SESSION['Uname'])) {
 
                     while ($an = mysqli_fetch_assoc($a)) {
                         $c = mysqli_query($dbc, "insert into bl_invoice values('$an[ConsignmentID]','$an[MainBL]','$an[ConsigneeID]','$recNo','$an[AccountNo]','$an[Amount]','$an[GetFundPcnt]','$an[VATPcnt]','$an[Date]','$ajaxTime','$Uname','1')");
-                        $d = mysqli_query($dbc, "insert into student_fee values('$an[ConsigneeID]','$an[MainBL]','$an[MainBL]','$an[AccountNo]','BL','Cost of $an[AccountName] ifo $an[MainBL]','$recNo','$an[SubTotalTax]','0','$an[Date]','$ajaxTime','$Uname','1')");
+                       // $d = mysqli_query($dbc, "insert into student_fee values('$an[ConsigneeID]','$an[MainBL]','$an[MainBL]','$an[AccountNo]','BL','Cost of $an[AccountName] ifo $an[MainBL]','$recNo','$an[SubTotalTax]','0','$an[Date]','$ajaxTime','$Uname','1')");
                        // $g = $dbc->query("insert into journal values('$fc','$fc','Cr','NCash','$recNo','0','$an[SubTotal]','COST OF HANDLING CHARGES IFO $an[FullName]: $an[MainBL]~$an[MainBL]','$an[Date]','$ajaxTime','$Uname','N.Auth','$BranchID','2')");
                         // $h = $dbc->query("insert into journal values('$stc','$an[ConsignmentID]','Dr','NCash','$recNo','$an[SubTotal]','0','COST OF HANDLING CHARGES IFO $an[FullName]: $an[MainBL]~$an[MainBL]','$an[Date]','$ajaxTime','$Uname','N.Auth','$BranchID','2')");
                     }
-                    if ($r && $c && $g && $h) {
+                    if ($r && $c ) {
 
                         $dbc->commit();
 
