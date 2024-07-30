@@ -132,10 +132,9 @@ function getServiceChargeID()
     if (mysqli_num_rows($a) == 0) {
 
         return 200001;
-
     } else {
 
-        $l = mysqli_query($dbc,'SELECT MAX(ServiceID) AS ID FROM service_charge_main');
+        $l = mysqli_query($dbc, 'SELECT MAX(ServiceID) AS ID FROM service_charge_main');
 
         $ln = mysqli_fetch_assoc($l);
 
@@ -159,3 +158,6 @@ function getServiceChargeIncome()
         return $an['AccountNo'];
     }
 }
+
+//Bundles all user authorization
+$userAuth = userAuth($_SESSION['Uname'])['auth'];

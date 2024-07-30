@@ -7189,6 +7189,39 @@ $(function () {
     });
   });
 
+  //Get Receipt#
+  $("#btn_get_receiptno_reversal").click(function () {
+    $(".progress-loader").remove();
+
+    let id = $.trim($("#search_transaction_edit").val());
+
+
+    if (id === "") {
+
+      alert('Enter Receipt#')
+
+      $("#search_transaction_edit").focus();
+
+      return false;
+
+    } else {
+
+      $('#display_search_results_edit').html("Loading...")
+
+      $("body").append(
+        '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+      );
+
+      $.post("get_tranasction_journal.php", { id }, function (response) {
+       
+        $('#display_search_results_edit').html(response)
+
+        $(".progress-loader").remove();
+        
+     });
+   }
+  });
+
   //
   $("#search_reverse_transaction_edit").keyup(function () {
     var e = $.trim($(this).val());
@@ -7594,6 +7627,8 @@ $(function () {
 
   //Petty cash expense
   $("#btn_save_expense_petty_cash").click(function () {
+    $(".progress-loader").remove();
+
     let rid = $.trim($("#lbl_pmt_exp_rcpt_id").text());
     let rno = $.trim($("#lbl_pmt_exp_rcpt_no").text());
     let glDr = $.trim(
@@ -7701,6 +7736,36 @@ $(function () {
     }
   });
 
+  // View Cash Flow Statement
+  $("#btn_view_cashflow_sttmnt").click(function () {
+    let accName = $.trim($("#sel_gl_rpt :selected").attr("id"));
+    let fdt = $.trim($("#text_cashflow_sttmnt_fdt").val());
+    let ldt = $.trim($("#text_cashflow_sttmnt_ldt").val());
+
+    if (fdt == "") {
+      alert("Select First Transaction Date");
+      $("#text_cashflow_sttmnt_fdt").focus();
+      return false;
+    } else if (ldt == "") {
+      alert("Select Last Transaction Date");
+      $("#text_cashflow_sttmnt_ldt").focus();
+      return false;
+    } else {
+      $.post(
+        "insert_multi_values_0.php",
+        { fdt: fdt, ldt: ldt, e1: accName },
+        function (a) {
+          if (a != 1) {
+            alert(a);
+            return false;
+          } else {
+            $("#display_IncomeSttmnt").load("rpt_income_statement.php");
+          }
+        }
+      );
+    }
+  });
+
   $("#sel_LedgerType").change(function () {
     let id = $.trim($(this).val());
 
@@ -7756,9 +7821,9 @@ $(function () {
       );
       $.post(
         "run_consignment_service_charge.php",
-        { bl, dcl, desc, amt, cons, dt, acc, cons_id, dcl_id },function (response) {
-
-          let data = JSON.parse(response)
+        { bl, dcl, desc, amt, cons, dt, acc, cons_id, dcl_id },
+        function (response) {
+          let data = JSON.parse(response);
 
           if (data.code == "200") {
             $(".progress-loader").remove();
@@ -7767,16 +7832,13 @@ $(function () {
             $(".ep").text("");
             $("#service_charge_sel_cash_acc").load("load_sel_cash_account.php");
             $("#service_charge_bl_search").focus();
-
           } else {
-          
             $(".progress-loader").remove();
             alert(data.msg);
           }
         }
       );
     } else {
-      
       return false;
     }
   });
@@ -7942,5 +8004,3 @@ $(function () {
   });
   //End of Script.
 });
-
-

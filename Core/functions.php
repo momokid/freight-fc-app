@@ -147,20 +147,20 @@ function fetchDisbursementAuthorisor()
 //
 $consignment_status = [
     "pending" => "primary",
-    "arrived"=>"success",
-    "overdue"=>"danger"
+    "arrived" => "success",
+    "overdue" => "danger"
 ];
 
 //Get Color for ETA days
 function getNotificationColor($dayCount)
 {
-    if (($dayCount >= 3) ) {
+    if (($dayCount >= 3)) {
         echo "primary";
-    } else if (($dayCount < 3 && $dayCount > 0)  ) {
+    } else if (($dayCount < 3 && $dayCount > 0)) {
         echo "warning";
     } else if (($dayCount == 0)) {
         echo "success";
-    }else if (($dayCount < 0)) {
+    } else if (($dayCount < 0)) {
         echo "danger";
     }
 }
@@ -170,9 +170,9 @@ function setStatusColor($status)
 {
     if (($status == "PENDING")) {
         echo "primary";
-    }else if (($status =="ARRIVED")) {
+    } else if (($status == "ARRIVED")) {
         echo "success";
-    }else if (($status == "OVERDUE")) {
+    } else if (($status == "OVERDUE")) {
         echo "danger";
     }
 }
@@ -185,4 +185,55 @@ function setStatusAlert($status)
     } else if ($status == 0) {
         echo "<i class='fas fa-check text-success'></i>";
     }
+}
+
+
+function checkDisbursementAnalysis($receiptNo)
+{
+
+    global $dbc;
+
+    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis  WHERE ReceiptNo='$receiptNo'");
+
+    if (mysqli_num_rows($a) > 0) {
+
+        $an = mysqli_fetch_assoc($a);
+
+        $res = [
+            'status' => true,
+            'bl' => $an['BL'],
+            'consigneeID' => $an['ConsigneeID'],
+        ];
+
+    } else {
+
+        $res = [
+            'status' => false,
+        ];
+    }
+
+    return $res;
+}
+
+//User auth
+function userAuth($username)
+{
+    global $dbc;
+
+    $a = mysqli_query($dbc, "SELECT * FROM user_auth WHERE Username ='$username'");
+
+    if (mysqli_num_rows($a) > 0) {
+        $an = mysqli_fetch_assoc($a);
+
+        $res = [
+            'status' => true,
+            'auth' => $an,
+        ];
+    } else {
+        $res = [
+            'status' => false,
+        ];
+    }
+
+    return $res;
 }

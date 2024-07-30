@@ -40,23 +40,21 @@ if (!isset($_SESSION['Uname'])) {
 <html>
 
 <head>
-    <title>INCOME STATEMENT</title>
+    <title>INCOME STATEMENT REPORT</title>
     <?php
     include 'script.php';
     ?>
 </head>
 
 <body style="border: 0px solid green;">
-  
-<?php 
-   
-   include_once("modules/report/template/income_statement.view.php"); 
+    <?php
 
-   ?>
+    include_once("modules/report/template/income_statement.view.php");
 
+    ?>
     <div style="height: 0px;" class="m-3">
         <!-- here we call the function that makes PDF -->
-        <input class="btn btn-dark no-print" type="button" onClick="window.open('view_income_statement_report.php')" value="PRINT VIEW">
+        <input class="btn btn-dark no-print" type="button" onClick="window.print()" value="Donwload PDF">
     </div>
 </body>
 

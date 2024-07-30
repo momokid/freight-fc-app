@@ -86,12 +86,12 @@ if (isset($_POST['btn_login_1'])) {
         <div class="card o-hidden border-0 shadow-lg my-5">
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
-            <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+            <div class="row  bg-login-image bg-dark bg-opacity-25 text-white">
+              <div class="col-lg-6 d-none d-lg-block sr-only"></div>
               <div class="col-lg-6">
                 <div class="p-5">
-                  <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome</h1>
+                  <div class="text-center text-white">
+                    <h1 class="h4  text-white mb-4 text-white"> <i class="fas fa-gem text-white"></i> FreightPro</h1>
                   </div>
                   <form class="user" method="post" action="">
                     <div class="form-group">
@@ -106,7 +106,7 @@ if (isset($_POST['btn_login_1'])) {
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
-                    <button class="btn btn-dark btn-user btn-block" type="submit" name="btn_login_1">
+                    <button class="btn btn-secondary btn-user btn-block" type="submit" name="btn_login_1">
                       Login
                     </button>
                     <hr>
@@ -119,10 +119,10 @@ if (isset($_POST['btn_login_1'])) {
                   </form>
                   <hr>
                   <div class="text-center">
-                    <a class="small" href="#">Forgot Password?</a>
+                    <a class="small text-light-emphasis" href="#">Forgot Password?</a>
                   </div>
                   <div class="text-center">
-                    <a class="small" href="#">Create an Account!</a>
+                    <a class="small text-light-emphasis" href="#">Create an Account!</a>
                   </div>
                 </div>
               </div>

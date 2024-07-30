@@ -9,15 +9,22 @@
             <!-- Content Row -->
             <div class="row">
 
-                <?php include_once 'modules/report/_income_report.php'; ?>
+                <?php
 
-                <?php include_once 'modules/report/_expense_report.php'; ?>
+                include_once 'modules/report/_income_report.php';
+                include_once 'modules/report/_expense_report.php';
+                include_once 'modules/report/_general_ledger_report.php';
+                ?>
 
-                <?php include_once 'modules/report/_general_ledger_report.php'; ?>
+                <?php
 
-                <?php include_once 'modules/report/_financial_statement.php'; ?>
+                //$userAuth('AccountingReport');
+                include_once 'modules/report/_financial_statement.php';
+                include 'modules/report/_income_statement.php';
+                include 'modules/report/_cashflow_statement.php'; 
+                
+                ?>
 
-                <?php include_once 'modules/report/_income_statement.php'; ?>
             </div>
 
         </div>

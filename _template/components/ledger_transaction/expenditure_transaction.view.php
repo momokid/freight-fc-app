@@ -43,17 +43,17 @@
                     </div>
                     <div class="form-group row">
 
-                      <div class="col-sm-2 mb-3 mb-sm-0">
+                      <div class="col-sm-4 mb-3 mb-sm-0">
                         <label for="exampleFormControlInput1">Transaction ID</label>
                         <label class="form-control form-control-user label-form-control-user ep sr-only" id="lbl_pmt_exp_rcpt_id"></label>
                         <label class="form-control form-control-user label-form-control-user ep sr-only" id="lbl_pmt_exp_mblid"></label>
                         <label class="form-control form-control-user label-form-control-user ep" id="lbl_pmt_exp_rcpt_no"></label>
                       </div>
-                      <div class="col-sm-7 mb-3 mb-sm-0">
+                      <div class="col-sm-8 mb-3 mb-sm-0">
                         <label for="exampleFormControlInput1">Description</label>
                         <input type="text" class="form-control form-control-user ep" id="txt_pmt_exp_description">
                       </div>
-                      <div class="col-sm-3 mb-3 mb-sm-0">
+                      <div class="col-sm-12 mb-3 mb-sm-0">
                         <label for="exampleFormControlInput1"></label>
                         <form class="user">
                           <a class="btn btn-success btn-user btn-block" id="btn_save_expense_petty_cash">

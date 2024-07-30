@@ -33,7 +33,7 @@ if (!isset($_SESSION['Uname'])) {
                 <td>" . $an['MainBL'] . "</td>
                 <td>" . $an['ContainerNo'] . "</td>
                 <td>" . $an['ConsigneeName'] . "</td>
-                <td><input type='text' id='" . $an['MainBL'] . "_eta' class='form-control form-control-user datepicker' value='" . strftime('%d/%m/%Y', strtotime($an['ETA'])) . "'/></td>
+                <td><input type='text' id='" . $an['MainBL'] . "_eta' class='form-control form-control-user datepicker' value='" . strftime('%m/%d/%Y', strtotime($an['ETA'])) . "'/></td>
                 <td style='border:0px solid black;'><button  class='btn btn-success p-1 tracked_shipping_btn' id='" . $an['MainBL'] . "'>Update</button></td>
             </tr>
 
