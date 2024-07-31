@@ -22,7 +22,7 @@
           <div class="col-sm-12 mb-3 mb-sm-0">
             <label for="exampleFormControlInput1">Search BL#</label> <i class="fas fa-eye text-warning float-right" data-toggle="modal" data-target="#consigneeInProcessModal" id="load_consignee_in_process_others"></i>
             <label type="text" class="form-control ep lbl-client-search-id" hidden='' id='mbl_invoice_search'></label>
-            <input type="text" class="form-control form-control-user ep" id="invoicing_hbl_search_conisgnee" autocomplete="off" placeholder="Enter Consignee Name/ House BL#">
+            <input type="text" class="form-control form-control-user ep" id="invoicing_hbl_search_conisgnee" autocomplete="off" placeholder="Enter Consignee Name/ BL#">
             <div id='display_hBL_invoicing_search_info' class='div_search_box'></div>
           </div>
         </div>

@@ -34,8 +34,8 @@ if (!isset($_SESSION['Uname'])) {
         <?php
         $a = mysqli_query($dbc, "SELECT * FROM container_main_view_1");
 
-        if (mysqli_num_rows($a) > 0) { 
-        
+        if (mysqli_num_rows($a) > 0) {
+
           // echo'<label style="text-align:center;margin-top:0px;width:100%;font-weight:bold;text-transform:uppercase;border:1px solid black;">'.$zn[FullName].'</label>';
           //  $b = mysqli_query($dbc, "select distinct SubjectID,SubjectName from temp_staff_class_subj_mapp_view where Username='$Uname' ORDER by SubjectName");
 
@@ -74,26 +74,31 @@ if (!isset($_SESSION['Uname'])) {
             </tr>
           <?php } ?>
 
+        <?php   } else { ?>
+          <tr class="">
+            <td scope="col">Waiting for new consignment</td>
+          </tr>
+      <?php }
+      }
+      ?>
+
       </tbody>
     </table>
   </div>
-<?php   }
-      }
-?>
 
-<style>
-  .thead-lig {
-    background: green;
-    color: white;
-  }
+  <style>
+    .thead-lig {
+      background: green;
+      color: white;
+    }
 
-  .table-r0:hover {
-    background: black;
-    color: white;
-    cursor: pointer;
-  }
-</style>
+    .table-r0:hover {
+      background: black;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 
-<script>
-  //$('#LedgerControlTbl').DataTable();
-</script>
+  <script>
+    //$('#LedgerControlTbl').DataTable();
+  </script>

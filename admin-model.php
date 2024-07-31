@@ -97,6 +97,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
         <?php require("_template/components/basic_setup/ledger_account.view.php"); ?>
         <?php require("_template/components/basic_setup/handling_charges_setup.view.php"); ?>
         <?php require("_template/components/basic_setup/disbursement_charges_setup.view.php"); ?>
+        
         <?php require("_template/components/consigment_register/new_consignment.view.php"); ?>
         <?php require("_template/components/consigment_register/assign_officer_consignment.php"); ?>
 

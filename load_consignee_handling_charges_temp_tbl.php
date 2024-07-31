@@ -86,7 +86,7 @@ if (!isset($_SESSION['Uname'])) {
         // let rno = $.trim($('#hBL_rcpt_no_invoice').text());
 
         $('body').append('<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>');
-        q = confirm("Save BLnvoice?");
+        q = confirm("Save BL invoice?");
 
         if (q) {
           $.post('add_new_consignee_handling_charges.php', {}, function(a) {
@@ -117,6 +117,8 @@ if (!isset($_SESSION['Uname'])) {
                   $('.progress-loader').remove();
                 });
               } else {
+                $('.progress-loader').remove();
+                
                 return false;
               }
 
@@ -129,6 +131,9 @@ if (!isset($_SESSION['Uname'])) {
 
           });
         } else {
+
+          $('.progress-loader').remove();
+          
           return false;
         }
 

@@ -15,7 +15,7 @@ $logo_ext = '.png';
 $fasm = 'font-awesome-4.7.0';
 
 #Database connection here....
-($dbc = mysqli_connect('localhost', 'root', '', 'freight_fc')) or
+($dbc = mysqli_connect('localhost', 'root', 'lagari', 'freight_fc')) or
   die('Cannot Locate Server Port Number. Contact your system administrator');
 $dtf = '%b %d, %Y';
 //$mysqli = new mysqli('localhost','anwar','lagari','app_freight');
@@ -23,7 +23,7 @@ $dtf = '%b %d, %Y';
 //PDO Connection
 // Database connection
 try {
-  $pdo = new PDO("mysql:host=localhost;dbname=freight_fc", "root", "");
+  $pdo = new PDO("mysql:host=localhost;dbname=freight_fc", "root", "lagari");
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (Exception $e) {
   die($e->getMessage());
