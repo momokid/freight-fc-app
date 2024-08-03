@@ -50,7 +50,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Admin Model - Freight Diary</title>
+  <title>Freight Pro - Admin</title>
 
   <?php include 'script.php'; ?>
 </head>
