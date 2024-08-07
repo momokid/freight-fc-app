@@ -51,6 +51,8 @@ if (!isset($_SESSION['Uname'])) {
                             <span><?= $an['BL']; ?></span>
                             <span class="badge badge-<?php getNotificationColor($an['ETA_Days']); ?> m-1 p-1 border border-white"><?= $an['ConsigneeName']; ?></span>
                             <span class="badge badge-<?php getNotificationColor($an['ETA_Days']); ?> m-2 p-1 border border-white">ETA : <?= formatDate($an['ETA']); ?> [<?= $an['ETA_Days']; ?> days]</span>
+                            <span class="badge bg-success-subtle text-secondary m-1 p-1"><?= $an['OfficerAssignedName']; ?></span>
+
                         </button>
                     </h2>
                     <div id="<?= $an['BL']; ?>" class="accordion-collapse collapse" data-bs-parent="#accordionExample">

@@ -68,7 +68,7 @@ if (isset($_POST['btn_login_1'])) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Freight Diary</title>
+  <title>Freight Pro</title>
 
   <?php include('script.php') ?>
 

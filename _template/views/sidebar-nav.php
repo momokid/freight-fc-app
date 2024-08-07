@@ -107,6 +107,7 @@
            <a class="collapse-item" id="rcv-process-decalartion-tab">Process Declaration</a>
            <a class="collapse-item" id="rcv-invoice-charge-tab">Receive Handl. Charge</a>
            <a class="collapse-item" id="rcv-service-charge-tab">Receive Service Charge</a>
+           <a class="collapse-item" id="rcv-customer-charge-tab">Customer Payment</a>
            <a class="collapse-item" id="pay-invoice-charge-tab">Handl. Charge Expense</a>
            
            <?php if ($userAuth['PettyCash']) { ?>

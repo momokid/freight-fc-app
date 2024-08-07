@@ -436,6 +436,14 @@ $(function () {
     $("#consignee_invoice_payment").focus();
   });
 
+//Receive Hanling Charge
+$("#rcv-customer-charge-tab").click(function () {
+  $(".sub-basic-setup").hide();
+  $("#rcv-customer-payment-panel").slideDown();
+  $("#invoice_pmt_sel_cash_acc").load("load_sel_cash_account.php");
+  $("#consignee_invoice_payment").focus();
+});
+
   //
   $("#rpt-client-trans-details").click(function () {
     $(".sub-basic-setup").hide();

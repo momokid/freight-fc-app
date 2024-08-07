@@ -97,7 +97,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
         <?php require("_template/components/basic_setup/ledger_account.view.php"); ?>
         <?php require("_template/components/basic_setup/handling_charges_setup.view.php"); ?>
         <?php require("_template/components/basic_setup/disbursement_charges_setup.view.php"); ?>
-        
+
         <?php require("_template/components/consigment_register/new_consignment.view.php"); ?>
         <?php require("_template/components/consigment_register/assign_officer_consignment.php"); ?>
 
@@ -123,97 +123,18 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
         <?php require("_template/components/reports/accounting_report.view.php"); ?>
         <?php require("_template/components/reports/other_reports.view.php"); ?>
         <?php require("_template/components/reports/disbursement_report.view.php"); ?>
+        <?php require("_template/components/reports/consigment_details.view.php"); ?>
 
         <?php require("_template/components/edit/edit_consignment_details.view.php"); ?>
         <?php require("_template/components/edit/edit_consignment_weight.view.php"); ?>
         <?php require("_template/components/edit/reverse_transaction.view.php"); ?>
 
-        <!-- Begin Cargo manifestation Content -->
-        <div class="container-fluid sub-basic-setup" id="new-consignment-details">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Consignment Details Panel</h1>
-          </div>
-
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Content Column -->
-            <div class="col-sm-8 mb-2">
-              <!-- Project Card Example -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Consignment Search</h6>
-                </div>
-                <div class="card-body">
-
-                  <div class="form-group row">
-                    <div class="col-sm-12 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Bill of Lading #</label>
-                      <label type="text" class="form-control ep" hidden='' id='cns_id_profile_search'></label>
-                      <input type="text" class="form-control form-control-user ep" id="search_consignment_profile_rpt" placeholder="Enter Bill of Laden/ Carrier/ Vessel Name" autocomplete="off">
-                      <div id='display_cns_profile_search_info' class='div_search_box'></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-sm-7 mb-2 sr-only">
-              <!-- Project Card Example -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Options</h6>
-                </div>
-                <div class="card-body">
-
-                  <div class="form-group row">
-                  </div>
-                  <div class="form-group row">
-                    <div class="col-sm-12 mb-1 mb-sm-0 ep" id="cosignee_profile_option_details" style="max-height: 200px;overflow-y: scroll;">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-sm-12 mb-1">
-              <!-- Approach -->
-              <div class="card shadow mb-1" id="manifestation_breakdown_card">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Consignment Details</h6>
-                </div>
-                <div class="card-body">
-
-                  <div class="form-group row">
-                    <div class="col-sm-12 mb-1 mb-sm-0 ep" id="cons_profile_recent_activity">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-        <!-- /. End of Cargo manifestation Content -->
 
       </div>
-      <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Garimo eNovations Ltd - 2024</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
+      <?php require_once("_template/views/footer.view.php"); ?>
 
     </div>
     <!-- End of Content Wrapper -->
