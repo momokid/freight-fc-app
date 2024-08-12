@@ -4187,13 +4187,13 @@ $(function () {
   $("#tracked_shipping_count").load("load_tracked_shipping_count.php");
   setInterval(() => {
     $("#tracked_shipping_count").load("load_tracked_shipping_count.php");
-  }, 150000);
+  }, 30000);
 
   //
   $("#display_new_consignment").load("load_new_pending_consignment_new.php");
   setInterval(() => {
     $("#display_new_consignment").load("load_new_pending_consignment_new.php");
-  }, 150000);
+  }, 50000);
 
   //Admin Notification
   setInterval(function () {
@@ -7395,7 +7395,7 @@ $(function () {
             alert(a);
             return false;
           } else {
-            $("#display_IncomeRpt").load("rpt_general_income_report.php");
+            window.open("rpt_general_income_report.php","_blank");
           }
         }
       );
@@ -7428,7 +7428,7 @@ $(function () {
             alert(a);
             return false;
           } else {
-            $("#display_ExpenseRpt").load("rpt_general_expenditure_report.php");
+            window.open("rpt_general_expenditure_report.php","_blank");
           }
         }
       );
@@ -7732,7 +7732,7 @@ $(function () {
             alert(a);
             return false;
           } else {
-            $("#display_GLRpt").load("rpt_general_legder_statement.php");
+            window.open("rpt_general_legder_statement.php","_blank");
           }
         }
       );
@@ -7762,7 +7762,7 @@ $(function () {
             alert(a);
             return false;
           } else {
-            $("#display_IncomeSttmnt").load("rpt_income_statement.php");
+            window.open("rpt_income_statement.php","_blank");
           }
         }
       );

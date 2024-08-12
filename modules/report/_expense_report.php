@@ -12,7 +12,7 @@
             <input type="text" class="form-control form-control-user ep datepicker mb-3" id="text_expense_rpt_fdt" autocomplete="off" placeholder="Select First Transaction Date">
             <input type="text" class="form-control form-control-user ep datepicker mb-3" id="text_expense_rpt_ldt" autocomplete="off" placeholder="Select Last Transaction Date">
 
-            <button type="button" class="btn btn-outline-success" id="btn_view_expense_rpt" data-toggle="modal" data-target="#modalExpenseRpt">View Report</button>
+            <button type="button" class="btn btn-outline-success" id="btn_view_expense_rpt">View Report</button>
         </div>
     </div>
 </div>

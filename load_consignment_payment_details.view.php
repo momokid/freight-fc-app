@@ -16,7 +16,14 @@ $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 $bl = mysqli_real_escape_string($dbc, $_POST['id']);
 $eta = mysqli_real_escape_string($dbc, $_POST['eta']);
 
-$a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_chart_0 WHERE BL='$bl'"); ?>
+$a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_chart_0 WHERE BL='$bl'"); 
+
+
+//Status of disbursement
+$status= '';
+
+
+?>
 
 <div class="alert alert-danger text-danger font-weight-bold alert_danger_banner" role="alert">
     <span aria-hidden="true">&times;</span>
@@ -38,7 +45,10 @@ $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_chart_0 WHERE BL='$
         </thead>
         <tbody>
 
-            <?php while ($an = mysqli_fetch_assoc($a)) { ?>
+            <?php while ($an = mysqli_fetch_assoc($a)) { 
+            
+            $status = $an['Status'];
+            ?>
                 <tr>
                     <td><?= $an['AccountName']; ?></td>
                     <td><?= formatToCurrency($an['Expenditure']); ?></td>
@@ -47,7 +57,7 @@ $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_chart_0 WHERE BL='$
                 </tr>
             <?php } ?>
 
-            <?php if ($eta < 0) { ?>
+            <?php if ($eta < 0 && $status == 0) { ?>
                 <tr>
                     <td><a class="btn btn-success btn-user text-white p-2 clear-container" data-bl="<?= $bl; ?>">Clear Consignment</a></td>
                 </tr>

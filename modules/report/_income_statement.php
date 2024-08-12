@@ -12,7 +12,7 @@
             <input type="text" class="form-control form-control-user ep datepicker mb-3" id="text_income_sttmnt_fdt" autocomplete="off" placeholder="Select First Transaction Date">
             <input type="text" class="form-control form-control-user ep datepicker mb-3" id="text_income_sttmnt_ldt" autocomplete="off" placeholder="Select Last Transaction Date">
 
-            <button type="button" class="btn btn-outline-success" id="btn_view_income_sttmnt" data-toggle="modal" data-target="#modalIncomeSttmnt">View Report</button>
+            <button type="button" class="btn btn-outline-success" id="btn_view_income_sttmnt">View Report</button>
         </div>
     </div>
 </div>
