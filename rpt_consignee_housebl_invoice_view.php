@@ -51,7 +51,7 @@ if(!isset( $_SESSION['Uname'])){
         ?>
     </head>
     
-    <body style="border: 0px solid green;position: relative;width:1000px;">
+    <body style="border: 0px solid black;position: relative;width:1000px;">
         <div style="position:absolute;width: 100%;color: #85879626;z-index: 100000000;font-size: 11.5rem;margin-top: 47%;font-family:'Arial Black';transform: rotate(-50deg);">ORIGINAL</div>
         <?php  
                 $c = mysqli_query($dbc, "select * from hbl_invoice_view_1 where ReceiptNo='$an[SubjectID]'");

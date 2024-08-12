@@ -119,6 +119,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
 
                 <?php require("_template/components/ledger_transaction/expenditure_transaction.view.php");  ?>
                 <?php require("_template/components/ledger_transaction/gl_transfer_double_entry.view.php"); ?>
+                <?php require_once("_template/components/payment_transaction/customer_payment.view.php"); ?>
                 <?php require("_template/components/ledger_transaction/credit_income_account.view.php"); ?>
                 <?php require("_template/components/ledger_transaction/debit_expenditure_account.view.php"); ?>
 

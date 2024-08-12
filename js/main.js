@@ -436,13 +436,25 @@ $(function () {
     $("#consignee_invoice_payment").focus();
   });
 
-//Receive Hanling Charge
-$("#rcv-customer-charge-tab").click(function () {
-  $(".sub-basic-setup").hide();
-  $("#rcv-customer-payment-panel").slideDown();
-  $("#invoice_pmt_sel_cash_acc").load("load_sel_cash_account.php");
-  $("#consignee_invoice_payment").focus();
-});
+  //Receive Hanling Charge
+  $("#rcv-customer-charge-tab").click(function () {
+    $(".sub-basic-setup").hide();
+    $("#rcv-customer-payment-panel").slideDown();
+    $("#invoice_pmt_sel_cash_acc").load("load_sel_cash_account.php");
+    $("#consignee_invoice_payment").focus();
+  });
+
+  $("#client_payment_search_client_name").keyup(function () {
+    let e = $.trim($(this).val());
+
+    if (e == "") {
+      return false;
+    } else {
+      $.post("search_bl_declaration_process.php", { e: e }, function (d) {
+        $("#display_client_payment_search").html(d);
+      });
+    }
+  });
 
   //
   $("#rpt-client-trans-details").click(function () {
@@ -563,14 +575,31 @@ $("#rcv-customer-charge-tab").click(function () {
 
   //Disbursement Ananlysis Approval
   $("#new-disbursement-approval-review-tab").click(function () {
-    // $('#display_disbursement_analysis_panel').html('<span>Loading disbursement for approval...</span><i class="fa fa-spinner faa-spin animated fa-2x"></i>');
 
     $(".sub-basic-setup").hide();
     $(".progress-loader").remove();
+
     $("#display_disbursement_analysis_panel").load(
-      "load_disbursement_analysis_approval.php"
+      "load_disbursement_analysis_approval_new.php"
     );
+    
+    // $.ajax({
+    //   url: "load_disbursement_analysis_approval_new.php", // Assume this file contains the header HTML
+    //   method: "GET",
+    //   success: function (data) {
+    //     // Inject the HTML into the div with ID 'header-container'
+    //     alert('set continue')
+    //     $("#display_disbursement_analysis_panel").html(data);
+    //   },
+
+    //   error: function (jqXHR, textStatus, errorThrown) {
+    //     console.error("Failed to load header:", textStatus, errorThrown);
+    //   },
+
+    // });
+
     $("#disbursement-analysis-approval-panel").slideDown();
+
   });
 
   //
@@ -673,7 +702,7 @@ $("#rcv-customer-charge-tab").click(function () {
     var e = $.trim($(this).val());
 
     $(".progress-loader").remove();
-    $("#disbursement-analysis-panel").append(
+    $("body").append(
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
     );
 
@@ -741,15 +770,17 @@ $("#rcv-customer-charge-tab").click(function () {
     e.preventDefault();
 
     let acc = $.trim($("#sel_hBL_acc_invoice :selected").attr("id"));
+    let accName = $.trim($("#sel_hBL_acc_invoice :selected").val());
     let amt = $.trim($("#hBL_amt_invoice").val());
     let mbl = $.trim($("#mbl_invoice_search").text());
 
+    $(".progress-loader").remove();
     $("#body").append(
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
     );
     $.post(
       "add_additional_charge_invoice_temp.php",
-      { acc, amt, taxStatus, mbl },
+      { acc, accName, amt, taxStatus, mbl },
       function (a) {
         let data = JSON.parse(a);
         if (data.code == 200) {
@@ -7203,31 +7234,25 @@ $("#rcv-customer-charge-tab").click(function () {
 
     let id = $.trim($("#search_transaction_edit").val());
 
-
     if (id === "") {
-
-      alert('Enter Receipt#')
+      alert("Enter Receipt#");
 
       $("#search_transaction_edit").focus();
 
       return false;
-
     } else {
-
-      $('#display_search_results_edit').html("Loading...")
+      $("#display_search_results_edit").html("Loading...");
 
       $("body").append(
         '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
       );
 
       $.post("get_tranasction_journal.php", { id }, function (response) {
-       
-        $('#display_search_results_edit').html(response)
+        $("#display_search_results_edit").html(response);
 
         $(".progress-loader").remove();
-        
-     });
-   }
+      });
+    }
   });
 
   //
@@ -7790,17 +7815,29 @@ $("#rcv-customer-charge-tab").click(function () {
   $("#btn_view_financial_sttmnt_rpt").click(function () {
     let ldt = $.trim($("#text_financial_sttmnt_rpt_ldt").val());
 
+    $(".progress-loader").remove();
+
+    $("body").append(
+      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+    );
+          
     if (ldt == "") {
       alert("Select Last Transaction Date");
       $("#text_financial_sttmnt_rpt_ldt").focus();
+
+      $(".progress-loader").remove();
       return false;
     } else {
       $.post("insert_multi_values_0.php", { ldt: ldt }, function (a) {
         if (a != 1) {
           alert(a);
+          $(".progress-loader").remove();
           return false;
         } else {
-          $("#display_FinSttmntRpt").load("rpt_financial_statement.php");
+          
+          window.open('view_financial_statement_report.php', "_blank")
+
+          $(".progress-loader").remove();
         }
       });
     }
@@ -7824,6 +7861,8 @@ $("#rcv-customer-charge-tab").click(function () {
     let q = confirm("Do you want to save this transaction?");
 
     if (q) {
+      $(".progress-loader").remove();
+
       $("body").append(
         '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
       );

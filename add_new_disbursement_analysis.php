@@ -104,8 +104,8 @@ if (!isset($_SESSION['Uname'])) {
                     $receipt = mysqli_query($dbc, "INSERT INTO receipt_main VALUES('$rcpt[Id]','$dOT','$rcpt[number]','$Uname','$ajaxTime')");
                     
                     //Jorunal entries
-                    $journal_gl_revenue_dr = mysqli_query($dbc, "INSERT INTO journal VALUES('$account','$account','Dr','Cash','$rcpt[number]','$amount','0','TOTAL CASH REVENUE FOR DISBURSEMENT - $bl','$dOT','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
-                    $journal_pnl_revenue_cr = mysqli_query($dbc, "INSERT INTO journal VALUES('$activePNL','$disbursement_income_account','Cr','Cash','$rcpt[number]','0','$amount','GROSS CASH REVENUE FOR DISBURSEMENT - $bl','$dOT','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+                    //$journal_gl_revenue_dr = mysqli_query($dbc, "INSERT INTO journal VALUES('$account','$account','Dr','Cash','$rcpt[number]','$amount','0','TOTAL CASH REVENUE FOR DISBURSEMENT - $bl','$dOT','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
+                    //$journal_pnl_revenue_cr = mysqli_query($dbc, "INSERT INTO journal VALUES('$activePNL','$disbursement_income_account','Cr','Cash','$rcpt[number]','0','$amount','GROSS CASH REVENUE FOR DISBURSEMENT - $bl','$dOT','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
 
                     //insert income received into pnl
                     $pnl_cr = mysqli_query($dbc, "INSERT INTO pnl_transaction VALUES('$disbursement_income_account','NB','Cr','$bl','$bl','$rcpt[number]','TOTAL CASH REVENUE RECEIVED','0','$amount','$dOT','$ajaxTime','$BranchID','$Uname','2')");
@@ -131,7 +131,7 @@ if (!isset($_SESSION['Uname'])) {
                     //insert expenditure into journal
                     // $journal_net_pnl = mysqli_query($dbc, "INSERT INTO journal VALUES('$activePNL','$disbursement_income_account','Cr','Cash','$rcpt[number]',0,'$netPNL','NET PNL ON DISURSEMENT - $bl','$dOT','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
 
-                    if ($receipt && $journal_gl_revenue_dr && $journal_gl_revenue_cr && $journal_dr && $disbursement && $pnl_dr && $pnl_cr) {
+                    if ($receipt && $journal_dr && $disbursement && $pnl_dr && $pnl_cr && $journal_gl_revenue_cr) {
 
                         //
                         $delete_disbursement = mysqli_query($dbc, "DELETE FROM disbursement_temp_analysis WHERE Username='$Uname'");

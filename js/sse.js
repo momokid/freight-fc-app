@@ -9,7 +9,7 @@ eventSource.onmessage = function (event) {
 $(".disbursement_analysis").click(function () {
 
   $("#display_disbursement_analysis").load(
-    "load_disbursement_analysis_approval.php"
+    "load_disbursement_analysis_approval_new.php"
   );
   
 });

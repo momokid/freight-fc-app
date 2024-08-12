@@ -3,7 +3,7 @@
 
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h3 mb-0 text-gray-800">Process Declaration</h1>
+  <h1 class="h3 mb-0 text-gray-800">Receive Client Payment</h1>
 </div>
 
 <!-- Content Row -->
@@ -13,15 +13,15 @@
     <!-- Approach -->
     <div class="card shadow mb-4" id="manifestation_breakdown_card">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Declaration Details</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Client Details</h6>
       </div>
       <div class="card-body">
 
         <div class="form-group row">
           <div class="col-sm-3 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Enter BL #</label>
-            <input type="text" class="form-control form-control-user ep" placeholder="Search BL No." id="dclr_prcs_bl_search" autocomplete="off">
-            <div id='display_dclr_prcs_bl_search' class='div_search_box'></div>
+            <label for="exampleFormControlInput1">Search Client's Name</label>
+            <input type="text" class="form-control form-control-user ep" placeholder="Search BL No." id="client_payment_search_client_name" autocomplete="off">
+            <div id='display_client_payment_search' class='div_search_box'></div>
           </div>
           <div class="col-sm-3 mb-3 mb-sm-0">
             <label for="exampleFormControlInput1">Declaration No.</label>

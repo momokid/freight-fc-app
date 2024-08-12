@@ -108,6 +108,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
 
         <?php require("_template/components/payment_transaction/receive_handling_charges.view.php"); ?>
         <?php require("_template/components/payment_transaction/process_declaration.php"); ?>
+        <?php require_once("_template/components/payment_transaction/customer_payment.view.php"); ?>
         <?php require("_template/components/payment_transaction/handling_charge_expenditure.view.php"); ?>
         <?php require("_template/components/payment_transaction/service_charge_income.view.php"); ?>
 

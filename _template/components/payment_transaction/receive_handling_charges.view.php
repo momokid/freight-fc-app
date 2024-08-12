@@ -14,13 +14,13 @@
     <!-- Project Card Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Client Invoice Search</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Client Details Search</h6>
       </div>
       <div class="card-body">
 
         <div class="form-group row">
           <div class="col-sm-12 mb-3 mb-sm-0">
-            <label for="exampleFormControlInput1">Search Client Invoice</label>
+            <label for="exampleFormControlInput1">Search Client BL#</label>
             <label type="text" class="form-control ep" hidden='' id='consignee_id_invoice_pmt'></label>
             <input type="text" class="form-control form-control-user ep" id="consignee_invoice_payment" autocomplete="off">
             <div id='display_consginee_invoice_pmt_info' class='div_search_box'></div>
@@ -34,7 +34,7 @@
     <!-- Project Card Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Client Invoice Details</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Client Consignments Details</h6>
       </div>
       <div class="card-body">
 

@@ -57,7 +57,7 @@ if (!isset($_SESSION['Uname'])) {
                 </head>
                 <div class="no-print"><button><input type="text">Convert</button></div>
                 <div class='bg-success m-3 div-header-footer sr-only'></div>
-                <div style="height:1200px;border:5px dashed green;min-width:1080px;">
+                <div style="height:1200px;border:5px dashed black;min-width:1080px;">
                     <table class='m-4 tbl-heading' style='width:980px;color:black'>
                         <thead>
                             <tr>
@@ -213,7 +213,8 @@ if (!isset($_SESSION['Uname'])) {
                     .logo {
                         border: 0px solid gray;
                         background: url('<?php echo $loc; ?>/img/logo1<?php echo $logo_ext; ?>')no-repeat;
-                        background-size: cover;
+                        background-size: contain;
+                        background-repeat: no-repeat;
                     }
 
                     .div-header-footer {

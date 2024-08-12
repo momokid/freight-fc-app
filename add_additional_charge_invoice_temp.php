@@ -12,6 +12,7 @@ $ActiveDate= mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 $acc=  intval(trim(mysqli_real_escape_string($dbc,$_POST['acc'])));
 $amt=  floatval(trim(mysqli_real_escape_string($dbc,$_POST['amt'])));
 $mbl=  (trim(mysqli_real_escape_string($dbc,$_POST['mbl'])));
+$accName=  (trim(mysqli_real_escape_string($dbc,$_POST['accName'])));
 $taxStatus=  trim(mysqli_real_escape_string($dbc,$_POST['taxStatus']));
 
 
@@ -81,7 +82,7 @@ if(!isset( $_SESSION['Uname'])){
                 if($c){
                     $result = [
                         'code'=>200,
-                        'msg'=>'Account added successfully',
+                        'msg'=>"$accName added successfully",
                     ];
                 }else{
                     $result = [
