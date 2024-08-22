@@ -159,5 +159,26 @@ function getServiceChargeIncome()
     }
 }
 
+//Get  service charge income
+function getActiveAccounts()
+{
+    global $dbc;
+
+    $a = mysqli_query($dbc, "SELECT * FROM active_accounts");
+
+    if (mysqli_num_rows($a) == 0) {
+        die('ACCOUNT NOT FOUND');
+    } else {
+        $an = mysqli_fetch_assoc($a);
+
+        $accounts = [
+            'VehicleFixedAsset' =>$an['VehicleFixedAsset'],
+            'AccountPayable' =>$an['AccountPayable']
+        ];
+
+        return $accounts;
+    }
+}
+
 //Bundles all user authorization
 $userAuth = userAuth($_SESSION['Uname'])['auth'];

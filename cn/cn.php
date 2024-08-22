@@ -1,6 +1,7 @@
 <?php
 
-date_default_timezone_set('Europe/London');
+date_default_timezone_set('Africa/Accra');
+
 $myDate = date('m/d/Y');
 $myTime = date('m/d/Y h:i:s');
 $myrealDate = date('Y/m/d h:i:s');

@@ -516,6 +516,15 @@ $(function () {
     $("#search_consignment_weight_edit").focus();
   });
 
+  //
+  $("#truck-new-vehicle").click(function () {
+    $(".sub-basic-setup").hide();
+    $("#new-vehicle-reegistration-panel").slideDown();
+    $("#search_consignment_profile_rpt").focus();
+    $("#new_vehicle_credit_account").load("load_sel_cash_account.php");
+    $('#display_registered_vehicles').load("load_registered_vehicles.view.php");
+  });
+
   //Pay Handling Charge
   $("#pay-invoice-charge-tab").click(function () {
     $(".sub-basic-setup").hide();
@@ -575,14 +584,13 @@ $(function () {
 
   //Disbursement Ananlysis Approval
   $("#new-disbursement-approval-review-tab").click(function () {
-
     $(".sub-basic-setup").hide();
     $(".progress-loader").remove();
 
     $("#display_disbursement_analysis_panel").load(
       "load_disbursement_analysis_approval_new.php"
     );
-    
+
     // $.ajax({
     //   url: "load_disbursement_analysis_approval_new.php", // Assume this file contains the header HTML
     //   method: "GET",
@@ -599,7 +607,6 @@ $(function () {
     // });
 
     $("#disbursement-analysis-approval-panel").slideDown();
-
   });
 
   //
@@ -1541,6 +1548,68 @@ $(function () {
       } else {
         return false;
       }
+    }
+  });
+
+  //
+  $("#btn_new_vehicle_registration").click(function () {
+    var brand = $.trim($("#new_vehicle_brand").val());
+    var model = $.trim($("#new_vehicle_model").val());
+    var year = $.trim($("#new_vehicle_year").val());
+    var license_plate = $.trim($("#new_vehicle_license_plate").val());
+    var vin = $.trim($("#new_vehicle_vin").val());
+    var cost = $.trim($("#new_vehicle_cost").val());
+    var amount_paid = $.trim($("#new_vehicle_amount_paid").val());
+    var account_name = $.trim($("#new_vehicle_credit_account :selected").val());
+    var account_no = $.trim(
+      $("#new_vehicle_credit_account :selected").attr("id")
+    );
+
+    // alert(
+    //   `${brand} ${model} ${year} ${license_plate} ${vin} ${cost} ${account_name} ${account_no}`
+    // );
+
+    let q = confirm("Register new vehicle?");
+
+    if (q) {
+      $(".progress-loader").remove();
+      $("body").append(
+        '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+      );
+
+      $.post(
+        "add_new_vehicle_registration.php",
+        {
+          brand,
+          model,
+          year,
+          license_plate,
+          vin,
+          cost,
+          amount_paid,
+          account_no,
+          account_name,
+        },
+        function (response) {
+          let data = JSON.parse(response)
+
+          if(data.status_code == 200){
+            alert(data.msg)
+            $('#display_registered_vehicles').load("load_registered_vehicles.view.php");
+            $(".progress-loader").remove();
+            $('.ef').val('')
+            $('#new_vehicle_brand').focus();
+          }else{
+            alert(data.msg)
+            $(".progress-loader").remove();
+          }
+          
+          
+        }
+      );
+    } else {
+      $(".progress-loader").remove();
+      return false;
     }
   });
 
@@ -4191,9 +4260,9 @@ $(function () {
 
   //
   $("#display_new_consignment").load("load_new_pending_consignment_new.php");
-  setInterval(() => {
-    $("#display_new_consignment").load("load_new_pending_consignment_new.php");
-  }, 50000);
+  // setInterval(() => {
+  //   $("#display_new_consignment").load("load_new_pending_consignment_new.php");
+  // }, 50000);
 
   //Admin Notification
   setInterval(function () {
@@ -7395,7 +7464,7 @@ $(function () {
             alert(a);
             return false;
           } else {
-            window.open("rpt_general_income_report.php","_blank");
+            window.open("rpt_general_income_report.php", "_blank");
           }
         }
       );
@@ -7428,7 +7497,7 @@ $(function () {
             alert(a);
             return false;
           } else {
-            window.open("rpt_general_expenditure_report.php","_blank");
+            window.open("rpt_general_expenditure_report.php", "_blank");
           }
         }
       );
@@ -7732,7 +7801,7 @@ $(function () {
             alert(a);
             return false;
           } else {
-            window.open("rpt_general_legder_statement.php","_blank");
+            window.open("rpt_general_legder_statement.php", "_blank");
           }
         }
       );
@@ -7762,7 +7831,7 @@ $(function () {
             alert(a);
             return false;
           } else {
-            window.open("rpt_income_statement.php","_blank");
+            window.open("rpt_income_statement.php", "_blank");
           }
         }
       );
@@ -7820,7 +7889,7 @@ $(function () {
     $("body").append(
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
     );
-          
+
     if (ldt == "") {
       alert("Select Last Transaction Date");
       $("#text_financial_sttmnt_rpt_ldt").focus();
@@ -7834,8 +7903,7 @@ $(function () {
           $(".progress-loader").remove();
           return false;
         } else {
-          
-          window.open('view_financial_statement_report.php', "_blank")
+          window.open("view_financial_statement_report.php", "_blank");
 
           $(".progress-loader").remove();
         }

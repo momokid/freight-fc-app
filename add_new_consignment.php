@@ -121,9 +121,9 @@ if (!isset($_SESSION['Uname'])) {
                     $e = $dbc->query("INSERT INTO container_details values('$cid','$bl','$dn[SealNo]','$dn[ContainerNo]','$dn[ContainerSize]','$dn[Weight]','$dn[HandlingCost]','$Uname','$BranchID','$dot','$ajaxTime')");
                     //$f = $dbc->query("INSERT INTO journal values('$vn[AccountNo]','$vn[AccountNo]','Dr','Cash','$recno','$dn[HandlingCost]','0','CONSIGNMENT PROCESSING CHARGES IFO ~ $dn[ContainerNo]~$bl','$dot','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
                     //$m = $dbc->query("INSERT INTO journal values('$in[AccountID]','$fn[AccountNo]','Cr','Cash','$recno','0','$dn[HandlingCost]','CONSIGNMENT PROCESSING CHARGES IFO ~ $dn[ContainerNo]~$bl','$dot','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
-                    $n = $dbc->query("INSERT INTO pnl_transaction values('$fn[AccountNo]','BL','Cr','$bl','$dn[ContainerNo]','$recno','CONSIGNMENT PROCESSING CHARGES IFO ~ $an[ContainerNo]~$bl','0','$dn[HandlingCost]','$dot','$ajaxTime','$BranchID','$Uname','1')");
+                    //$n = $dbc->query("INSERT INTO pnl_transaction values('$fn[AccountNo]','BL','Cr','$bl','$dn[ContainerNo]','$recno','CONSIGNMENT PROCESSING CHARGES IFO ~ $an[ContainerNo]~$bl','0','$dn[HandlingCost]','$dot','$ajaxTime','$BranchID','$Uname','1')");
                 }
-                if ($c and $e and $f and $m and $n and $r) {
+                if ($c and $e  and $r) {
                     $del = mysqli_query($dbc, "DELETE FROM new_container_temp WHERE Username='$Uname'");
                     $dbc->commit();
                     echo '1';

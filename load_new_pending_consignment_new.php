@@ -5,10 +5,13 @@ session_start();
 
 //Database connection
 include('cn/cn.php');
+include("_template/components/pending_consignment_notification/disbursement_paid_account_pending.view.php");
 
 $Uname = mysqli_real_escape_string($dbc, $_SESSION['Uname']);
 $BranchID = mysqli_real_escape_string($dbc, $_SESSION['BranchID']);
 $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
+
+//require("_template/components/pending_consignment_notification/disbursement_paid_account_pending.view.php");  
 
 if (!isset($_SESSION['Uname'])) {
     header('Location: login');
@@ -52,6 +55,9 @@ if (!isset($_SESSION['Uname'])) {
                             <span class="badge badge-<?php getNotificationColor($an['ETA_Days']); ?> m-1 p-1 border border-white"><?= $an['ConsigneeName']; ?></span>
                             <span class="badge badge-<?php getNotificationColor($an['ETA_Days']); ?> m-2 p-1 border border-white">ETA : <?= formatDate($an['ETA']); ?> [<?= $an['ETA_Days']; ?> days]</span>
                             <span class="badge bg-success-subtle text-secondary m-1 p-1"><?= $an['OfficerAssignedName']; ?></span>
+                            
+                            <!-- Fetch all disbursement payments -->
+                             <?php //getfirst($an['BL']); ?>
 
                         </button>
                     </h2>
