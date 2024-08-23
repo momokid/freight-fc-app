@@ -510,6 +510,15 @@ $(function () {
   });
 
   //
+  $("#truck-new-driver").click(function () {
+    $(".sub-basic-setup").hide();
+    $("#new-driver-registration-panel").slideDown();
+    $("#new_driver_vehicle_assigned").load("load_sel_vehicle.php");
+    $('#display_registered_driver').load("load_registered_driver.view.php");
+    $("#new_driver_fname").focus();
+  });
+
+  //
   $("#reverse-transaction").click(function () {
     $(".sub-basic-setup").hide();
     $("#reverse-transaction-panel").slideDown();
@@ -519,7 +528,7 @@ $(function () {
   //
   $("#truck-new-vehicle").click(function () {
     $(".sub-basic-setup").hide();
-    $("#new-vehicle-reegistration-panel").slideDown();
+    $("#new-vehicle-registration-panel").slideDown();
     $("#search_consignment_profile_rpt").focus();
     $("#new_vehicle_credit_account").load("load_sel_cash_account.php");
     $('#display_registered_vehicles').load("load_registered_vehicles.view.php");
@@ -1596,6 +1605,67 @@ $(function () {
           if(data.status_code == 200){
             alert(data.msg)
             $('#display_registered_vehicles').load("load_registered_vehicles.view.php");
+            $(".progress-loader").remove();
+            $('.ef').val('')
+            $('#new_vehicle_brand').focus();
+          }else{
+            alert(data.msg)
+            $(".progress-loader").remove();
+          }
+          
+          
+        }
+      );
+    } else {
+      $(".progress-loader").remove();
+      return false;
+    }
+  });
+
+  $("#btn_new_driver_registration").click(function () {
+    var fname = $.trim($("#new_driver_fname").val());
+    var lname = $.trim($("#new_driver_lname").val());
+    var license = $.trim($("#new_driver_license").val());
+    var address = $.trim($("#new_driver_address").val());
+    var telno = $.trim($("#new_driver_telno").val());
+    var former_emp = $.trim($("#new_driver_former_employer").val());
+    var emp_date = $.trim($("#new_driver_employment_date").val());
+    var vehicle_name = $.trim($("#new_driver_vehicle_assigned :selected").val());
+    var vehicleId = $.trim(
+      $("#new_driver_vehicle_assigned :selected").attr("id")
+    );
+
+    // alert(
+    //   `${brand} ${model} ${year} ${license_plate} ${vin} ${cost} ${account_name} ${account_no}`
+    // );
+
+    let q = confirm(`Register new ${fname} ${lname} as a new driver?`);
+
+    if (q) {
+      $(".progress-loader").remove();
+      $("body").append(
+        '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+      );
+
+      $.post(
+        "add_new_driver_registration.php",
+        {
+          lname,
+          fname,
+          address,
+          license,
+          telno,
+          former_emp,
+          emp_date,
+          vehicleId,
+          vehicle_name,
+        },
+        function (response) {
+          let data = JSON.parse(response)
+
+          if(data.status_code == 200){
+            alert(data.msg)
+            $('#display_registered_driver').load("load_registered_driver.view.php");
             $(".progress-loader").remove();
             $('.ef').val('')
             $('#new_vehicle_brand').focus();

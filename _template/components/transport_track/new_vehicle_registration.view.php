@@ -1,5 +1,5 @@
  <!-- Begin New Consignment Page Content -->
- <div class="container-fluid sub-basic-setup" id="new-vehicle-reegistration-panel">
+ <div class="container-fluid sub-basic-setup" id="new-vehicle-registration-panel">
 
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">

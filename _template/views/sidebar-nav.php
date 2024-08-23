@@ -175,7 +175,7 @@
         <div id="TransTrackTab" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-dark py-2 collapse-inner rounded">
             <a class="collapse-item" id="truck-new-vehicle">Register New Vehicle</a>
-            <a class="collapse-item" id="edit-consigment-weight">Register New Driver</a>
+            <a class="collapse-item" id="truck-new-driver">Register New Driver</a>
             <a class="collapse-item" id="reverse-transaction">Schedule Cargo Trip</a>
             <a class="collapse-item" id="reverse-transaction">Vehicle Inspection</a>
             <a class="collapse-item" id="reverse-transaction">Vehicle Expense</a>
