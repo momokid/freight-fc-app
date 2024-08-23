@@ -526,6 +526,13 @@ $(function () {
   });
 
   //
+  $("#schedule-trip").click(function () {
+    $(".sub-basic-setup").hide();
+    $("#new-schedule-trip-panel").slideDown();
+    $("#search_consignment_weight_edit").focus();
+  });
+
+  //
   $("#truck-new-vehicle").click(function () {
     $(".sub-basic-setup").hide();
     $("#new-vehicle-registration-panel").slideDown();

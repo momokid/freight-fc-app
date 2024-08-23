@@ -176,7 +176,7 @@
           <div class="bg-dark py-2 collapse-inner rounded">
             <a class="collapse-item" id="truck-new-vehicle">Register New Vehicle</a>
             <a class="collapse-item" id="truck-new-driver">Register New Driver</a>
-            <a class="collapse-item" id="reverse-transaction">Schedule Cargo Trip</a>
+            <a class="collapse-item" id="schedule-trip">Schedule Cargo Trip</a>
             <a class="collapse-item" id="reverse-transaction">Vehicle Inspection</a>
             <a class="collapse-item" id="reverse-transaction">Vehicle Expense</a>
             <a class="collapse-item" id="reverse-transaction">Vehicle Incident</a>
