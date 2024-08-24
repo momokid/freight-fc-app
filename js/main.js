@@ -525,12 +525,30 @@ $(function () {
     $("#search_consignment_weight_edit").focus();
   });
 
-  //
+  //$('#display_registered_vehicles').load("load_registered_vehicles.view.php");
   $("#schedule-trip").click(function () {
     $(".sub-basic-setup").hide();
     $("#new-schedule-trip-panel").slideDown();
     $("#search_consignment_weight_edit").focus();
+    $("#new_schedule_trip_vehicle").load("load_sel_vehicle.php");
+    $("#new_schedule_trip_debit_account").load("load_sel_cash_account.php");
   });
+
+  //
+  $('#new_schedule_trip_vehicle').change(function(){
+    let id = $(this).find('option:selected').attr('id');
+
+    $(".progress-loader").remove();
+      $("body").append(
+        '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+      );
+
+    $("#new_schedule_trip_driver").load("load_sel_vehicle_driver.php",{id},function(){
+      $(".progress-loader").remove();
+    });
+
+  
+  })
 
   //
   $("#truck-new-vehicle").click(function () {
@@ -635,7 +653,7 @@ $(function () {
       return false;
     } else {
       $(".progress-loader").remove();
-      $("#disbursement_report_view_card").append(
+      $("body").append(
         '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
       );
 
@@ -1628,6 +1646,74 @@ $(function () {
       return false;
     }
   });
+
+ //
+ $("#btn_new_cargo_schedule").click(function () {
+  var trip_vehicle = $.trim($("#new_schedule_trip_vehicle :selected").attr('id'));
+  var trip_driver = $.trim($("#new_schedule_trip_driver :selected").attr('id'));
+  var pickup_address = $.trim($("#new_schedule_trip_pickup_address").val());
+  var delivery_address = $.trim($("#new_schedule_trip_destination_address").val());
+  var departure_time = $.trim($("#new_schedule_trip_departure_time").val());
+  var eta = $.trim($("#new_schedule_trip_eta").val());
+  var amount_charged = $.trim($("#new_schedule_trip_amount_charged").val());
+  var cargo_details = $.trim($("#new_schedule_trip_cargo_details").val());
+  var customer_details = $.trim($("#new_schedule_trip_customer_details").val());
+  var tdate = $.trim($("#new_schedule_trip_transaction_date").val());
+  var amount_paid = $.trim($("#new_schedule_trip_amount_paid").val());
+  var account_no = $.trim(
+    $("#new_schedule_trip_debit_account :selected").attr("id")
+  );
+
+  // alert(
+  //   `${brand} ${model} ${year} ${license_plate} ${vin} ${cost} ${account_name} ${account_no}`
+  // );
+
+  let q = confirm("Schedule this trip?");
+
+  if (q) {
+    $(".progress-loader").remove();
+    $("body").append(
+      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+    );
+
+    $.post(
+    "add_new_cargo_trip_schedule.php",
+      {
+        trip_vehicle,
+        trip_driver,
+        pickup_address,
+        delivery_address,
+        departure_time,
+        eta,
+        cargo_details,
+        amount_paid,
+        account_no,
+        customer_details,
+        tdate,
+        amount_charged
+      },
+      function (response) {
+        let data = JSON.parse(response)
+
+        if(data.status_code == 200){
+          alert(data.msg)
+          $('#display_registered_vehicles').load("load_registered_vehicles.view.php");
+          $(".progress-loader").remove();
+          $('.ef').val('')
+          $('#new_vehicle_brand').focus();
+        }else{
+          alert(data.msg)
+          $(".progress-loader").remove();
+        }
+        
+        
+      }
+    );
+  } else {
+    $(".progress-loader").remove();
+    return false;
+  }
+});
 
   $("#btn_new_driver_registration").click(function () {
     var fname = $.trim($("#new_driver_fname").val());

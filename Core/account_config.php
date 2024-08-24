@@ -172,8 +172,11 @@ function getActiveAccounts()
         $an = mysqli_fetch_assoc($a);
 
         $accounts = [
+            'IE_Main' =>$an['IE_Main'],
             'VehicleFixedAsset' =>$an['VehicleFixedAsset'],
-            'AccountPayable' =>$an['AccountPayable']
+            'VehicleFixedAsset' =>$an['VehicleFixedAsset'],
+            'AccountPayable' =>$an['AccountPayable'],
+            'IncomeOnTransport' =>$an['IncomeOnTransport'],
         ];
 
         return $accounts;

@@ -240,49 +240,22 @@ function userAuth($username)
 
 
 //PDO INSERT statement
-function insertMultipleRecords($pdo, $insertData)
-{
-    try {
-        // Begin the transaction
-        $pdo->beginTransaction();
+function insertData($pdo, $table, $data) {
+    
+    // Build the SQL statement dynamically
+    $columns = implode(", ", array_keys($data));
+    $placeholders = ":" . implode(", :", array_keys($data));
+    
+    $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
 
-        // Loop through the insert data
-        foreach ($insertData as $data) {
-            // Create the SQL statement with named placeholders
-            $columns = array_keys($data['columns']);
-            $placeholders = array_map(function ($col) {
-                return ':' . $col;
-            }, $columns);
+    // Prepare the statement
+    $stmt = $pdo->prepare($sql);
 
-            $sql = "INSERT INTO {$data['table']} (" . implode(", ", $columns) . ") 
-                    VALUES (" . implode(", ", $placeholders) . ")";
-
-            $stmt = $pdo->prepare($sql);
-
-            // Bind the parameters
-            foreach ($data['columns'] as $column => $value) {
-                $stmt->bindValue(':' . $column, $value);
-            }
-
-            // Execute the statement
-            $stmt->execute();
-        }
-
-        // Commit the transaction
-        $pdo->commit();
-
-        echo $res = [
-            'status_code' => 200,
-            'msg' => "New vehicle registered successfully",
-        ];
-
-        echo "All records inserted successfully.";
-    } catch (PDOException $e) {
-        // Roll back the transaction if something failed
-        $pdo->rollBack();
-        echo $res = [
-            'status_code' => 301,
-            'msg' => $e->getMessage(),
-        ];
+    // Bind the parameters
+    foreach ($data as $key => $value) {
+        $stmt->bindValue(":$key", $value);
     }
+
+    // Execute the statement
+    return $stmt->execute();
 }

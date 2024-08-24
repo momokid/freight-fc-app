@@ -23,65 +23,62 @@
 
                          <div class="col-sm-3 mb-3">
                              <label for="exampleFormControlInput1">Select Vehicle*</label>
-                             <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg" id="new_driver_vehicle_assigned">
+                             <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg" id="new_schedule_trip_vehicle">
                                  <option></option>
                              </select>
                          </div>
                          <div class="col-sm-3 mb-3">
                              <label for="exampleFormControlInput1">Select Driver*</label>
-                             <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg" id="new_driver_vehicle_assigned">
+                             <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg" id="new_schedule_trip_driver">
                                  <option></option>
                              </select>
                          </div>
                          <div class="col-sm-3 mb-3">
                              <label for="exampleFormControlInput1">Pickup Address*</label>
-                             <input type="text" class="form-control form-control-user ef" id="new_driver_telno">
+                             <input type="text" class="form-control form-control-user ef" id="new_schedule_trip_pickup_address">
                          </div>
 
                          <div class="col-sm-3 mb-3">
                              <label for="exampleFormControlInput1">Delivery Address*</label>
-                             <input type="text" class="form-control form-control-user ef" id="new_driver_former_employer">
+                             <input type="text" class="form-control form-control-user ef" id="new_schedule_trip_destination_address">
                          </div>
                          <div class="col-sm-3 mb-3">
-                             <label for="exampleFormControlInput1">Departure Time*</label>
-                             <input type="text" class="form-control form-control-user ef datepicker" id="new_driver_employment_date">
+                             <label for="exampleFormControlInput1">Departure Date*</label>
+                             <input type="text" class="form-control form-control-user ef datepicker" id="new_schedule_trip_departure_time">
                          </div>
                          <div class="col-sm-3 mb-3">
-                             <label for="exampleFormControlInput1">ETA*</label>
-                             <input type="text" class="form-control form-control-user ef datepicker" id="new_driver_employment_date">
+                             <label for="exampleFormControlInput1">Return Date*</label>
+                             <input type="text" class="form-control form-control-user ef datepicker" id="new_schedule_trip_eta">
                          </div>
                          <div class="col-sm-3 mb-3">
                              <label for="exampleFormControlInput1">Amount Charged*</label>
-                             <input type="text" class="form-control form-control-user ef" id="new_driver_fname">
+                             <input type="number" class="form-control form-control-user ef" id="new_schedule_trip_amount_charged">
+                         </div>
+                         <div class="col-sm-3 mb-3">
+                             <label for="exampleFormControlInput1">Amount Paid*</label>
+                             <input type="number" class="form-control form-control-user ef" id="new_schedule_trip_amount_paid">
                          </div>
                          <div class="col-sm-3 mb-3">
                              <label for="exampleFormControlInput1">Debit Account*</label>
-                             <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg" id="new_driver_vehicle_assigned">
+                             <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg" id="new_schedule_trip_debit_account">
                                  <option></option>
                              </select>
                          </div>
                          <div class="col-sm-3 mb-3">
                              <label for="exampleFormControlInput1">Cargo Details*</label>
-                             <input type="text" class="form-control form-control-user ef" id="new_driver_fname">
+                             <input type="text" class="form-control form-control-user ef" id="new_schedule_trip_cargo_details" placeholder="e.g. Brief description of the goods">
                          </div>
                          <div class="col-sm-3 mb-3">
                              <label for="exampleFormControlInput1">Customer Details*</label>
-                             <input type="text" class="form-control form-control-user ef" id="new_driver_fname">
-                         </div>
-                         <div class="col-sm-3 mb-3">
-                             <label for="exampleFormControlInput1">Delivery Status*</label>
-                             <select class="custom-select custom-select-sm sl-form-ctrl form-control-lg" id="new_driver_vehicle_assigned">
-                                 <option>Delivered</option>
-                                 <option>Not Delivered</option>
-                             </select>
+                             <input type="text" class="form-control form-control-user ef" id="new_schedule_trip_customer_details">
                          </div>
                          <div class="col-sm-3 mb-3">
                              <label for="exampleFormControlInput1">Transaction Date*</label>
-                             <input type="text" class="form-control form-control-user ef datepicker" id="new_driver_employment_date">
+                             <input type="text" class="form-control form-control-user ef datepicker" id="new_schedule_trip_transaction_date">
                          </div>
                          <form class="col-sm-12 mb-3 user">
                              <label for="exampleFormControlInput1"></label>
-                             <a class="btn btn-secondary btn-user btn-block" id="btn_new_driver_registration">
+                             <a class="btn btn-dark btn-user btn-block" id="btn_new_cargo_schedule">
                                  Schedule New Trip
                              </a>
                          </form>
@@ -96,9 +93,9 @@
              <!-- Approach -->
              <div class="card shadow mb-4">
                  <div class="card-header py-3">
-                     <h6 class="m-0 font-weight-bold text-primary">Registered Driver Details</h6>
+                     <h6 class="m-0 font-weight-bold text-primary">Pending Cargo Schedules</h6>
                  </div>
-                 <div class="card-body" id="display_registered_driver">
+                 <div class="card-body" id="display_pending_cargo_schedules">
 
                  </div>
              </div>
