@@ -532,6 +532,7 @@ $(function () {
     $("#search_consignment_weight_edit").focus();
     $("#new_schedule_trip_vehicle").load("load_sel_vehicle.php");
     $("#new_schedule_trip_debit_account").load("load_sel_cash_account.php");
+    $('#display_cargo_schedule_trip').load('load_vehicle_trip_schedule.view.php');
   });
 
   //
@@ -559,11 +560,19 @@ $(function () {
     $('#display_registered_vehicles').load("load_registered_vehicles.view.php");
   });
 
+  
+  //
+  $("#truck-inspection").click(function () {
+    $(".sub-basic-setup").hide();
+    $("#new-truck-inspection-panel").slideDown();
+    $("#new_inspection_vehicle").load("load_sel_vehicle.php");
+    $('#display_vehicle_inspection_details').load("load_vehicle_inspection_details.view.php");
+  });
+
   //Pay Handling Charge
   $("#pay-invoice-charge-tab").click(function () {
     $(".sub-basic-setup").hide();
     $("#pay-invoice-charge-panel").slideDown();
-
     $("#consignee_invoice_rcv").focus();
   });
 
@@ -1715,6 +1724,73 @@ $(function () {
   }
 });
 
+ //
+ $("#btn_new_vehicle_inspection").click(function () {
+  var insp_vehicle = $.trim($("#new_inspection_vehicle :selected").attr('id'));
+  var inspection_type = $.trim($("#new_inspection_type").val());
+  var inspector_name = $.trim($("#new_inspection_inspector_name").val());
+  var odometer = $.trim($("#new_inspection_odometer").val());
+  var tire_condition = $.trim($("#new_inspection_tire_condition").val());
+  var brake_condition = $.trim($("#new_inspection_brake_condition").val());
+  var light_condition = $.trim($("#new_inspection_light_condition").val());
+  var engine_condition = $.trim($("#new_inspection_engine_condition").val());
+  var fluid_level = $.trim($("#new_inspection_fluid_levels").val());
+  var body_condition = $.trim($("#new_inspection_body_condition").val());
+  var additional_notes = $.trim($("#new_inspection_additional_notes").val());
+  var inspection_date = $.trim($("#new_inspection_date").val());
+  var next_inspection_date = $.trim($("#new_inspection_date_next").val());
+
+  // alert(
+  //   `${brand} ${model} ${year} ${license_plate} ${vin} ${cost} ${account_name} ${account_no}`
+  // );
+
+  let q = confirm("Save inspection details?");
+
+  if (q) {
+    $(".progress-loader").remove();
+    $("body").append(
+      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+    );
+
+    $.post(
+    "add_new_vehicle_inspection.php",
+      {
+        insp_vehicle,
+        inspection_type,
+        inspector_name,
+        odometer,
+        tire_condition,
+        brake_condition,
+        light_condition,
+        engine_condition,
+        body_condition,
+        fluid_level,
+        additional_notes,
+        inspection_date,
+        next_inspection_date
+      },
+      function (response) {
+        let data = JSON.parse(response)
+
+        if(data.status_code == 200){
+          alert(data.msg)
+          $('#display_vehicle_inspection_details').load("load_vehicle_inspection_details.view.php");
+          $(".progress-loader").remove();
+          $('.ef').val('')
+          $('#new_vehicle_brand').focus();
+        }else{
+          alert(data.msg)
+          $(".progress-loader").remove();
+        }
+        
+        
+      }
+    );
+  } else {
+    $(".progress-loader").remove();
+    return false;
+  }
+});
   $("#btn_new_driver_registration").click(function () {
     var fname = $.trim($("#new_driver_fname").val());
     var lname = $.trim($("#new_driver_lname").val());

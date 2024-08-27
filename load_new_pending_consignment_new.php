@@ -17,7 +17,7 @@ if (!isset($_SESSION['Uname'])) {
     header('Location: login');
 } else { ?>
 
-    <div class="accordion accordion-flush border" id="accordionExample">
+    <div class="accordion accordion-flush" id="accordionExample">
 
         <?php
         $b = mysqli_query($dbc, "SELECT 

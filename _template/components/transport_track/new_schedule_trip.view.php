@@ -93,9 +93,9 @@
              <!-- Approach -->
              <div class="card shadow mb-4">
                  <div class="card-header py-3">
-                     <h6 class="m-0 font-weight-bold text-primary">Pending Cargo Schedules</h6>
+                     <h6 class="m-0 font-weight-bold text-primary">Cargo Schedules Details</h6>
                  </div>
-                 <div class="card-body" id="display_pending_cargo_schedules">
+                 <div class="card-body" id="display_cargo_schedule_trip">
 
                  </div>
              </div>

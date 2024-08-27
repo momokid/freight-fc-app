@@ -15,7 +15,7 @@ if (!isset($_SESSION['Uname'])) {
 } else { ?>
 
     <div class="table-responsive">
-        <table class="table table-dark table-bordered">
+        <table class="table table-primary table-bordered">
             <thead>
                 <tr>
                     <th scope="col">FULL NAME</th>
