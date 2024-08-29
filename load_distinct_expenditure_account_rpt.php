@@ -14,7 +14,7 @@ $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 if (!isset($_SESSION['Uname'])) {
     header('Location: login');
 } else {
-    $a = mysqli_query($dbc, "select * from pnl_transaction_balances_1 where Type='EXPENDITURE' order by AccountName");
+    $a = mysqli_query($dbc, "SELECT * FROM pnl_transaction_balances_1 WHERE Type='EXPENDITURE' ORDER BY AccountName");
 
     if (mysqli_num_rows($a) == 0) {
         echo '<option id="" selected>Select Income Account</option>';

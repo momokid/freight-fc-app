@@ -178,7 +178,7 @@
             <a class="collapse-item" id="truck-new-driver">Register New Driver</a>
             <a class="collapse-item" id="schedule-trip">Schedule Cargo Trip</a>
             <a class="collapse-item" id="truck-inspection">Vehicle Inspection</a>
-            <a class="collapse-item" id="reverse-transaction">Vehicle Expense</a>
+            <a class="collapse-item" id="truck_expenditure">Vehicle Expenditure</a>
             <a class="collapse-item" id="reverse-transaction">Vehicle Incident</a>
             <div class="collapse-divider"></div>
           </div>

@@ -138,6 +138,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
         require("_template/components/transport_track/new_driver_registration.view.php");
         require("_template/components/transport_track/new_schedule_trip.view.php");
         require("_template/components/transport_track/new_truck_inspection.view.php");
+        require("_template/components/transport_track/new_truck_expenditure.view.php");
 
         ?>
 

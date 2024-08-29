@@ -20,7 +20,7 @@ if (!isset($_SESSION['Uname'])) {
         echo '<option selected></option>';
     } else {
 
-        echo '<option selected>Select Account</option>';
+        echo '<option selected></option>';
 
         while ($an = mysqli_fetch_assoc($a)) {
             echo '<option id="' . $an['AccountNo'] . '">' . $an['AccountName'] . '</option>';

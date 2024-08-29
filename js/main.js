@@ -514,7 +514,7 @@ $(function () {
     $(".sub-basic-setup").hide();
     $("#new-driver-registration-panel").slideDown();
     $("#new_driver_vehicle_assigned").load("load_sel_vehicle.php");
-    $('#display_registered_driver').load("load_registered_driver.view.php");
+    $("#display_registered_driver").load("load_registered_driver.view.php");
     $("#new_driver_fname").focus();
   });
 
@@ -532,24 +532,28 @@ $(function () {
     $("#search_consignment_weight_edit").focus();
     $("#new_schedule_trip_vehicle").load("load_sel_vehicle.php");
     $("#new_schedule_trip_debit_account").load("load_sel_cash_account.php");
-    $('#display_cargo_schedule_trip').load('load_vehicle_trip_schedule.view.php');
+    $("#display_cargo_schedule_trip").load(
+      "load_vehicle_trip_schedule.view.php"
+    );
   });
 
   //
-  $('#new_schedule_trip_vehicle').change(function(){
-    let id = $(this).find('option:selected').attr('id');
+  $("#new_schedule_trip_vehicle").change(function () {
+    let id = $(this).find("option:selected").attr("id");
 
     $(".progress-loader").remove();
-      $("body").append(
-        '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
-      );
+    $("body").append(
+      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+    );
 
-    $("#new_schedule_trip_driver").load("load_sel_vehicle_driver.php",{id},function(){
-      $(".progress-loader").remove();
-    });
-
-  
-  })
+    $("#new_schedule_trip_driver").load(
+      "load_sel_vehicle_driver.php",
+      { id },
+      function () {
+        $(".progress-loader").remove();
+      }
+    );
+  });
 
   //
   $("#truck-new-vehicle").click(function () {
@@ -557,18 +561,31 @@ $(function () {
     $("#new-vehicle-registration-panel").slideDown();
     $("#search_consignment_profile_rpt").focus();
     $("#new_vehicle_credit_account").load("load_sel_cash_account.php");
-    $('#display_registered_vehicles').load("load_registered_vehicles.view.php");
+    $("#display_registered_vehicles").load("load_registered_vehicles.view.php");
   });
 
-  
   //
   $("#truck-inspection").click(function () {
     $(".sub-basic-setup").hide();
     $("#new-truck-inspection-panel").slideDown();
     $("#new_inspection_vehicle").load("load_sel_vehicle.php");
-    $('#display_vehicle_inspection_details').load("load_vehicle_inspection_details.view.php");
+    $("#display_vehicle_inspection_details").load(
+      "load_vehicle_inspection_details.view.php"
+    );
   });
 
+  //
+  $("#truck_expenditure").click(function () {
+    $(".sub-basic-setup").hide();
+    $("#new-truck-expenditure-panel").slideDown();
+    $("#new_expenditure_vehicle").load("load_sel_vehicle.php");
+    $("#new_expenditure_expense_type").load(
+      "load_sel_vehicle_expense_type.php"
+    );
+    $("#new_expenditure_account").load("load_sel_expenditure_account.php");
+    $("#new_expenditure_debit_account").load("load_sel_gl_account.php");
+    
+  });
   //Pay Handling Charge
   $("#pay-invoice-charge-tab").click(function () {
     $(".sub-basic-setup").hide();
@@ -1634,20 +1651,20 @@ $(function () {
           account_name,
         },
         function (response) {
-          let data = JSON.parse(response)
+          let data = JSON.parse(response);
 
-          if(data.status_code == 200){
-            alert(data.msg)
-            $('#display_registered_vehicles').load("load_registered_vehicles.view.php");
+          if (data.status_code == 200) {
+            alert(data.msg);
+            $("#display_registered_vehicles").load(
+              "load_registered_vehicles.view.php"
+            );
             $(".progress-loader").remove();
-            $('.ef').val('')
-            $('#new_vehicle_brand').focus();
-          }else{
-            alert(data.msg)
+            $(".ef").val("");
+            $("#new_vehicle_brand").focus();
+          } else {
+            alert(data.msg);
             $(".progress-loader").remove();
           }
-          
-          
         }
       );
     } else {
@@ -1656,141 +1673,227 @@ $(function () {
     }
   });
 
- //
- $("#btn_new_cargo_schedule").click(function () {
-  var trip_vehicle = $.trim($("#new_schedule_trip_vehicle :selected").attr('id'));
-  var trip_driver = $.trim($("#new_schedule_trip_driver :selected").attr('id'));
-  var pickup_address = $.trim($("#new_schedule_trip_pickup_address").val());
-  var delivery_address = $.trim($("#new_schedule_trip_destination_address").val());
-  var departure_time = $.trim($("#new_schedule_trip_departure_time").val());
-  var eta = $.trim($("#new_schedule_trip_eta").val());
-  var amount_charged = $.trim($("#new_schedule_trip_amount_charged").val());
-  var cargo_details = $.trim($("#new_schedule_trip_cargo_details").val());
-  var customer_details = $.trim($("#new_schedule_trip_customer_details").val());
-  var tdate = $.trim($("#new_schedule_trip_transaction_date").val());
-  var amount_paid = $.trim($("#new_schedule_trip_amount_paid").val());
-  var account_no = $.trim(
-    $("#new_schedule_trip_debit_account :selected").attr("id")
-  );
-
-  // alert(
-  //   `${brand} ${model} ${year} ${license_plate} ${vin} ${cost} ${account_name} ${account_no}`
-  // );
-
-  let q = confirm("Schedule this trip?");
-
-  if (q) {
-    $(".progress-loader").remove();
-    $("body").append(
-      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+  //
+  $("#btn_new_cargo_schedule").click(function () {
+    var trip_vehicle = $.trim(
+      $("#new_schedule_trip_vehicle :selected").attr("id")
+    );
+    var trip_driver = $.trim(
+      $("#new_schedule_trip_driver :selected").attr("id")
+    );
+    var pickup_address = $.trim($("#new_schedule_trip_pickup_address").val());
+    var delivery_address = $.trim(
+      $("#new_schedule_trip_destination_address").val()
+    );
+    var departure_time = $.trim($("#new_schedule_trip_departure_time").val());
+    var eta = $.trim($("#new_schedule_trip_eta").val());
+    var amount_charged = $.trim($("#new_schedule_trip_amount_charged").val());
+    var cargo_details = $.trim($("#new_schedule_trip_cargo_details").val());
+    var customer_details = $.trim(
+      $("#new_schedule_trip_customer_details").val()
+    );
+    var tdate = $.trim($("#new_schedule_trip_transaction_date").val());
+    var amount_paid = $.trim($("#new_schedule_trip_amount_paid").val());
+    var account_no = $.trim(
+      $("#new_schedule_trip_debit_account :selected").attr("id")
     );
 
-    $.post(
-    "add_new_cargo_trip_schedule.php",
-      {
-        trip_vehicle,
-        trip_driver,
-        pickup_address,
-        delivery_address,
-        departure_time,
-        eta,
-        cargo_details,
-        amount_paid,
-        account_no,
-        customer_details,
-        tdate,
-        amount_charged
-      },
-      function (response) {
-        let data = JSON.parse(response)
+    // alert(
+    //   `${brand} ${model} ${year} ${license_plate} ${vin} ${cost} ${account_name} ${account_no}`
+    // );
 
-        if(data.status_code == 200){
-          alert(data.msg)
-          $('#display_registered_vehicles').load("load_registered_vehicles.view.php");
-          $(".progress-loader").remove();
-          $('.ef').val('')
-          $('#new_vehicle_brand').focus();
-        }else{
-          alert(data.msg)
-          $(".progress-loader").remove();
+    let q = confirm("Schedule this trip?");
+
+    if (q) {
+      $(".progress-loader").remove();
+      $("body").append(
+        '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+      );
+
+      $.post(
+        "add_new_cargo_trip_schedule.php",
+        {
+          trip_vehicle,
+          trip_driver,
+          pickup_address,
+          delivery_address,
+          departure_time,
+          eta,
+          cargo_details,
+          amount_paid,
+          account_no,
+          customer_details,
+          tdate,
+          amount_charged,
+        },
+        function (response) {
+          let data = JSON.parse(response);
+
+          if (data.status_code == 200) {
+            alert(data.msg);
+            $("#display_registered_vehicles").load(
+              "load_registered_vehicles.view.php"
+            );
+            $(".progress-loader").remove();
+            $(".ef").val("");
+            $("#new_vehicle_brand").focus();
+          } else {
+            alert(data.msg);
+            $(".progress-loader").remove();
+          }
         }
-        
-        
-      }
+      );
+    } else {
+      $(".progress-loader").remove();
+      return false;
+    }
+  });
+
+  //
+  $("#btn_new_vehicle_inspection").click(function () {
+    var insp_vehicle = $.trim(
+      $("#new_inspection_vehicle :selected").attr("id")
     );
-  } else {
-    $(".progress-loader").remove();
-    return false;
-  }
-});
+    var inspection_type = $.trim($("#new_inspection_type").val());
+    var inspector_name = $.trim($("#new_inspection_inspector_name").val());
+    var odometer = $.trim($("#new_inspection_odometer").val());
+    var tire_condition = $.trim($("#new_inspection_tire_condition").val());
+    var brake_condition = $.trim($("#new_inspection_brake_condition").val());
+    var light_condition = $.trim($("#new_inspection_light_condition").val());
+    var engine_condition = $.trim($("#new_inspection_engine_condition").val());
+    var fluid_level = $.trim($("#new_inspection_fluid_levels").val());
+    var body_condition = $.trim($("#new_inspection_body_condition").val());
+    var additional_notes = $.trim($("#new_inspection_additional_notes").val());
+    var inspection_date = $.trim($("#new_inspection_date").val());
+    var next_inspection_date = $.trim($("#new_inspection_date_next").val());
 
- //
- $("#btn_new_vehicle_inspection").click(function () {
-  var insp_vehicle = $.trim($("#new_inspection_vehicle :selected").attr('id'));
-  var inspection_type = $.trim($("#new_inspection_type").val());
-  var inspector_name = $.trim($("#new_inspection_inspector_name").val());
-  var odometer = $.trim($("#new_inspection_odometer").val());
-  var tire_condition = $.trim($("#new_inspection_tire_condition").val());
-  var brake_condition = $.trim($("#new_inspection_brake_condition").val());
-  var light_condition = $.trim($("#new_inspection_light_condition").val());
-  var engine_condition = $.trim($("#new_inspection_engine_condition").val());
-  var fluid_level = $.trim($("#new_inspection_fluid_levels").val());
-  var body_condition = $.trim($("#new_inspection_body_condition").val());
-  var additional_notes = $.trim($("#new_inspection_additional_notes").val());
-  var inspection_date = $.trim($("#new_inspection_date").val());
-  var next_inspection_date = $.trim($("#new_inspection_date_next").val());
+    // alert(
+    //   `${brand} ${model} ${year} ${license_plate} ${vin} ${cost} ${account_name} ${account_no}`
+    // );
 
-  // alert(
-  //   `${brand} ${model} ${year} ${license_plate} ${vin} ${cost} ${account_name} ${account_no}`
-  // );
+    let q = confirm("Save inspection details?");
 
-  let q = confirm("Save inspection details?");
+    if (q) {
+      $(".progress-loader").remove();
+      $("body").append(
+        '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+      );
 
-  if (q) {
-    $(".progress-loader").remove();
-    $("body").append(
-      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
-    );
+      $.post(
+        "add_new_vehicle_inspection.php",
+        {
+          insp_vehicle,
+          inspection_type,
+          inspector_name,
+          odometer,
+          tire_condition,
+          brake_condition,
+          light_condition,
+          engine_condition,
+          body_condition,
+          fluid_level,
+          additional_notes,
+          inspection_date,
+          next_inspection_date,
+        },
+        function (response) {
+          let data = JSON.parse(response);
 
-    $.post(
-    "add_new_vehicle_inspection.php",
-      {
-        insp_vehicle,
-        inspection_type,
-        inspector_name,
-        odometer,
-        tire_condition,
-        brake_condition,
-        light_condition,
-        engine_condition,
-        body_condition,
-        fluid_level,
-        additional_notes,
-        inspection_date,
-        next_inspection_date
-      },
-      function (response) {
-        let data = JSON.parse(response)
-
-        if(data.status_code == 200){
-          alert(data.msg)
-          $('#display_vehicle_inspection_details').load("load_vehicle_inspection_details.view.php");
-          $(".progress-loader").remove();
-          $('.ef').val('')
-          $('#new_vehicle_brand').focus();
-        }else{
-          alert(data.msg)
-          $(".progress-loader").remove();
+          if (data.status_code == 200) {
+            alert(data.msg);
+            $("#display_vehicle_inspection_details").load(
+              "load_vehicle_inspection_details.view.php"
+            );
+            $(".progress-loader").remove();
+            $(".ef").val("");
+            $("#new_vehicle_brand").focus();
+          } else {
+            alert(data.msg);
+            $(".progress-loader").remove();
+          }
         }
-        
-        
-      }
+      );
+    } else {
+      $(".progress-loader").remove();
+      return false;
+    }
+  });
+
+
+
+  $("#btn_new_vehicle_expenditure").click(function () {
+
+    var exp_vehicle = $.trim(
+      $("#new_expenditure_vehicle :selected").attr("id")
     );
-  } else {
-    $(".progress-loader").remove();
-    return false;
-  }
-});
+
+var vehicle_name = $.trim(
+      $("#new_expenditure_vehicle").val()
+    );
+    
+    var exp_type = $.trim(
+      $("#new_expenditure_expense_type :selected").attr("id")
+    );
+
+    var exp_type_name = $.trim(
+      $("#new_expenditure_expense_type").val()
+    );
+
+    var exp_account = $.trim(
+      $("#new_expenditure_account :selected").attr("id")
+    );
+    var exp_debit_account = $.trim(
+      $("#new_expenditure_debit_account :selected").attr("id")
+    );
+    
+    var amount = $.trim($("#new_expenditure_amount").val());
+    var vendor = $.trim($("#new_expenditure_vendor").val());
+    var description = $.trim($("#new_expenditure_description").val());
+    var tdate = $.trim($("#new_expenditure_tdate").val());
+
+    let q = confirm("Save vehicle expenditure?");
+
+    if (q) {
+      $(".progress-loader").remove();
+      $("body").append(
+        '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+      );
+
+      $.post(
+        "add_new_vehicle_expenditure.php",
+        {
+          exp_type,
+          exp_account,
+          exp_type_name,
+          exp_debit_account,
+          exp_vehicle,
+          vehicle_name,
+          amount,
+          description,
+          tdate,
+          vendor,
+        },
+        function (response) {
+          let data = JSON.parse(response);
+
+          if (data.status_code == 200) {
+            alert(data.msg);
+            $(".progress-loader").remove();
+            $(".ef").val("");
+            $("#new_vehicle_brand").focus();
+          } else {
+            alert(data.msg);
+            $(".progress-loader").remove();
+          }
+        }
+      );
+    } else {
+      $(".progress-loader").remove();
+      return false;
+    }
+  });
+
+
   $("#btn_new_driver_registration").click(function () {
     var fname = $.trim($("#new_driver_fname").val());
     var lname = $.trim($("#new_driver_lname").val());
@@ -1799,7 +1902,9 @@ $(function () {
     var telno = $.trim($("#new_driver_telno").val());
     var former_emp = $.trim($("#new_driver_former_employer").val());
     var emp_date = $.trim($("#new_driver_employment_date").val());
-    var vehicle_name = $.trim($("#new_driver_vehicle_assigned :selected").val());
+    var vehicle_name = $.trim(
+      $("#new_driver_vehicle_assigned :selected").val()
+    );
     var vehicleId = $.trim(
       $("#new_driver_vehicle_assigned :selected").attr("id")
     );
@@ -1830,20 +1935,20 @@ $(function () {
           vehicle_name,
         },
         function (response) {
-          let data = JSON.parse(response)
+          let data = JSON.parse(response);
 
-          if(data.status_code == 200){
-            alert(data.msg)
-            $('#display_registered_driver').load("load_registered_driver.view.php");
+          if (data.status_code == 200) {
+            alert(data.msg);
+            $("#display_registered_driver").load(
+              "load_registered_driver.view.php"
+            );
             $(".progress-loader").remove();
-            $('.ef').val('')
-            $('#new_vehicle_brand').focus();
-          }else{
-            alert(data.msg)
+            $(".ef").val("");
+            $("#new_vehicle_brand").focus();
+          } else {
+            alert(data.msg);
             $(".progress-loader").remove();
           }
-          
-          
         }
       );
     } else {
