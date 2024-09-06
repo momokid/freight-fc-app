@@ -41,7 +41,7 @@ if (!isset($_SESSION['Uname'])) {
         var mbl = $(this).attr('mbl');
         var hbl = $(this).attr('hbl');
         var containerNo = $(this).attr('containerNo');
-        var m = ($(this).text());
+        var m = $.trim(($(this).text()));
         $('.ep').text('');
 
         //Display Consignee manifestation details

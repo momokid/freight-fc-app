@@ -109,7 +109,7 @@
                          </div>
                          <form class="col-sm-12 mb-3 user">
                              <label for="exampleFormControlInput1"></label>
-                             <a class="btn btn-danger btn-user btn-block" id="btn_new_vehicle_inspection">
+                             <a class="btn btn-success btn-user btn-block" id="btn_new_vehicle_inspection">
                                  Save Vehicle Inspection
                              </a>
                          </form>

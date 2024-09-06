@@ -108,7 +108,7 @@ if (!isset($_SESSION['Uname'])) {
                     //$journal_pnl_revenue_cr = mysqli_query($dbc, "INSERT INTO journal VALUES('$activePNL','$disbursement_income_account','Cr','Cash','$rcpt[number]','0','$amount','GROSS CASH REVENUE FOR DISBURSEMENT - $bl','$dOT','$ajaxTime','$Uname','N.Auth','$BranchID','1')");
 
                     //insert income received into pnl
-                    $pnl_cr = mysqli_query($dbc, "INSERT INTO pnl_transaction VALUES('$disbursement_income_account','NB','Cr','$bl','$bl','$rcpt[number]','TOTAL CASH REVENUE RECEIVED','0','$amount','$dOT','$ajaxTime','$BranchID','$Uname','2')");
+                    //$pnl_cr = mysqli_query($dbc, "INSERT INTO pnl_transaction VALUES('$disbursement_income_account','NB','Cr','$bl','$bl','$rcpt[number]','TOTAL CASH REVENUE RECEIVED','0','$amount','$dOT','$ajaxTime','$BranchID','$Uname','2')");
 
 
 

@@ -5,7 +5,7 @@ session_start();
 
 //Database connection
 include('cn/cn.php');
-include("_template/components/pending_consignment_notification/disbursement_paid_account_pending.view.php");
+
 
 $Uname = mysqli_real_escape_string($dbc, $_SESSION['Uname']);
 $BranchID = mysqli_real_escape_string($dbc, $_SESSION['BranchID']);
@@ -17,7 +17,7 @@ if (!isset($_SESSION['Uname'])) {
     header('Location: login');
 } else { ?>
 
-    <div class="accordion accordion-flush" id="accordionExample">
+    <div class="accordion accordion-flush" id="activeDisbursement">
 
         <?php
         $b = mysqli_query($dbc, "SELECT 
@@ -55,15 +55,25 @@ if (!isset($_SESSION['Uname'])) {
                             <span class="badge badge-<?php getNotificationColor($an['ETA_Days']); ?> m-1 p-1 border border-white"><?= $an['ConsigneeName']; ?></span>
                             <span class="badge badge-<?php getNotificationColor($an['ETA_Days']); ?> m-2 p-1 border border-white">ETA : <?= formatDate($an['ETA']); ?> [<?= $an['ETA_Days']; ?> days]</span>
                             <span class="badge bg-success-subtle text-secondary m-1 p-1"><?= $an['OfficerAssignedName']; ?></span>
-                            
+
                             <!-- Fetch all disbursement payments -->
-                             <?php //getfirst($an['BL']); ?>
+                            <?php
+                            //include("_template/components/pending_consignment_notification/disbursement_paid_account_pending.view.php");
+                            ?>
+                            <div id="<?= $an['BL'];  ?>" class="notification-div" style="border: 0px solid yellow; display:inline-block">
+                                <div class="spinner-grow text-secondary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
 
                         </button>
                     </h2>
-                    <div id="<?= $an['BL']; ?>" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div id="<?= $an['BL']; ?>" class="accordion-collapse collapse" data-bs-parent="#activeDisbursement">
                         <div class="accordion-body" id="accordion-body-<?= $an['BL'] ?>">
-                            Loading details...
+                            Loading...
+                            <div class="spinner-grow" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
                         </div>
                     </div>
 
@@ -78,6 +88,7 @@ if (!isset($_SESSION['Uname'])) {
 
 
 <script>
+    // $('.disbursementAccountPaidNotification').html("herrrrrr");
     $('.accordion-button-bl-status').click(function() {
         let id = $.trim($(this).attr('bl'));
         let eta = $.trim($(this).attr('eta'));

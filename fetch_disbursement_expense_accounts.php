@@ -46,10 +46,11 @@ if (!isset($_SESSION['Uname'])) {
             //$dn = mysqli_fetch_assoc($d);
 
             $result = [
-                'status_code' => 201,
-                'msg' => "User has already initiated a disbursement analysis. Continue or clear disbursement",
+                'status_code' => 301,
+                'msg' => "You already initiated a disbursement analysis. Continue or clear disbursement",
             ];
         } else {
+
             $e = mysqli_query($dbc, "SELECT * FROM  disbursement_temp_analysis WHERE Username='$Uname' AND BL = '$mbl' AND HouseBL='$hbl'");
 
             if (mysqli_num_rows($e) > 0) {
@@ -70,9 +71,19 @@ if (!isset($_SESSION['Uname'])) {
                     $mbl == $hbl ? $type = 'FCL' : $type = 'LCL1';
 
                     $dbc->autocommit(false);
+                    $status = 2;
 
                     while ($an = mysqli_fetch_assoc($a)) {
-                        $b = mysqli_query($dbc, "INSERT INTO disbursement_temp_analysis VALUES('$an[AccountNo]','$mbl','$hbl','$containerNo','$consigneeID','0','$type','2','$Uname','$ajaxTime')");
+
+                         $f = mysqli_query($dbc, "SELECT * FROM  disbursement_analysis WHERE BL = '$mbl' AND AccountID='$an[AccountNo]'");
+                            if (mysqli_num_rows($f) > 0) {
+                                $status = 0;
+                            }else{
+                                $status = 2;
+                            }
+
+
+                        $b = mysqli_query($dbc, "INSERT INTO disbursement_temp_analysis VALUES('$an[AccountNo]','$mbl','$hbl','$containerNo','$consigneeID','0','$type','$status','$Uname','$ajaxTime')");
                     }
 
                     // $c = mysqli_query($dbc, "INSERT INTO disbursement_temp_analysis VALUES('$disbursement_income_account','$mbl','$hbl','$consigneeID','0','INCOME','FCL','$Uname','$ajaxTime')");

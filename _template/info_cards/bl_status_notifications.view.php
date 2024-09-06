@@ -1,4 +1,4 @@
-<div class="row" style="max-height: 30rem;">
+<div class="row">
     <!-- Area Chart -->
     <div class="col-xl-12 col-lg-12">
         <div class="card shadow mb-4">
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <!-- Card Body -->
-            <div class="card-body" style="max-height: 20rem; overflow-y: scroll;">
+            <div class="card-body" style="min-height: 0rem; overflow-y: scroll;">
                 <div class="card-body" id="display_new_consignment">
 
                 </div>

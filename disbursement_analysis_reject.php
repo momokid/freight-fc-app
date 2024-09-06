@@ -10,14 +10,14 @@ $Uname = mysqli_real_escape_string($dbc, $_SESSION['Uname']);
 $BranchID = mysqli_real_escape_string($dbc, $_SESSION['BranchID']);
 $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 
-$receiptNo = mysqli_real_escape_string($dbc, $_POST['receiptNo']);
+$bl = mysqli_real_escape_string($dbc, $_POST['bl']);
 $userName = mysqli_real_escape_string($dbc, $_POST['userName']);
 
 $result = [];
 
 if (!isset($_SESSION['Uname'])) {
     header('Location: login');
-} else if ($receiptNo == '') {
+} else if ($bl == '') {
     $result = [
         'status_code' => 301,
         'msg' => 'Error retrieving disbursement',
@@ -36,12 +36,12 @@ if (!isset($_SESSION['Uname'])) {
             'msg' => "User currently processing a new disbursement. Kindly contact [$userName].",
         ];
     } else {
-        $b = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE ReceiptNo='$receiptNo'");
+        $b = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND Status='2'");
 
         if (mysqli_num_rows($b) == 0) {
             $result = [
                 'status_code' => 301,
-                'msg' => "Records not found for user [$receiptNo].",
+                'msg' => "Records not found for user [$bl].",
             ];
         } else {
             while ($bn = mysqli_fetch_assoc($b)) {
@@ -49,7 +49,11 @@ if (!isset($_SESSION['Uname'])) {
             }
 
             if ($c) {
-                $d = mysqli_query($dbc, "DELETE FROM receipt_main WHERE ReceiptNo='$receiptNo'");
+                $e = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND Status='2'");
+                while($en = mysqli_fetch_assoc($e)){
+                    $d = mysqli_query($dbc, "DELETE FROM receipt_main WHERE ReceiptNo='$en[ReceiptNo]'");
+                }
+                
 
                 $result = [
                     'status_code' => 301,

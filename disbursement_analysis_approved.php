@@ -10,27 +10,27 @@ $Uname = mysqli_real_escape_string($dbc, $_SESSION['Uname']);
 $BranchID = mysqli_real_escape_string($dbc, $_SESSION['BranchID']);
 $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 
-$receiptNo = mysqli_real_escape_string($dbc, $_POST['receiptNo']);
+$bl = mysqli_real_escape_string($dbc, $_POST['bl']);
 
 $result = [];
 
 if (!isset($_SESSION['Uname'])) {
     header('Location: login');
-} else if ($receiptNo == '') {
-    $receiptNo = [
+} else if ($bl == '') {
+    $bl = [
         'status_code' => 301,
         'msg' => 'Error retrieving disbursement',
     ];
 } else {
-    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE ReceiptNo='$receiptNo'");
+    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl'");
 
     if (mysqli_num_rows($a) == 0) {
-        $receiptNo = [
+        $result = [
             'status_code' => 301,
             'msg' => "Disbursement analysis not found",
         ];
     } else {
-        $b = mysqli_query($dbc, "UPDATE disbursement_analysis SET Status='0' WHERE ReceiptNo='$receiptNo'");
+        $b = mysqli_query($dbc, "UPDATE disbursement_analysis SET Status='0' WHERE BL='$bl' AND Status='2'");
 
         if ($b) {
             $result = [

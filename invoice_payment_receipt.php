@@ -237,7 +237,7 @@ if (!isset($_SESSION['Uname'])) {
                     .logo {
                         border: 0px solid black;
                         background: url('<?= $loc; ?>/img/logo1<?= $logo_ext; ?>')no-repeat;
-                        background-size: cover;
+                        background-size: conntain;
                     }
 
                     .div-header-footer {

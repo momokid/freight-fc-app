@@ -26,12 +26,12 @@ if (!isset($_SESSION['Uname'])) {
             $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_unauth_1 WHERE Status='2'");
 
             if (mysqli_num_rows($a) > 0) {
-                $b = mysqli_query($dbc, "SELECT DISTINCT ConsigneeName, ContainerNo, BL, ETA, ETA_Days, OfficerAssignedName, Date, ReceiptNo, TotalCashReceipt, Username FROM disbursement_analysis_unauth_1 WHERE Status='2' ORDER BY Date ASC");
+                $b = mysqli_query($dbc, "SELECT DISTINCT ConsigneeName, ContainerNo, BL, ETA, ETA_Days, OfficerAssignedName, TotalCashReceipt, Username FROM disbursement_analysis_unauth_1 WHERE Status='2' ORDER BY Date ASC");
                 while ($bn = mysqli_fetch_assoc($b)) { ?>
                     <tbody class="tbody-panel-<?= $bn['ReceiptNo']?>">
                         <tr class='table-warning'>
                             <td colspan='2' class="font-weight-bold text-dark">CONTAINER# / BL# : <?= $bn["BL"] . ' / ' . $bn['ContainerNo']; ?></td>
-                            <td colspan='2' class="font-weight-bold text-dark"> TRANS. DATE / ASSIGNED OFFICER : <?= formatDate($bn['Date']) ?> / <?= $bn['OfficerAssignedName'] ?></td>
+                            <td colspan='2' class="font-weight-bold text-dark">ASSIGNED OFFICER :  <?= $bn['OfficerAssignedName'] ?></td>
                         </tr>
 
                         <tr class=''>
@@ -51,7 +51,7 @@ if (!isset($_SESSION['Uname'])) {
                                 <td class=""></td>
                                 <td class=""> <?= $cn["AccountName"] ?></td>
                                 <td class=""><?= formatToCurrency($cn['Expenditure']) ?></td>
-                                <td class=""></td>
+                                <td class=""><?= formatDate($cn['Date'])?></td>
                             </tr>
                         <?php    }
                         ?>
@@ -71,7 +71,7 @@ if (!isset($_SESSION['Uname'])) {
                                 <td></td>
                                 <td class="border border-dark border-right-0 font-weight-bold">PROFIT/LOSS (#<?= $bn["ContainerNo"] ?>)</td>
                                 <td class="border border-dark border-left-0 <?= $pnl > 0 ? "text-success" : "text-danger" ?>"> <span class="font-weight-bold"><?= formatToCurrency($pnl); ?></span></td>
-                                <td><button class="btn btn-success fa-btn btn-approve-disbursement" id="<?= $bn['ReceiptNo'] ?>" title="Approve Disbursement Analysis">APPROVE</button> <button class="btn btn-secondary btn-reject-disbursement" id="<?= $bn['ReceiptNo'] ?>" user="<?= $bn['Username'] ?>" title="Reject Disbursement Analysis">DECLINE</button></td>
+                                <td><button class="btn btn-success fa-btn btn-approve-disbursement" id="<?= $bn['BL'] ?>" title="Approve Disbursement Analysis">APPROVE</button> <button class="btn btn-danger btn-reject-disbursement" id="<?= $bn['BL'] ?>" user="<?= $bn['Username'] ?>" title="Reject Disbursement Analysis">DECLINE</button></td>
                             </tr>
                         <?php  }
                         ?>
@@ -103,10 +103,10 @@ if (!isset($_SESSION['Uname'])) {
     <script>
         //Authorize disrbursement analysis
         $('.btn-approve-disbursement').click(function() {
-            let receiptNo = $.trim($(this).attr('id'))
+            let bl = $.trim($(this).attr('id'))
 
             $(".progress-loader").remove();
-            $("#disbursementAnalysisModalContent").append(
+            $("body").append(
                 '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
             );
 
@@ -114,13 +114,13 @@ if (!isset($_SESSION['Uname'])) {
 
             if (ansa) {
                 $.post('disbursement_analysis_approved.php', {
-                    receiptNo
+                    bl
                 }, function(data) {
                     let result = JSON.parse(data);
 
                     alert(result.msg)
                     $(`.tbody-panel-${receiptNo}`).fadeOut();
-                    $("#display_disbursement_analysis_panel").load("load_disbursement_analysis_approval_new.php");
+                    $("body").load("load_disbursement_analysis_approval_new.php");
                     $(".progress-loader").remove();
                 });
             }
@@ -129,7 +129,7 @@ if (!isset($_SESSION['Uname'])) {
 
 
         $('.btn-reject-disbursement').click(function() {
-            let receiptNo = $.trim($(this).attr('id'))
+            let bl = $.trim($(this).attr('id'))
             let userName = $.trim($(this).attr('user'))
 
             $(".progress-loader").remove();
@@ -141,14 +141,14 @@ if (!isset($_SESSION['Uname'])) {
 
             if (ansa) {
                 $.post('disbursement_analysis_reject.php', {
-                    receiptNo,
+                    bl,
                     userName
                 }, function(data) {
                     let result = JSON.parse(data);
 
                     alert(result.msg)
                     $(`.tbody-panel-${receiptNo}`).fadeOut();
-                    $("#display_disbursement_analysis_panel").load("load_disbursement_analysis_approval_new.php");
+                    $("body").load("load_disbursement_analysis_approval_new.php");
 
                     $(".progress-loader").remove();
                 });

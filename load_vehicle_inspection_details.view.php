@@ -15,7 +15,7 @@ if (!isset($_SESSION['Uname'])) {
 } else { ?>
 
     <div class="table-responsive">
-        <table class="table table-danger table-bordered table-striped-columns">
+        <table class="table table-success table-bordered table-striped-columns">
             <thead>
                 <tr>
                     <th scope="col">VEHICLE</th>

@@ -47,11 +47,11 @@ function totalDisbursementExpense($Uname)
 {
     global $dbc;
 
-    $a = mysqli_query($dbc, "SELECT ROUND(SUM(Amount),2) as TotalExpense FROM disbursement_temp_analysis WHERE Username='$Uname'");
+    $a = mysqli_query($dbc, "SELECT ROUND(SUM(Expenditure),2) as TotalExpense, ROUND(SUM(Amount),2) as TotalAmount FROM disbursement_temp_analysis_view_1 WHERE Username='$Uname'");
 
     $an = mysqli_fetch_assoc($a);
 
-    return floatval($an['TotalExpense']);
+    return floatval($an['TotalExpense'])+ floatval($an['TotalAmount']);
 }
 
 //Disbursement table after fetching

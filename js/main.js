@@ -525,7 +525,7 @@ $(function () {
     $("#search_consignment_weight_edit").focus();
   });
 
-  //$('#display_registered_vehicles').load("load_registered_vehicles.view.php");
+  //schedule trip
   $("#schedule-trip").click(function () {
     $(".sub-basic-setup").hide();
     $("#new-schedule-trip-panel").slideDown();
@@ -586,6 +586,22 @@ $(function () {
     $("#new_expenditure_debit_account").load("load_sel_gl_account.php");
     
   });
+
+ //incident report
+ $("#truck_incident").click(function () {
+  $(".sub-basic-setup").hide();
+  $("#new-truck-incident-panel").slideDown();
+  $("#search_consignment_weight_edit").focus();
+  $("#new_incident_vehicle").load("load_sel_vehicle.php");
+  $("#new_incident_driver").load("load_vehicle_driver.php");
+  $("#new_incident_type").load("load_vehicle_incident_type.php");
+  $("#new_schedule_trip_debit_account").load("load_sel_cash_account.php");
+  $("#display_cargo_schedule_trip").load(
+    "load_vehicle_trip_schedule.view.php"
+  );
+});
+
+
   //Pay Handling Charge
   $("#pay-invoice-charge-tab").click(function () {
     $(".sub-basic-setup").hide();
@@ -801,7 +817,7 @@ $(function () {
     );
 
     $.post(
-      "add_new_disbursement_analysis.php",
+      "add_new_disbursement_analysis_single.php",
       { amount, dOT, bl, account },
       function (data) {
         let result = JSON.parse(data);
@@ -1819,8 +1835,7 @@ $(function () {
     }
   });
 
-
-
+//
   $("#btn_new_vehicle_expenditure").click(function () {
 
     var exp_vehicle = $.trim(
@@ -1893,7 +1908,7 @@ var vehicle_name = $.trim(
     }
   });
 
-
+//
   $("#btn_new_driver_registration").click(function () {
     var fname = $.trim($("#new_driver_fname").val());
     var lname = $.trim($("#new_driver_lname").val());
@@ -1956,6 +1971,79 @@ var vehicle_name = $.trim(
       return false;
     }
   });
+
+   //
+   $("#btn_new_cargo_incident").click(function () {
+    var vehicle = $.trim(
+      $("#new_incident_vehicle :selected").attr("id")
+    );
+    var driver = $.trim(
+      $("#new_incident_driver :selected").attr("id")
+    );
+    var date = $.trim($("#new_incident_date").val());
+    var location = $.trim(
+      $("#new_incident_location").val()
+    );
+    var description = $.trim($("#new_incident_description").val());
+    var damage_estimation = $.trim($("#new_incident_damage_estimate").val());
+    var resolution_status = $.trim($("#new_incident_resolution_status").val());
+    var resolution_date = $.trim($("#new_incident_resolution_date").val());
+    var notes = $.trim(
+      $("#new_incident_notes").val()
+    );
+    var incident_type_id = $.trim(
+      $("#new_incident_type :selected").attr("id")
+    );
+
+    // alert(
+    //   `${brand} ${model} ${year} ${license_plate} ${vin} ${cost} ${account_name} ${account_no}`
+    // );
+
+    let q = confirm("Save vehicle incident?");
+
+    if (q) {
+      $(".progress-loader").remove();
+      $("body").append(
+        '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+      );
+
+      $.post(
+        "add_new_vehicle_incident.php",
+        {
+          vehicle,
+          driver,
+          date,
+          incident_type_id,
+          location,
+          description,
+          damage_estimation,
+          resolution_status,
+          resolution_date,
+          notes,
+        },
+        function (response) {
+          let data = JSON.parse(response);
+
+          if (data.status_code == 200) {
+            alert(data.msg);
+            // $("#display_registered_vehicles").load(
+            //   "load_registered_vehicles.view.php"
+            // );
+            $(".progress-loader").remove();
+            $(".ef").val("");
+            $("#new_incident_vehicle").focus();
+          } else {
+            alert(data.msg);
+            $(".progress-loader").remove();
+          }
+        }
+      );
+    } else {
+      $(".progress-loader").remove();
+      return false;
+    }
+  });
+
 
   //Add New POL Modal
   $("#addPOLModal").click(function () {

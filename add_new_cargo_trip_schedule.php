@@ -225,7 +225,7 @@ if (!isset($_SESSION['Uname'])) {
             $pdo->rollBack();
             $res = [
                 'status_code' => 301,
-                'msg' => "Error si::: " . $e->getMessage(),
+                'msg' => "Error: " . $e->getMessage(),
             ];
         }
     }

@@ -19,17 +19,17 @@ if(!isset( $_SESSION['Uname'])){
 }elseif($pnm==''){
     die('Missing P.O.D. Name');
 }else{
-    $a = mysqli_query($dbc, "select * from pod where POL_lID='$pid'");
+    $a = mysqli_query($dbc, "SELECT * FROM pod WHERE POD_ID='$pid'");
     
     if(mysqli_num_rows($a)>0){
         die('POL ID already exists');
     }else{
-        $c = mysqli_query($dbc, "select * from pod where POL_Name='$pnm'");
+        $c = mysqli_query($dbc, "SELECT * FROM pod WHERE POD_Name='$pnm'");
         if(mysqli_num_rows($c)>0){
             die('P.O.L. Name already exists.');
         }else{
             
-            $b = mysqli_query($dbc,"insert into pod values('$pid','$pnm','$ajaxTime','$Uname')");
+            $b = mysqli_query($dbc,"INSERT INTO pod VALUES('$pid','$pnm','$ajaxTime','$Uname')");
             if($b){
                 echo '1';
             }else{

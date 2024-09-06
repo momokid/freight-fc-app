@@ -179,7 +179,7 @@
             <a class="collapse-item" id="schedule-trip">Schedule Cargo Trip</a>
             <a class="collapse-item" id="truck-inspection">Vehicle Inspection</a>
             <a class="collapse-item" id="truck_expenditure">Vehicle Expenditure</a>
-            <a class="collapse-item" id="reverse-transaction">Vehicle Incident</a>
+            <a class="collapse-item" id="truck_incident">Vehicle Incident Register</a>
             <div class="collapse-divider"></div>
           </div>
         </div>

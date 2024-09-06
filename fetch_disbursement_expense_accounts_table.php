@@ -34,7 +34,8 @@ if (!isset($_SESSION['Uname'])) {
       <thead class="thead-light">
         <tr>
           <th scope="col">ACCOUNT NAME</th>
-          <th scope="col">EXPENSE</th>
+          <th scope="col">AMOUNT</th>
+          <th scope="col">PAYMENT DATE</th>
           <th scope="col">ACTION</th>
         </tr>
       </thead>
@@ -42,24 +43,48 @@ if (!isset($_SESSION['Uname'])) {
 
 
         <?php
-        $a = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis_view_0 WHERE Username='$Uname' AND BL='$mbl' AND HouseBL='$hbl' and ConsigneeID='$consigneeID' ORDER BY Time ASC");
+        $a = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis_view_0 WHERE Username='$Uname' AND BL='$mbl' AND HouseBL='$hbl' and ConsigneeID='$consigneeID' ORDER BY Status ASC");
 
         if (mysqli_num_rows($a) > 0) {
 
-
-
           while ($an = mysqli_fetch_assoc($a)) { ?>
 
-            <tr>
-              <td scope="col" class="expense_input_label"><?= $an['AccountName'] ?></td>
-              <td scope="col"><input class="income_input_value" type="number" value="<?= $an['Amount'] ?>" data-consignee="<?= $an['ConsigneeID'] ?>" data-hbl="<?= $an['HouseBL'] ?>" data-accountno="<?= $an['AccountNo'] ?>" /></td>
-              <td class="text-danger text-center">
-                <button type="button" class="btn remove_expense_account" id="remove_expense_account" data-mbl="<?= $mbl ?>" data-hbl="<?= $hbl ?>" data-accountNo="<?= $an['AccountNo'] ?>" data-consignee="<?= $an['ConsigneeID'] ?>" >
-                  <i class="fas fa-minus-circle text-danger"></i>
-              </td>
-              </button>
-            </tr>
-          <?php  } ?>
+            <?php
+            if ($an['Status'] == 0) {
+              $g = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$mbl' AND HBL='$hbl' AND AccountID='$an[AccountNo]' ORDER BY DATE DESC");
+              if (mysqli_num_rows($g) == 1) {
+                $gn = mysqli_fetch_assoc($g);
+                $status = ($gn['Status'] == 0) ? "success" : "warning";
+            ?>
+
+                <tr>
+                  <td scope="col" class="expense_input_label"><?= $an['AccountName'] ?></td>
+                  <td scope="col"><?= formatToCurrency($gn['Expenditure']) ?></td>
+                  <td scope="col"><?= formatDate($gn['Date'] ) ?></td>
+                  <td class="text-center">
+                    <i class="fas fa-check text-<?= $status ?>"></i>
+                  </td>
+                </tr>
+              <?php }
+
+              ?>
+
+
+            <?php   } else { ?>
+
+              <tr>
+                <td scope="col" class="expense_input_label"><?= $an['AccountName'] ?></td>
+                <td scope="col"><input class="income_input_value" type="number" value="<?= $an['Amount'] ?>" data-consignee="<?= $an['ConsigneeID'] ?>" data-hbl="<?= $an['HouseBL'] ?>" data-accountno="<?= $an['AccountNo'] ?>" /></td>
+                <td scope="col"></td>
+                <td class="text-danger text-center">
+                  <button type="button" class="btn remove_expense_account" id="remove_expense_account" data-mbl="<?= $mbl ?>" data-hbl="<?= $hbl ?>" data-accountNo="<?= $an['AccountNo'] ?>" data-consignee="<?= $an['ConsigneeID'] ?>">
+                    <i class="fas fa-minus-circle text-danger"></i>
+                </td>
+                </button>
+              </tr>
+
+          <?php }
+          } ?>
           <tr>
             <td colspan="1">
               <select class="custom-select custom-select-sm sl-form-ctrl form-control" aria-label="Default select example" id="disbursement_temp_expense_account">
@@ -67,7 +92,7 @@ if (!isset($_SESSION['Uname'])) {
               </select>
             </td>
 
-            <td colspan="2" class="text-primary">
+            <td colspan="3" class="text-primary">
               <button type="button" class="btn" id="add_new_expense_account" data-mbl="<?= $mbl ?>" data-hbl="<?= $hbl ?>" data-consignee="<?= $consigneeID ?>" data-container="<?= $an['AccountNo'] ?>">
                 <i class="fas fa-plus-circle text-primary"></i>
               </button>
@@ -90,7 +115,7 @@ if (!isset($_SESSION['Uname'])) {
 
         <tr>
           <td>DISBURSEMENT TOTAL</td>
-          <td colspan="2">
+          <td colspan="3">
             <label class="text-danger font-weight-bold" id="txtDisbursementTotalExpense"><?= formatToCurrency($g) ?></label>
           </td>
         </tr>
@@ -122,6 +147,7 @@ if (!isset($_SESSION['Uname'])) {
   .income_input_value {
     outline: 0px;
     border: 1px solid green;
+    width: 100px;
   }
 
   .expense_input_label {
@@ -139,7 +165,7 @@ if (!isset($_SESSION['Uname'])) {
 <script>
   $(document).ready(function() {
 
-    $('#disbursement_temp_expense_account').load("load_sel_expenditure_account.php")
+    $('#disbursement_temp_expense_account').load("load_sel_disbursement_account.php")
 
     //Update Disbursement balance
     $('.income_input_value').blur(function() {
