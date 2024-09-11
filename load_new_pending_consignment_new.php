@@ -30,8 +30,6 @@ if (!isset($_SESSION['Uname'])) {
                                 GROUP BY ETA_Group");
         ?>
 
-
-
         <div>
             <?php while ($bn = mysqli_fetch_assoc($b)) { ?>
                 <span class="badge badge-<?php setStatusColor($bn['ETA_Group']); ?> m-1 p-2 border border-white"><?= $bn['ETA_Group'] ?>: <span class="badge text-bg-secondary"> <?= $bn['Count'] ?> </span></span>
@@ -61,7 +59,7 @@ if (!isset($_SESSION['Uname'])) {
                             //include("_template/components/pending_consignment_notification/disbursement_paid_account_pending.view.php");
                             ?>
                             <div id="<?= $an['BL'];  ?>" class="notification-div" style="border: 0px solid yellow; display:inline-block">
-                                <div class="spinner-grow text-secondary" role="status">
+                                <div class="spinner-border text-secondary" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                             </div>

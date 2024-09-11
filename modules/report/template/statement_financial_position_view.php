@@ -62,7 +62,7 @@
                         <tr class="tbl-data">
                             <td class="no-border"></td>
                             <td colspan="2"><?= $dn['AccountName'] ?></td>
-                            <td colspan="2"><?= formatToCurrency($dn['TBal']); ?></td>
+                            <td colspan="2"><?= formatNumber($dn['TBal']); ?></td>
                         </tr>
                     <?php }
                     $e = mysqli_query($dbc, "select round(sum(TBal),2) as CatBal from financial_statement_view_1 where SubCategoryID='$cn[SubCategoryID]' and RptUser='$Uname'");
@@ -70,7 +70,7 @@
                         <tr class="tbl-data tbl-final">
                             <td colspan="2" class="no-border"></td>
                             <td colspan="1" class="no-border"></td>
-                            <td colspan="2"><?= formatToCurrency($en['CatBal']) ?></td>
+                            <td colspan="2"><?= formatNumber($en['CatBal']) ?></td>
                         </tr>
                     <?php };
                 }
@@ -80,7 +80,7 @@
                         <td colspan="2" class="no-border"></td>
                         <td class=" no-border"></td>
                         <td colspan="1" class="bg-black"><?= $bn['CategoryName'] ?> SUBTOTAL </td>
-                        <td colspan="2" class="bg-black"><?= formatToCurrency($fn['TBal']) ?></td>
+                        <td colspan="2" class="bg-black"><?= formatNumber($fn['TBal']) ?></td>
                     </tr>
                     <tr>
                         <td class="no-border">.</td>
@@ -91,7 +91,7 @@
             $g = mysqli_query($dbc, "select round(sum(TBal),2) as TBal from financial_statement_view_1 where RptUser='$Uname'");
             while ($gn = mysqli_fetch_assoc($g)) { ?>
                 <tr class="tbl-data tbl-final">
-                    <td colspan="5">DIFFERENCE : <?= formatToCurrency($gn['TBal']) ?></td>
+                    <td colspan="5">DIFFERENCE : <?= formatNumber($gn['TBal']) ?></td>
                 </tr>
             <?php }
             ?>

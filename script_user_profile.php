@@ -26,7 +26,7 @@
                             </div>
                             <div class="col-sm-4 mb-3 mb-sm-0">
                                 <label for="exampleFormControlInput1">Profile Type</label>
-                                <label class="form-control form-control-user label-form-control-user ep"><?php echo $_SESSION['Profile'] ?></label>
+                                <label class="form-control form-control-user label-form-control-user ep"><?php echo $_SESSION['Nature'] ?></label>
                             </div>
                             <div class="col-sm-4 mb-3 mb-sm-0">
                                 <label for="exampleFormControlInput1">Branch</label>
@@ -50,14 +50,15 @@
                     <form class="">
                         <div class="form-group row">
                             <div class="col-sm-12 mb-3 mb-4">
-                                <label for="exampleFormControlInput1" class="text-danger">* Password is case sensitive. Make sure to type the password with the same way when logging in.</label>
+                                <label for="exampleFormControlInput1" class="text-danger">* Password is case sensitive. Make sure to type the password the same way when logging in.</label>
                             </div>
                             <div class="col-sm-4 mb-3 mb-sm-0 show_hide_password">
-                                <label for="exampleFormControlInput1">Old Password</label>
-                                <input type="password" class="form-control form-control-user ep epp" placeholder="Enter Old Password" id="oldUserPassword">
-                                <div class="input-group-addon">
+                            <div class="input-group-addon">
+                                <label for="exampleFormControlInput1">Old Password </label>
                                     <a><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                                 </div>
+                                <input type="password" class="form-control form-control-user ep epp" placeholder="Enter Old Password" id="oldUserPassword">
+                                
                             </div>
                             <div class="col-sm-4 mb-3 mb-sm-0">
                                 <label for="exampleFormControlInput1">New Password</label>

@@ -14,7 +14,7 @@ $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 if (!isset($_SESSION['Uname'])) {
     header('Location: case-login');
 } else {
-    $a = mysqli_query($dbc, "select * from active_petty_cash_view_0 where Username='$Uname'");
+    $a = mysqli_query($dbc, "SELECT * FROM active_petty_cash_view_0 ");
 
     if (mysqli_num_rows($a) == 0) {
         echo '00.00';

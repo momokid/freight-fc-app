@@ -58,16 +58,16 @@ if (!isset($_SESSION['Uname'])) {
                     <div><img src="img/logo1.png" height="100rem" /></div>
                 </td>
                 <td colspan="3" scope="col" style="text-align: center;">
-                    <div style="font-size: 15px;text-transform: uppercase;"><?php echo $bn['InstName']  ?></div>
-                    <div style="font-size: 15px;"><?php echo $bn['Address']  ?></div>
-                    <div style="font-size: 15px;"><?php echo $bn['Email']  ?></div>
-                    <div style="font-size: 15px;"><?php echo $bn['Location']  ?></div>
+                    <div style="font-size: 15px;text-transform: uppercase;"><?= $bn['InstName']  ?></div>
+                    <div style="font-size: 15px;"><?= $bn['Address']  ?></div>
+                    <div style="font-size: 15px;"><?= $bn['Email']  ?></div>
+                    <div style="font-size: 15px;"><?= $bn['Location']  ?></div>
                 </td>
                 <td width="500;">
                     <div style="margin-top:-2rem;padding:0.5rem;float:right;background:orangered;color:white;">
                         <span style="font-size: 15px;">EXPENDITURE REPORT BY ACCOUNT</span><br>
-                        <span style="font-size: 15px;">ACCOUNT: <?php echo $dn['AccountName']; ?></span><br>
-                        <span style="font-size: 15px;">DATE: <?php echo strftime("$dtf", strtotime($an['FDate'])); ?> <em>TO</em> <?php echo strftime("$dtf", strtotime($an['LDate'])); ?></span>
+                        <span style="font-size: 15px;">ACCOUNT: <?= $dn['AccountName']; ?></span><br>
+                        <span style="font-size: 15px;">DATE: <?= strftime("$dtf", strtotime($an['FDate'])); ?> <em>TO</em> <?= strftime("$dtf", strtotime($an['LDate'])); ?></span>
                     </div>
                 </td>
             </tr>
@@ -94,19 +94,19 @@ if (!isset($_SESSION['Uname'])) {
             </tr>
             <?php while ($cn = mysqli_fetch_assoc($c)) { ?>
                 <tr class="tbl-data">
-                    <td><?php echo strftime("$dtf", strtotime($cn['Date'])); ?></td>
-                    <td><?php echo $cn['ReceiptNo']; ?></td>
-                    <td><?php echo $cn['Cr']; ?></td>
-                    <td><?php echo $cn['Dr']; ?></td>
-                    <td><?php echo $cn['Description']; ?></td>
+                    <td><?= strftime("$dtf", strtotime($cn['Date'])); ?></td>
+                    <td><?= $cn['ReceiptNo']; ?></td>
+                    <td><?= formatNumber($cn['Cr']); ?></td>
+                    <td><?= formatNumber($cn['Dr']); ?></td>
+                    <td><?= $cn['Description']; ?></td>
                 </tr>
             <?php } ?>
 
             <?php $e = mysqli_query($dbc, "select round(sum(Cr)-sum(Dr),2) as TInc from  ie_transaction_journal_0 where AccountID='$an[Value1]' and (Date BETWEEN '$an[FDate]' and '$an[LDate]')");
             $en = mysqli_fetch_assoc($e); ?>
             <tr class="tbl-final">
-                <td colspan="3">EXPENSES Between <?php echo strftime("$dtf", strtotime($an['FDate'])); ?> to <?php echo strftime("$dtf", strtotime($an['LDate'])); ?> :</td>
-                <td><?php echo $en['TInc']; ?></td>
+                <td colspan="3">EXPENSES Between <?= strftime("$dtf", strtotime($an['FDate'])); ?> to <?= strftime("$dtf", strtotime($an['LDate'])); ?> :</td>
+                <td><?= formatNumber($en['TInc']); ?></td>
             </tr>
 
         </tbody>

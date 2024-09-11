@@ -176,7 +176,7 @@
           <div class="bg-dark py-2 collapse-inner rounded">
             <a class="collapse-item" id="truck-new-vehicle">Register New Vehicle</a>
             <a class="collapse-item" id="truck-new-driver">Register New Driver</a>
-            <a class="collapse-item" id="schedule-trip">Schedule Cargo Trip</a>
+            <a class="collapse-item" id="schedule-trip">Schedule Vehicle Trip</a>
             <a class="collapse-item" id="truck-inspection">Vehicle Inspection</a>
             <a class="collapse-item" id="truck_expenditure">Vehicle Expenditure</a>
             <a class="collapse-item" id="truck_incident">Vehicle Incident Register</a>
@@ -232,7 +232,9 @@
           <a class="collapse-item" id="rpt-client-trans-details">Client Trans. Details</a>
           <a class="collapse-item" id="rpt-accounting-report">Transaction Report</a>
           <a class="collapse-item" id="rpt-disbursement-report">Disbursement Report</a>
-          <a class="collapse-item" id="rpt-other-report">Other Report</a>
+          <?php if ($userAuth['Transport']) { ?>
+            <a class="collapse-item" id="rpt-vehicle-report">Vehicle Mgt. Report</a>
+          <?php } ?>
           <div class="collapse-divider"></div>
         </div>
       </div>

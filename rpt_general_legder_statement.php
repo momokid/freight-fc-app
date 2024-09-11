@@ -58,16 +58,16 @@ if (!isset($_SESSION['Uname'])) {
                     <div><img src="img/logo1.png" height="100rem" /></div>
                 </td>
                 <td colspan="3" scope="col" style="text-align: center;">
-                    <div style="font-size: 15px;text-transform: uppercase;"><?php echo $bn['InstName']  ?></div>
-                    <div style="font-size: 15px;"><?php echo $bn['Address']  ?></div>
-                    <div style="font-size: 15px;"><?php echo $bn['Email']  ?></div>
-                    <div style="font-size: 15px;"><?php echo $bn['Location']  ?></div>
+                    <div style="font-size: 15px;text-transform: uppercase;"><?= $bn['InstName']  ?></div>
+                    <div style="font-size: 15px;"><?= $bn['Address']  ?></div>
+                    <div style="font-size: 15px;"><?= $bn['Email']  ?></div>
+                    <div style="font-size: 15px;"><?= $bn['Location']  ?></div>
                 </td>
                 <td width="500;">
                     <div style="margin-top:-2rem;padding:0.5rem;float:right;background:orangered;color:white;">
                         <span style="font-size: 15px;">GENERAL LEDGER STATEMENT BY ACCOUNT</span><br>
-                        <span style="font-size: 15px;">ACCOUNT: <?php echo $dn['AccountName']; ?></span><br>
-                        <span style="font-size: 15px;">DATE: <?php echo strftime("$dtf", strtotime($an['FDate'])); ?> <em>TO</em> <?php echo strftime("$dtf", strtotime($an['LDate'])); ?></span>
+                        <span style="font-size: 15px;">ACCOUNT: <?= $dn['AccountName']; ?></span><br>
+                        <span style="font-size: 15px;">DATE: <?= strftime("$dtf", strtotime($an['FDate'])); ?> <em>TO</em> <?= strftime("$dtf", strtotime($an['LDate'])); ?></span>
                     </div>
                 </td>
             </tr>
@@ -96,24 +96,24 @@ if (!isset($_SESSION['Uname'])) {
             </tr>
             <?php while ($cn = mysqli_fetch_assoc($c)) { ?>
                 <tr class="tbl-data">
-                    <td><?php echo strftime("$dtf", strtotime($cn['Date'])); ?></td>
-                    <td><?php echo $cn['ReceiptNo']; ?></td>
-                    <td><?php echo $cn['Cr']; ?></td>
-                    <td><?php echo $cn['Dr']; ?></td>
-                    <td><?php echo $cn['Description']; ?></td>
+                    <td><?= strftime("$dtf", strtotime($cn['Date'])); ?></td>
+                    <td><?= $cn['ReceiptNo']; ?></td>
+                    <td><?= formatNumber($cn['Cr']); ?></td>
+                    <td><?= formatNumber($cn['Dr']); ?></td>
+                    <td><?= $cn['Description']; ?></td>
                 </tr>
             <?php } ?>
 
             <?php $e = mysqli_query($dbc, "select round(sum(Cr),2) as TCr, round(sum(Dr),2) as TDr, round(sum(Cr)-sum(Dr),2) as TBal from gl_statement_sub_account where AccountID='$an[Value1]' and (Date BETWEEN '$an[FDate]' and '$an[LDate]')");
             $en = mysqli_fetch_assoc($e); ?>
             <tr class="tbl-final">
-                <td colspan="2">TOTAL CREDIT: <?php echo $en['TCr']; ?></td>
+                <td colspan="2">TOTAL CREDIT: <?= formatNumber($en['TCr']); ?></td>
             </tr>
             <tr class="tbl-final">
-                <td colspan="2">TOTAL DEBIT: <?php echo $en['TDr']; ?></td>
+                <td colspan="2">TOTAL DEBIT: <?= formatNumber($en['TDr']); ?></td>
             </tr>
             <tr class="tbl-final">
-                <td colspan="2">ACCOUNT BALANCE: <?php echo $en['TBal']; ?></td>
+                <td colspan="2">ACCOUNT BALANCE: <?= formatNumber($en['TBal']); ?></td>
             </tr>
         </tbody>
 

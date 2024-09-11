@@ -16,27 +16,27 @@
             </div>
             <div class="col-sm-12 mb-3 mb-sm-0">
               <label for="exampleFormControlInput1">Full Name *</label>
-              <input type="text" class="form-control form-control-user ep" id="newcnsName">
+              <input type="text" class="form-control form-control-user cep" id="newcnsName">
             </div>
           </div>
           <div class="form-group row">
             <div class="col-sm-6 mb-3 mb-sm-0">
               <label for="exampleFormControlInput1">Address Line 1 *</label>
-              <textarea class="form-control form-control-user ep" id="newcnsAdd1" placeholder="Shipper's Address" required></textarea>
+              <textarea class="form-control form-control-user cep" id="newcnsAdd1" placeholder="Shipper's Address" required></textarea>
             </div>
             <div class="col-sm-6 mb-3 mb-sm-0">
               <label for="exampleFormControlInput1">Address Line 2 *</label>
-              <textarea class="form-control form-control-user ep" id="newcnsAdd2" placeholder="Shipper's Address" required></textarea>
+              <textarea class="form-control form-control-user cep" id="newcnsAdd2" placeholder="Shipper's Address" required></textarea>
             </div>
           </div>
           <div class="form-group row">
             <div class="col-sm-6 mb-3 mb-sm-0">
               <label for="exampleFormControlInput1">TIN Number</label>
-              <input type="text" class="form-control form-control-user ep" id="newshpAdd3">
+              <input type="text" class="form-control form-control-user cep" id="newshpAdd3">
             </div>
             <div class="col-sm-6 mb-3 mb-sm-0">
               <label for="exampleFormControlInput1">Telehone No. *</label>
-              <input type="text" class="form-control form-control-user ep" id="newcnsTel">
+              <input type="text" class="form-control form-control-user cep" id="newcnsTel">
             </div>
             <hr class="sidebar-divider my-0">
           </div>

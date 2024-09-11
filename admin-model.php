@@ -127,6 +127,11 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
         <?php require("_template/components/reports/accounting_report.view.php"); ?>
         <?php require("_template/components/reports/other_reports.view.php"); ?>
         <?php require("_template/components/reports/disbursement_report.view.php"); ?>
+
+        <?php if ($userAuth['Transport']){
+          require("_template/components/reports/vehicle_hub_report.view.php");
+        } ?>
+
         <?php require("_template/components/reports/consigment_details.view.php"); ?>
 
         <?php require("_template/components/edit/edit_consignment_details.view.php"); ?>

@@ -488,6 +488,13 @@ $(function () {
     $("#view-disbursement-report").slideDown();
   });
 
+//
+$("#rpt-vehicle-report").click(function () {
+  $(".sub-basic-setup").hide();
+  //$('.sel_branch_rpt').load('load_distinct_income_account_rpt.php');
+  $("#view-vehicle-report").slideDown();
+});
+
   //
   $("#rpt-consigment-details").click(function () {
     $(".sub-basic-setup").hide();
@@ -1727,7 +1734,7 @@ $(function () {
       );
 
       $.post(
-        "add_new_cargo_trip_schedule.php",
+        "add_new_vehicle_trip_schedule.php",
         {
           trip_vehicle,
           trip_driver,
@@ -1747,7 +1754,7 @@ $(function () {
 
           if (data.status_code == 200) {
             alert(data.msg);
-            $("#display_registered_vehicles").load(
+            $("#display_cargo_schedule_trip").load(
               "load_registered_vehicles.view.php"
             );
             $(".progress-loader").remove();
@@ -2247,7 +2254,7 @@ var vehicle_name = $.trim(
         },
         function (a) {
           if (a == 1) {
-            $(".ep").val("");
+            $(".cep").val("");
             $("#hbl_consignee_id").text(shpid);
             $(".new_consignee_id").text(shpid);
             $("#search_client_oth_serv_id").text(shpid);
@@ -7978,12 +7985,28 @@ var vehicle_name = $.trim(
     }
 
     $(".progress-loader").remove();
-    $("#disbursement_report_view_card").append(
+    $("body").append(
       '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
     );
 
     $.get("fetch_disbursement_summary_by_date.php", { fdt, ldt }, function (a) {
       $("#view_disbursement_report_search_result").html(a);
+      $(".progress-loader").remove();
+    });
+  });
+
+//
+ $("#btn_vehicle_inventory_rpt").click(function () {
+    let fdt = $.trim($("#sel_disbursement_summary_fdate").val());
+    let ldt = $.trim($("#sel_disbursement_summary_ldate").val());
+
+    $(".progress-loader").remove();
+    $("body").append(
+      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+    );
+
+    $.get("fetch_vehicle_inventory_rpt.php", { fdt, ldt }, function (a) {
+      $("#view_vehicle_preview_result").html(a);
       $(".progress-loader").remove();
     });
   });

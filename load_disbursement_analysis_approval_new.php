@@ -71,7 +71,7 @@ if (!isset($_SESSION['Uname'])) {
                                 <td></td>
                                 <td class="border border-dark border-right-0 font-weight-bold">PROFIT/LOSS (#<?= $bn["ContainerNo"] ?>)</td>
                                 <td class="border border-dark border-left-0 <?= $pnl > 0 ? "text-success" : "text-danger" ?>"> <span class="font-weight-bold"><?= formatToCurrency($pnl); ?></span></td>
-                                <td><button class="btn btn-success fa-btn btn-approve-disbursement" id="<?= $bn['BL'] ?>" title="Approve Disbursement Analysis">APPROVE</button> <button class="btn btn-danger btn-reject-disbursement" id="<?= $bn['BL'] ?>" user="<?= $bn['Username'] ?>" title="Reject Disbursement Analysis">DECLINE</button></td>
+                                <td><button class="btn btn-success fa-btn btn-approve-disbursement" data-id="<?= $bn['BL'] ?>" title="Approve Disbursement Analysis">APPROVE</button> <button class="btn btn-danger btn-reject-disbursement" data-id="<?= $bn['BL'] ?>" user="<?= $bn['Username'] ?>" title="Reject Disbursement Analysis">DECLINE</button></td>
                             </tr>
                         <?php  }
                         ?>
@@ -103,7 +103,7 @@ if (!isset($_SESSION['Uname'])) {
     <script>
         //Authorize disrbursement analysis
         $('.btn-approve-disbursement').click(function() {
-            let bl = $.trim($(this).attr('id'))
+            let bl = $.trim($(this).attr('data-id'))
 
             $(".progress-loader").remove();
             $("body").append(
@@ -120,7 +120,7 @@ if (!isset($_SESSION['Uname'])) {
 
                     alert(result.msg)
                     $(`.tbody-panel-${receiptNo}`).fadeOut();
-                    $("body").load("load_disbursement_analysis_approval_new.php");
+                    $("#display_disbursement_analysis").load("load_disbursement_analysis_approval_new.php");
                     $(".progress-loader").remove();
                 });
             }
@@ -129,7 +129,7 @@ if (!isset($_SESSION['Uname'])) {
 
 
         $('.btn-reject-disbursement').click(function() {
-            let bl = $.trim($(this).attr('id'))
+            let bl = $.trim($(this).attr('data-id'))
             let userName = $.trim($(this).attr('user'))
 
             $(".progress-loader").remove();
@@ -148,7 +148,7 @@ if (!isset($_SESSION['Uname'])) {
 
                     alert(result.msg)
                     $(`.tbody-panel-${receiptNo}`).fadeOut();
-                    $("body").load("load_disbursement_analysis_approval_new.php");
+                    //$("#display_disbursement_analysis").load("load_disbursement_analysis_approval_new.php");
 
                     $(".progress-loader").remove();
                 });

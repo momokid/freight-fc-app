@@ -110,7 +110,7 @@ if (!isset($_SESSION['Uname'])) {
             $stmt2->execute();
 
             //New truck
-            $sql = "INSERT INTO truck_new (`Brand`,`Model`,`YearOfMake`,`LicensePlate`,`VIN`,`ReceiptNo`,`Username`,`Date`,`Time`,`BranchID`) VALUES(:brand, :model, :yearOfMake, :licensePlate, :vin, :receiptNo, :username, :date, :time, :branchId)";
+            $sql = "INSERT INTO truck_new (`Brand`,`Model`,`YearOfMake`,`LicensePlate`,`VIN`,`ReceiptNo`,`Username`,`Date`,`Time`,`BranchID`,`Status`) VALUES(:brand, :model, :yearOfMake, :licensePlate, :vin, :receiptNo, :username, :date, :time, :branchId, :status)";
 
             $stmt = $pdo->prepare($sql);
 
@@ -124,6 +124,7 @@ if (!isset($_SESSION['Uname'])) {
             $stmt->bindParam(":date", $ajaxDate);
             $stmt->bindParam(":time", $ajaxTime);
             $stmt->bindParam(":branchId", $BranchID);
+            $stmt->bindParam(":status", $status);
 
             // Execute the statement
             $stmt->execute();

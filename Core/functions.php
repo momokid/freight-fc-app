@@ -1,6 +1,9 @@
 <?php
 
 //Abort function
+
+use Sabberworm\CSS\Value\Value;
+
 function abort($code = 404)
 {
     $result = [
@@ -12,6 +15,12 @@ function abort($code = 404)
     die(var_export($result));
 }
 
+//format number to accounting format
+function formatToAccounting($value){
+    return abs($value);
+    
+}   
+
 //format number to currency
 function formatToCurrency($value)
 {
@@ -21,9 +30,21 @@ function formatToCurrency($value)
     return $Crnc . number_format($value, 2, '.', ',');
 }
 
+//Format number value
 function formatNumber($value)
 {
-    return number_format($value, 2, '.', ',');
+
+    //$result =  number_format(formatToAccounting($value), 2, '.', ',');
+
+    if($value < 0 ){
+        $result = formatToAccounting($value);
+
+        return "(".number_format(formatToAccounting($result), 2, '.', ',').")";
+    }else{
+        return number_format(formatToAccounting($value), 2, '.', ',');
+    }
+
+    //return $value;
 }
 
 //format date into Day/Month/Year

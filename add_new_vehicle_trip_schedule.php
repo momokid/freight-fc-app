@@ -218,7 +218,7 @@ if (!isset($_SESSION['Uname'])) {
 
             $res = [
                 'status_code' => 200,
-                'msg' => "New vehicle registered successfully",
+                'msg' => "Trip scheduled successfully",
             ];
 
         } catch (PDOException $e) {

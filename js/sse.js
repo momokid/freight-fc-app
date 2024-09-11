@@ -33,7 +33,7 @@ if (typeof EventSource !== "undefined") {
 
       // Loop through the filtered items and log the AccountName to the console
       matchingItems.forEach(function (item) {
-        var span = $("<span class='badge bg-dark text-white m-1 p-1'></span>").html( item.AccountName);
+        var span = $(`<span class='badge bg-dark text-white m-1 p-1 d-inline-block text-truncate' style="max-width: 100px;" title="${item.AccountName}"></span>`).html( item.AccountName);
 
         // Append the span to the div with the matching id
         $("#" + divId).append(span);
@@ -43,6 +43,7 @@ if (typeof EventSource !== "undefined") {
     });
   };
 } else {
+  
   console.error("Your browser does not support Server-Sent Events.");
 }
 

@@ -11,7 +11,7 @@ header("Connection: keep-alive");
 
 // Function to check for new data
 function checkForNewData($pdo) {
-    $stmt = $pdo->query("SELECT BL, AccountID, AccountName FROM  disbursement_analysis_view_3 WHERE ConsignmentStatus='1'");
+    $stmt = $pdo->query("SELECT BL, AccountID, AccountName FROM  disbursement_analysis_view_3 WHERE ConsignmentStatus='1' ORDER BY Date");
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result ? $result : [];
 }
