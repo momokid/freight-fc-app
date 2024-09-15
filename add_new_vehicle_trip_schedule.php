@@ -153,6 +153,7 @@ if (!isset($_SESSION['Uname'])) {
                 "Date" => $tdate,
                 "Time" => $ajaxTime,
                 "BranchID" => $BranchID,
+                "Status" => $status,
             ];
             $tripFunc = insertData($pdo, "truck_trip", $tripData);
 

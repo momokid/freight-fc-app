@@ -11,3 +11,6 @@
 <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon"/>
 <link rel="icon" href="img/favicon.png">
 <link rel="stylesheet" href="css/main.css?version=<?php echo rand() ?>" type="text/css" />
+
+<!--  -->
+<script src="js/demo/googleCharts.js?version=<?php echo rand() ?>"></script>

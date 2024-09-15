@@ -20,7 +20,7 @@ if (!isset($_SESSION['Uname'])) {
       echo '<option selected></option>';
    } else {
 
-      echo '<option selected></option>';
+      echo '<option selected>Select Vehicle</option>';
 
       while ($an = mysqli_fetch_assoc($a)) {
          echo '<option id=' . $an['VehicleID'] . '>' . $an['Brand'] . ' ' . $an['Model'] . ' ' . $an['YearOfMake'] . ' ~ ' . $an['LicensePlate'] . '</option>';

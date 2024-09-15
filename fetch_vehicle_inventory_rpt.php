@@ -63,7 +63,7 @@ if (!isset($_SESSION['Uname'])) {
         <tr>
             <td colspan="7">
             <form class="col-sm-12 mb-3 user">
-                <button type="button" class="btn btn-info btn-user btn-block" id="btn_vehicle_inventory_rpt">
+                <button type="button" class="btn btn-success btn-user btn-block" id="btn_vehicle_inventory_rpt">
                   View Vehicle List
             </button>
               </form>

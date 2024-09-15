@@ -1635,6 +1635,11 @@ $("#rpt-vehicle-report").click(function () {
   });
 
   //
+  $('#btn_vehicle_details_rpt').click(function(){
+    $('#view_vehicle_preview_result').load('fetch_vehicle_details_options.php');
+  })
+
+  //
   $("#btn_new_vehicle_registration").click(function () {
     var brand = $.trim($("#new_vehicle_brand").val());
     var model = $.trim($("#new_vehicle_model").val());
@@ -4299,6 +4304,7 @@ var vehicle_name = $.trim(
       $("#rptSummaryIncome_ldt").focus();
       return false;
     } else {
+      $(".progress-loader").remove();
       $("body").append(
         '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
       );
