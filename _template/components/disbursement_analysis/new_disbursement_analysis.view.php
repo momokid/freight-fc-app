@@ -49,56 +49,6 @@
               </div>
             </div>
 
-            <div class="col-sm-5 mb-4">
-              <!-- Approach -->
-              <div class="card shadow mb-4" id="manifestation_breakdown_card">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Transaction Summary</h6>
-                </div>
-                <div class="card-body">
-                  <div class="form-group row">
-
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Total Cash Revenue</label>
-                      <input type="number" class="form-control form-control-user ep" autocomplete="off" placeholder="Enter Cash Revenue" id="txtTotalDisbursementIncome">
-
-                    </div>
-
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Cash Revenue Source</label>
-                      <select  class="custom-select custom-select-sm sl-form-ctrl form-control" title="Select Cash Source" id="txtTotalDisbursementSource">
-                      </select>
-                    </div>
-
-                  </div>
-
-                  <div class="form-group row mt-3">
-
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Balance Outstanding</label>
-                      <label class="form-control form-control-user label-form-control-user" id="lblTotalDisbursement"></label>
-                    </div>
-
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <label for="exampleFormControlInput1">Date of Transaction</label>
-                      <input type="text" class="form-control form-control-user datepicker ep" autocomplete="off" id="txt_disbursement_DOT">
-                    </div>
-
-                  </div>
-                  <div class="form-group row">
-                    <div class="col-sm-12 mb-3 mb-sm-0" id="cosignee_house_bl_display_details">
-                      <form class="user">
-                        <a class="btn btn-success btn-user btn-block" id="btn_save_disbursement">
-                          Save Disbursement
-                        </a>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
             <div class="col-sm-7 mb-1">
               <!-- Approach -->
               <div class="card shadow mb-1" id="disbursement_analysis_display_card">
@@ -116,7 +66,57 @@
               </div>
 
             </div>
+            <div class="col-sm-5 mb-4">
+              <!-- Approach -->
+              <div class="card shadow mb-4" id="manifestation_breakdown_card">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Transaction Summary</h6>
+                </div>
+                <div class="card-body">
+                  <div class="form-group row">
 
+                    <div class="col-sm-6 mb-3 mb-sm-0 sr-only">
+                      <label for="exampleFormControlInput1">Total Cash Revenue</label>
+                      <input type="number" class="form-control form-control-user ep" autocomplete="off" placeholder="Enter Cash Revenue" id="txtTotalDisbursementIncome">
+
+                    </div>
+
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Date of Transaction</label>
+                      <input type="text" class="form-control form-control-user datepicker ep" autocomplete="off" id="txt_disbursement_DOT">
+                    </div>
+                    
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Cash Revenue Source</label>
+                      <select  class="custom-select custom-select-sm sl-form-ctrl form-control" title="Select Cash Source" id="txtTotalDisbursementSource">
+                      </select>
+                    </div>
+
+                  </div>
+
+                  <div class="form-group row mt-3 sr-only">
+
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <label for="exampleFormControlInput1">Balance Outstanding</label>
+                      <label class="form-control form-control-user label-form-control-user" id="lblTotalDisbursement"></label>
+                    </div>
+
+
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0" id="cosignee_house_bl_display_details">
+                      <form class="user">
+                        <a class="btn btn-success btn-user btn-block" id="btn_save_disbursement">
+                          Save Disbursement
+                        </a>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            
           </div>
 
         </div>

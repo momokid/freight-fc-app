@@ -10,9 +10,10 @@ $BranchID = mysqli_real_escape_string($dbc, $_SESSION['BranchID']);
 $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 
 $bl = mysqli_real_escape_string($dbc, $_POST['bl']);
+$container = mysqli_real_escape_string($dbc, $_POST['container']);
 
 try {
-    $a = mysqli_query($dbc, "SELECT * FROM container_main WHERE BL='$bl'");
+    $a = mysqli_query($dbc, "SELECT * FROM container_main WHERE BL='$bl' AND ContainerNo='$container'");
 
     if (mysqli_num_rows($a) == 0) {
         $result = [
@@ -20,7 +21,7 @@ try {
             "msg" => "Consignment details not found",
         ];
     } else {
-        $b = mysqli_query($dbc,"UPDATE container_main SET Status = 0 WHERE BL = '$bl'");
+        $b = mysqli_query($dbc,"UPDATE container_main SET Status = 3 WHERE BL = '$bl' AND ContainerNo='$container'");
 
         if($b){
             $result = [

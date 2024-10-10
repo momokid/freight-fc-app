@@ -16,7 +16,7 @@ if (typeof EventSource !== "undefined") {
     //$(".notification-div").html(data.data_rows[0].AccountName);
     //console.log(data.data_rows);
 
-    $(".notification-div").each(function () {
+    $(".notification-divvvv").each(function () {
       // Get the id of the current div
       var divId = $(this).attr("id");
 

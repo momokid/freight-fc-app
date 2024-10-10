@@ -1360,17 +1360,30 @@ $("#rpt-vehicle-report").click(function () {
   //Add New Disbursement Account
   $("#btn-new-disbursement-charge").click(function () {
     let accountID = $.trim($("#sel_disbursement_account :selected").attr("id"));
+    let priority = $.trim($('#txt_disbursement_account_priority').val());
+    let color = $.trim($('#txt_disbursement_ntf_color').val());
+
 
     if (accountID == "") {
       alert("Select Account");
       $("#sel_disbursement_account").focus();
       return false;
+    }else if(priority === ""){
+      alert('Set account priority level');
+      $('#txt_disbursement_account_priority').focus();
+      return false;
+    } else if(color === ""){
+      alert('Set notification background color');
+      $('#txt_disbursement_ntf_color').focus();
+      return false;
     } else {
-      $("#disbursement_charges_setup_panel").append(
+
+      $(".progress-loader").remove();
+      $("body").append(
         '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
       );
 
-      $.post("add_new_disbursement_account.php", { accountID }, function (a) {
+      $.post("add_new_disbursement_account.php", { accountID, priority, color }, function (a) {
         if (a == 1) {
           $(".ep").text("");
           $(".ep").val("");

@@ -26,6 +26,14 @@
               <option></option>
             </select>
           </div>
+          <div class="col-sm-12 mb-3 mb-sm-0">
+            <label for="exampleFormControlInput1">Account Priority</label>
+            <input type="number" class="form-control form-control-user ep" id="txt_disbursement_account_priority">
+          </div>
+          <div class="col-sm-12 mb-3 mb-sm-0">
+            <label for="exampleFormControlInput1">Notification Color</label>
+            <input type="text" class="form-control form-control-user ep" id="txt_disbursement_ntf_color">
+          </div>
         </div>
 
         <form class="user">

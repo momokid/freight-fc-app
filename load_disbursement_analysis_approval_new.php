@@ -28,10 +28,10 @@ if (!isset($_SESSION['Uname'])) {
             if (mysqli_num_rows($a) > 0) {
                 $b = mysqli_query($dbc, "SELECT DISTINCT ConsigneeName, ContainerNo, BL, ETA, ETA_Days, OfficerAssignedName, TotalCashReceipt, Username FROM disbursement_analysis_unauth_1 WHERE Status='2' ORDER BY Date ASC");
                 while ($bn = mysqli_fetch_assoc($b)) { ?>
-                    <tbody class="tbody-panel-<?= $bn['ReceiptNo']?>">
+                    <tbody class="tbody-panel-<?= $bn['ContainerNo'] ?>">
                         <tr class='table-warning'>
-                            <td colspan='2' class="font-weight-bold text-dark">CONTAINER# / BL# : <?= $bn["BL"] . ' / ' . $bn['ContainerNo']; ?></td>
-                            <td colspan='2' class="font-weight-bold text-dark">ASSIGNED OFFICER :  <?= $bn['OfficerAssignedName'] ?></td>
+                            <td colspan='2' class="font-weight-bold text-dark">BL# / CONTAINER# : <?= $bn["BL"] . ' / ' . $bn['ContainerNo']; ?></td>
+                            <td colspan='2' class="font-weight-bold text-dark">ASSIGNED OFFICER : <?= $bn['OfficerAssignedName'] ?></td>
                         </tr>
 
                         <tr class=''>
@@ -51,7 +51,7 @@ if (!isset($_SESSION['Uname'])) {
                                 <td class=""></td>
                                 <td class=""> <?= $cn["AccountName"] ?></td>
                                 <td class=""><?= formatToCurrency($cn['Expenditure']) ?></td>
-                                <td class=""><?= formatDate($cn['Date'])?></td>
+                                <td class=""><?= formatDate($cn['Date']) ?></td>
                             </tr>
                         <?php    }
                         ?>
@@ -67,12 +67,18 @@ if (!isset($_SESSION['Uname'])) {
                             </tr>
 
                             <?php $pnl = $dn['TotalCashReceipt'] - $dn['TotalExpenditure']; ?>
-                            <tr>
+                            <tr class="">
+                                <td></td>
+                                <td><button class="btn btn-success fa-btn btn-approve-disbursement" data-id="<?= $bn['BL'] ?>" data-container="<?= $bn['ContainerNo'] ?>" title="Approve Disbursement Analysis">APPROVE</button> <button class="btn btn-danger btn-reject-disbursement" data-id="<?= $bn['BL'] ?>" data-container="<?= $bn['ContainerNo'] ?>" user="<?= $bn['Username'] ?>" title="Reject Disbursement Analysis">DECLINE</button></td>
+                            </tr>
+
+                            <tr class="sr-only">
                                 <td></td>
                                 <td class="border border-dark border-right-0 font-weight-bold">PROFIT/LOSS (#<?= $bn["ContainerNo"] ?>)</td>
                                 <td class="border border-dark border-left-0 <?= $pnl > 0 ? "text-success" : "text-danger" ?>"> <span class="font-weight-bold"><?= formatToCurrency($pnl); ?></span></td>
                                 <td><button class="btn btn-success fa-btn btn-approve-disbursement" data-id="<?= $bn['BL'] ?>" title="Approve Disbursement Analysis">APPROVE</button> <button class="btn btn-danger btn-reject-disbursement" data-id="<?= $bn['BL'] ?>" user="<?= $bn['Username'] ?>" title="Reject Disbursement Analysis">DECLINE</button></td>
                             </tr>
+
                         <?php  }
                         ?>
                         <tr>
@@ -104,6 +110,7 @@ if (!isset($_SESSION['Uname'])) {
         //Authorize disrbursement analysis
         $('.btn-approve-disbursement').click(function() {
             let bl = $.trim($(this).attr('data-id'))
+            let containerNo = $.trim($(this).attr('data-container'))
 
             $(".progress-loader").remove();
             $("body").append(
@@ -114,12 +121,13 @@ if (!isset($_SESSION['Uname'])) {
 
             if (ansa) {
                 $.post('disbursement_analysis_approved.php', {
-                    bl
+                    bl,
+                    containerNo
                 }, function(data) {
                     let result = JSON.parse(data);
 
                     alert(result.msg)
-                    $(`.tbody-panel-${receiptNo}`).fadeOut();
+                    $(`.tbody-panel-${containerNo}`).fadeOut();
                     $("#display_disbursement_analysis").load("load_disbursement_analysis_approval_new.php");
                     $(".progress-loader").remove();
                 });
@@ -131,9 +139,10 @@ if (!isset($_SESSION['Uname'])) {
         $('.btn-reject-disbursement').click(function() {
             let bl = $.trim($(this).attr('data-id'))
             let userName = $.trim($(this).attr('user'))
-
+            let containerNo = $.trim($(this).attr('data-container'))
+ 
             $(".progress-loader").remove();
-            $("#disbursementAnalysisModalContent").append(
+            $("body").append(
                 '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
             );
             // alert(`${userName} ${receiptNo}`);
@@ -142,15 +151,22 @@ if (!isset($_SESSION['Uname'])) {
             if (ansa) {
                 $.post('disbursement_analysis_reject.php', {
                     bl,
-                    userName
+                    userName,
+                    containerNo
                 }, function(data) {
                     let result = JSON.parse(data);
 
-                    alert(result.msg)
-                    $(`.tbody-panel-${receiptNo}`).fadeOut();
-                    //$("#display_disbursement_analysis").load("load_disbursement_analysis_approval_new.php");
+                    if(result.status_code == 200){
+                        $(`.tbody-panel-${containerNo}`).fadeOut();
+                        $(".progress-loader").remove();
+                    }else{
+                        alert(result.msg)
+                        $(".progress-loader").remove();
+                    }
+                    
+                    
 
-                    $(".progress-loader").remove();
+                    
                 });
             }
         })

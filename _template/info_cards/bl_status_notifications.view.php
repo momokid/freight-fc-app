@@ -16,8 +16,8 @@
                 <div class="card-body" id="display_new_consignment">
 
                     <h2 class="accordion-header placeholder-glow">
-                            <span class="placeholder col-1 placeholder-lg bg-dark"></span>
-                        </h2>
+                        <span class="placeholder col-1 placeholder-lg bg-dark"></span>
+                    </h2>
 
                     <div class="accordion" id="accordionExample">
                         <h2 class="accordion-header placeholder-glow">

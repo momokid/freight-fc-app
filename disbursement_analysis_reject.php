@@ -12,6 +12,7 @@ $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 
 $bl = mysqli_real_escape_string($dbc, $_POST['bl']);
 $userName = mysqli_real_escape_string($dbc, $_POST['userName']);
+$containerNo = mysqli_real_escape_string($dbc, $_POST['containerNo']);
 
 $result = [];
 
@@ -21,6 +22,11 @@ if (!isset($_SESSION['Uname'])) {
     $result = [
         'status_code' => 301,
         'msg' => 'Error retrieving disbursement',
+    ];
+} else if ($containerNo == "") {
+    $result = [
+        'status_code' => 301,
+        'msg' => 'Error retrieving disbursement - ContainerNo',
     ];
 } else if ($userName == '') {
     $result = [
@@ -36,7 +42,7 @@ if (!isset($_SESSION['Uname'])) {
             'msg' => "User currently processing a new disbursement. Kindly contact [$userName].",
         ];
     } else {
-        $b = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND Status='2'");
+        $b = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND Status='2' AND ContainerNo='$containerNo'");
 
         if (mysqli_num_rows($b) == 0) {
             $result = [
@@ -49,15 +55,20 @@ if (!isset($_SESSION['Uname'])) {
             }
 
             if ($c) {
-                $e = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND Status='2'");
-                while($en = mysqli_fetch_assoc($e)){
+                $e = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND Status='2' AND ContainerNo='$containerNo'");
+                while ($en = mysqli_fetch_assoc($e)) {
                     $d = mysqli_query($dbc, "DELETE FROM receipt_main WHERE ReceiptNo='$en[ReceiptNo]'");
                 }
-                
+
 
                 $result = [
-                    'status_code' => 301,
+                    'status_code' => 200,
                     'msg' => "Records rejected successfully.",
+                ];
+            }else{
+                $result = [
+                    'status_code' => 301,
+                    'msg' => 'Error rejecting disbursement',
                 ];
             }
         }

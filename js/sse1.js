@@ -1,5 +1,5 @@
 if (typeof(EventSource) !== "undefined") {
-    const source = new EventSource("sse_disbursement_paid_account.php.php");
+    const source = new EventSource("sse_disbursement_paid_account.php");
 
     source.onmessage = function(event) {
         const data = JSON.parse(event.data);

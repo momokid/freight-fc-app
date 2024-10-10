@@ -1,4 +1,3 @@
-
 <table class="" style="width:1200px;border: 0px solid red;margin-top: 5px;color:black;margin-left: 10px;">
     <thead>
         <tr style="font-weight:bold;" width="140">
@@ -13,7 +12,7 @@
             </td>
             <td width="300;">
                 <div style="margin-top:-2rem;padding:0.5rem;float:right;background:orangered;color:white;">
-                    <span style="font-size: 15px;">VEHICLE INSPECTION REPORT</span><br>
+                    <span style="font-size: 15px;">VEHICLE INCIDENT REPORT</span><br>
                     <span style="font-size: 15px;">BRANCH: <?= $bn['BranchName']; ?></span><br>
                     <span style="font-size: 15px;">DATE: <?= strftime("$dtf", strtotime($an['FDate'])); ?> <em>TO</em> <?= strftime("$dtf", strtotime($an['LDate'])); ?></span>
                 </div>
@@ -23,86 +22,91 @@
 </table>
 
 
-<div class="table-responsive mt-4 ml-1">
-    <table class="table table-bordered border-primary" style="width:1200px;">
-        <thead>
-            <th>VEHICLE</th>
-            <th>DRIVER</th>
-            <th>INCIDENT</th>
-            <th>DATE</th>
-            <th>LOCATION</th>
-            <th>DESCRIPTION</th>
-            <th>EST. COST</th>
-            <th>RESOLUTION</th>
-            <th>RES. DATE</th>
-        </thead>
+<div class="row mt-4 ml-1">
 
+
+    <div class="container mt-4">
+
+        <!-- Card for Vehicle V001 -->
         <?php
-        $Ldate = $an['LDate'];
-        $FDate = $an['FDate'];
+        $b = mysqli_query($dbc, "SELECT * FROM truck_inspection_view WHERE InspectionDate BETWEEN '$an[FDate]' AND '$an[LDate]' ");
+        if (mysqli_num_rows($b) == 0) { ?>
 
-        $z = mysqli_query($dbc, "SELECT * FROM truck_incident_view_2 WHERE Date BETWEEN '$an[FDate]' AND '$an[LDate]' ");
-        if (mysqli_num_rows($z) == 0) { ?>
-            <tbody>
-                <td colspan="9">Data not found between <span class="text-danger font-weight-bold"><?= formatDate($an['FDate']) ?></span> and <span class="text-danger font-weight-bold"><?= formatDate($an['LDate']) ?></span> </td>
-            </tbody>
-        <?php } else { ?>
-            <tbody style="font-size: 14px;">
-                <?php
-                $b = mysqli_query($dbc, "SELECT DISTINCT VehicleID, VehicleDescription FROM truck_incident_view_2 WHERE Date BETWEEN '$an[FDate]' AND '$an[LDate]' ");
-                while ($bn = mysqli_fetch_assoc($b)) { ?>
-                    <tr>
-                        <td colspan="9" class="font-weight-bold"><?= $bn['VehicleDescription']  ?></td>
-                    </tr>
+            <div class="container mt-4">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>No Vehicle Inspection Data </h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Inspection Date:</strong> NA </p>
+                        <p><strong>Odometer Reading:</strong> 0.00 km</p>
+                        <p><strong>Tire Condition:</strong> NA</p>
+                        <p><strong>Brake Condition:</strong> NA</p>
+                        <p><strong>Light Condition:</strong> NA</p>
+                        <p><strong>Inspection Status:</strong> <span class="badge badge-danger">NA</span></p>
+                        <p><strong>Comments:</strong> No comment</p>
+                    </div>
+                    <div class="card-footer">
+                        <small>---</small>
+                    </div>
+                </div>
+            </div>
 
-                    <?php
-                    $c = mysqli_query($dbc, "SELECT * FROM truck_incident_view_2 WHERE  VehicleID = '$bn[VehicleID]' AND Date BETWEEN '$an[FDate]' AND '$an[LDate]'");
-                    while ($cn = mysqli_fetch_assoc($c)) { ?>
-                        <tr>
-                            <td></td>
-                            <td><?= $cn['DriverName']  ?></td>
-                            <td><?= $cn['IncidentType'] ?></td>
-                            <td><?= formatDate($cn['IncidentDate']) ?></td>
-                            <td><?= $cn['Location']  ?></td>
-                            <td><?= $cn['Description']  ?></td>
-                            <td><?= formatNumber($cn['DamageEstimation'])  ?></td>
-                            <td><?= $cn['ResolutionStatus'] ?></td>
-                            <td><?= formatDate($cn['ResolutionDate']) ?></td>
-                        </tr>
-                    <?php }
+            <?php } else {
+            $c = mysqli_query($dbc, "SELECT DISTINCT VehicleID, VehicleName FROM truck_inspection_view WHERE InspectionDate BETWEEN '$an[FDate]' AND '$an[LDate]' ORDER BY VehicleName ASC");
+            while ($cn = mysqli_fetch_assoc($c)) { ?>
+                <div class="container mt-4">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="font-weight-bold text-primary"><?= $cn['VehicleName'] ?> <i class="fas fa-toolssss"></i></h5>
+                        </div>
+                        <?php
+                        $d = mysqli_query($dbc, "SELECT * FROM truck_inspection_view WHERE  VehicleID = '$cn[VehicleID]' AND InspectionDate BETWEEN '$an[FDate]' AND '$an[LDate]' ORDER BY InspectionDate");
+                        while ($dn = mysqli_fetch_assoc($d)) { ?>
+                            <div class="card-body">
+                                <div class="d-flex flex-column">
+                                    <h5><strong>Inspection ID: <?= $dn['InspectionID'] ?></strong> --- [<?= $dn['InspectionType'] ?> Inspection]</h5>
+                                    <h5><strong>Inspection Date:</strong> <?= formatDate($dn['InspectionDate']) ?> </h5>
+                                    <h5><strong>Inspector's Name:</strong> <?= $dn['InspectorName'] ?> </h5>
+                                    <hr>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p><strong>Odometer Reading:</strong> <?= formatNumber($dn['OdometerReading']) ?> km</p>
+                                        <p><strong>Tire Condition:</strong> <?= $dn['TireCondition'] ?></p>
+                                        <p><strong>Brake Condition:</strong> <?= $dn['BrakeCondition'] ?></p>
+                                        <p><strong>Light Condition:</strong> <?= $dn['LightsCondition'] ?></p>
+                                        <p><strong>Engine Condition</strong> <?= $dn['EngineCondition'] ?></p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-6">
+                                        <p><strong>Fluid Levels:</strong> <?= $dn['FluidLevels'] ?></p>
+                                        <p><strong>Body Condition:</strong> <?= $dn['BodyCondition'] ?></p>
+                                        <p><strong>Brake Condition:</strong> <?= $dn['BrakeCondition'] ?></p>
+                                        <p><strong>Notes:</strong> <?= $dn['AdditionalNotes'] ?></p>
+                                        <p><strong>Next Inspection Date: </strong> <?= formatDate($dn['NextInspectionDate']) ?></p>
+                                        <hr>
+                                    </div>
+                                </div>
 
-                    $d = mysqli_query($dbc, "SELECT ROUND(SUM(DamageEstimation),2) AS TotalAmt, COUNT(VehicleID) as TVehicle FROM truck_incident_view_2 WHERE VehicleID = '$bn[VehicleID]' AND Date BETWEEN '$an[FDate]' AND '$an[LDate]' ");
-                    while ($dn = mysqli_fetch_assoc($d)) { ?>
+                            </div>
+                        <?php }
+                        ?>
 
-                        <tr>
-                            <td colspan="4"></td>
-                            <td colspan="2" class="font-weight-bold">INCIDENT COUNT : <span><?= $dn['TVehicle'] ?></span></td>
-                            <td colspan="3" class="font-weight-bold">SUBTOTAL : <span><?= formatNumber($dn['TotalAmt']) ?></span></td>
-                        </tr>
-                        <tr>
-                            <td colspan="9" class="text-white">.</td>
-                        </tr>
-                <?php }
-                }
-                ?>
+                        <?php
+                        $e = mysqli_query($dbc, "SELECT Count(VehicleID) as InspectionCount FROM truck_inspection_view WHERE  VehicleID = '$cn[VehicleID]' AND InspectionDate BETWEEN '$an[FDate]' AND '$an[LDate]'");
+                        while ($en = mysqli_fetch_assoc($e)) { ?>
 
-                <?php
-                $e = mysqli_query($dbc, "SELECT ROUND(SUM(DamageEstimation),2) AS TotalAmt, COUNT(VehicleID) as TVehicle FROM truck_incident_view_2 WHERE Date BETWEEN '$an[FDate]' AND '$an[LDate]' ");
-                $f = mysqli_query($dbc, "SELECT  COUNT(IncidentTypeID) as IncidentCount FROM truck_incident_view_2 WHERE Date BETWEEN '$an[FDate]' AND '$an[LDate]' GROUP BY VehicleID");
+                            <div class="card-footer">
+                                <strong>Total inspection count for <?= $cn['VehicleName']?> </span>: <strong class="text-danger font-weight-bold"><?= $en['InspectionCount'] ?></span> 
+                            </div>
+                        <?php }
+                        ?>
 
-                $fn = mysqli_fetch_assoc($f);
+                    </div>
+                </div>
+        <?php  }
+        } ?>
+    </div>
 
-                while ($en = mysqli_fetch_assoc($e)) { ?>
-                    <tr class="font-weight-bold">
-                        <td colspan="4">TOTAL INCIDENTS COUNT : <span><?= $en['TVehicle'] ?></span></td>
-                        <td colspan="3">TOTAL DAMAGE ESTIMATED : <span><?= formatNumber($en['TotalAmt']) ?></span></td>
-                        <td colspan="2" class="text-danger">PENDING INCIDENTS: <span><?= $fn['IncidentCount']?></span></td>
-                    </tr>
-                <?php }
-                ?>
-            </tbody>
-        <?php   } ?>
-
-
-    </table>
 </div>

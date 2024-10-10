@@ -22,7 +22,7 @@ if (!isset($_SESSION['Uname'])) {
 
     // $b = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis WHERE Username='$Uname' AND BL='$mbl' AND HouseBL='$hbl' and ConsigneeID='$consigneeID'");
 
-    $b = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis WHERE BL = '$mbl' AND Username <>'$Uname'");
+    $b = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis WHERE BL = '$mbl' AND ContainerNo='$containerNo' AND Username <>'$Uname'");
 
     //Different user processing the BL
     if (mysqli_num_rows($b) > 0) {
@@ -51,7 +51,7 @@ if (!isset($_SESSION['Uname'])) {
             ];
         } else {
 
-            $e = mysqli_query($dbc, "SELECT * FROM  disbursement_temp_analysis WHERE Username='$Uname' AND BL = '$mbl' AND HouseBL='$hbl'");
+            $e = mysqli_query($dbc, "SELECT * FROM  disbursement_temp_analysis WHERE Username='$Uname' AND BL = '$mbl' AND HouseBL='$hbl'  AND ContainerNo='$containerNo'");
 
             if (mysqli_num_rows($e) > 0) {
                 $result = [
@@ -75,7 +75,7 @@ if (!isset($_SESSION['Uname'])) {
 
                     while ($an = mysqli_fetch_assoc($a)) {
 
-                         $f = mysqli_query($dbc, "SELECT * FROM  disbursement_analysis WHERE BL = '$mbl' AND AccountID='$an[AccountNo]'");
+                         $f = mysqli_query($dbc, "SELECT * FROM  disbursement_analysis WHERE BL = '$mbl'  AND ContainerNo='$containerNo' AND AccountID='$an[AccountNo]'");
                             if (mysqli_num_rows($f) > 0) {
                                 $status = 0;
                             }else{

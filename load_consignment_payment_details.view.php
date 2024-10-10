@@ -15,8 +15,9 @@ $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 
 $bl = mysqli_real_escape_string($dbc, $_POST['id']);
 $eta = mysqli_real_escape_string($dbc, $_POST['eta']);
+$containerNo = mysqli_real_escape_string($dbc, $_POST['containerNo']);
 
-$a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_chart_0 WHERE BL='$bl'"); 
+$a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_chart_0 WHERE BL='$bl' AND ContainerNo='$containerNo'"); 
 
 
 //Status of disbursement
@@ -57,9 +58,9 @@ $status= '';
                 </tr>
             <?php } ?>
 
-            <?php if ($eta < 0 && $status == 0) { ?>
+            <?php if ($eta < 0 ) { //&& $status == 0 ?> 
                 <tr>
-                    <td><a class="btn btn-success btn-user text-white p-2 clear-container" data-bl="<?= $bl; ?>">Clear Consignment</a></td>
+                    <td><a class="btn btn-dark btn-user text-white p-2 clear-container" data-bl="<?= $bl; ?>" data-container="<?= $containerNo; ?>" >Gate Out</a></td>
                 </tr>
             <?php   } ?>
 
@@ -78,11 +79,12 @@ $status= '';
 <script>
     $('.clear-container').click(function() {
         let bl = $.trim($(this).attr("data-bl"));
-        let q = confirm("Clear consigment from pending list?");
+        let container = $.trim($(this).attr("data-container"));
+        let q = confirm("Do you want to confirm Gate Out for this consignment?");
       
         if (q) {
             $.post("update_clear_container_status.php", {
-                bl
+                bl,container
             }, function(response) {
                 let data = JSON.parse(response);
 

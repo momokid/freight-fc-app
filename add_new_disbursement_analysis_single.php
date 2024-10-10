@@ -24,7 +24,7 @@ if (!isset($_SESSION['Uname'])) {
         'status_code' => 301,
         'msg' => 'Search for BL',
     ];
-} elseif ($amount == '' || $amount <= 0) {
+} elseif ($amount < 0) {
     $result = [
         'status_code' => 301,
         'msg' => 'Enter Cash Income Received',

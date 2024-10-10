@@ -11,6 +11,7 @@ $BranchID = mysqli_real_escape_string($dbc, $_SESSION['BranchID']);
 $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 
 $bl = mysqli_real_escape_string($dbc, $_POST['bl']);
+$containerNo = mysqli_real_escape_string($dbc, $_POST['containerNo']);
 
 $result = [];
 
@@ -19,10 +20,15 @@ if (!isset($_SESSION['Uname'])) {
 } else if ($bl == '') {
     $bl = [
         'status_code' => 301,
-        'msg' => 'Error retrieving disbursement',
+        'msg' => 'Error retrieving disbursement - BL#',
+    ];
+}else if($containerNo == ""){
+    $bl = [
+        'status_code' => 301,
+        'msg' => 'Error retrieving disbursement - ContainerNo',
     ];
 } else {
-    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl'");
+    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND ContainerNo='$containerNo'");
 
     if (mysqli_num_rows($a) == 0) {
         $result = [
@@ -30,7 +36,7 @@ if (!isset($_SESSION['Uname'])) {
             'msg' => "Disbursement analysis not found",
         ];
     } else {
-        $b = mysqli_query($dbc, "UPDATE disbursement_analysis SET Status='0' WHERE BL='$bl' AND Status='2'");
+        $b = mysqli_query($dbc, "UPDATE disbursement_analysis SET Status='0' WHERE BL='$bl' AND ContainerNo='$containerNo' AND Status='2'");
 
         if ($b) {
             $result = [

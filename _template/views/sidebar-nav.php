@@ -48,11 +48,11 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    <div class="sidebar-heading">
+    <div class="sidebar-heading <?= !$userAuth['ConsignmentRegister'] ? "sr-only" : "" ?> ">
       consignment utilities
     </div>
     <!-- Nav Item - Consignment Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item <?= !$userAuth['ConsignmentRegister'] ? "sr-only" : "" ?> ">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseConsignment" aria-expanded="true" aria-controls="collapseConsignment">
         <i class="fas fa-fw fa-dolly"></i>
         <span>Consignment Register</span>
@@ -71,12 +71,12 @@
     <hr class="sidebar-divider">
 
     <!-- Heading -->
-    <div class="sidebar-heading">
+    <div class="sidebar-heading ">
       General Transactions
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item <?= !$userAuth['GenerateInvoice'] ? "sr-only" : "" ?> ">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
         <i class="fas fa-fw fa-file-invoice-dollar"></i>
         <span>Generate Invoice</span>
@@ -96,7 +96,7 @@
       $dbc,
       "select * from user_expense_petty_cash where Username='$Uname'"
     ); ?>
-    <li class="nav-item">
+    <li class="nav-item  <?= !$userAuth['PaymentTransaction'] ? "sr-only" : "" ?> ">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#OtherTransPages" aria-expanded="true" aria-controls="collapsePages">
         <i class="fas fa-fw fa-money-bill-alt"></i>
         <span>Payment Transactions</span>
@@ -151,6 +151,11 @@
             <a class="collapse-item" id="new-disbursement-fcl-tab">Disbursement</a>
           <?php } ?>
 
+          <?php if ($userAuth['ConsignmentExpense']) { ?>
+            <a class="collapse-item" id="new-disbursement-expense-tab">Consignment Expense</a>
+          <?php } ?>
+
+
           <?php if ($userAuth['DisbursementApproval']) { ?>
             <a class="collapse-item disbursement_analysis" id="new-disbursement-approval-review-tab" data-toggle="modal" data-target="#disbursementAnalysisNA">Approval Review</a>
           <?php } ?>
@@ -189,11 +194,11 @@
     <hr class="sidebar-divider d-none d-md-block">
 
     <!-- Heading -->
-    <div class="sidebar-heading">
+    <div class="sidebar-heading  <?= !$userAuth['EditData'] ? "sr-only" : "" ?> ">
       Edit Panel
     </div>
     <!-- Edit Data -->
-    <li class="nav-item">
+    <li class="nav-item   <?= !$userAuth['EditData'] ? "sr-only" : "" ?> ">
       <a class="nav-link collapsed" data-toggle="collapse" data-target="#EditDataTab" aria-expanded="true" aria-controls="collapsePages">
         <i class="fas fa-user-edit"></i>
         <span>Edit Data</span>

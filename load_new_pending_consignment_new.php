@@ -48,26 +48,26 @@ if (!isset($_SESSION['Uname'])) {
 
                 <div class="accordion-item border border-white accordion-<?= $an['BL'] ?>">
                     <h2 class="accordion-header">
-                        <button class="accordion-button accordion-button-bl-status bg-<?php getNotificationColor($an['ETA_Days']); ?> text-white" type="button" data-bs-toggle="collapse" bl="<?= $an['BL']; ?>" eta="<?= $an['ETA_Days'] ?>" data-bs-target="#<?= $an['BL']; ?>" aria-expanded="true" aria-controls="<?= $an['BL']; ?>">
-                            <span><?= $an['BL']; ?></span>
-                            <span class="badge badge-<?php getNotificationColor($an['ETA_Days']); ?> m-1 p-1 border border-white"><?= $an['ConsigneeName']; ?></span>
-                            <span class="badge badge-<?php getNotificationColor($an['ETA_Days']); ?> m-2 p-1 border border-white">ETA : <?= formatDate($an['ETA']); ?> [<?= $an['ETA_Days']; ?> days]</span>
+                        <button class="accordion-button accordion-button-bl-status text-white" style="background-color:<?php getConsignmentStatusColor($an['BL'], $an['ContainerNo'], $an['ETA_Days']); ?>" type="button" data-bs-toggle="collapse" bl="<?= $an['BL']; ?>" containerNo="<?= $an['ContainerNo']; ?>" eta="<?= $an['ETA_Days'] ?>" data-bs-target="#<?= $an['BL'] . "" . $an['ContainerNo']; ?>" aria-expanded="true" aria-controls="<?= $an['BL'] . "" . $an['ContainerNo']; ?>">
+                            <span><?= $an['BL']; ?> #<?= $an['ContainerNo']; ?></span>
+                            <span class="badge m-1 p-1 border border-white"><?= $an['ConsigneeName']; ?></span>
+                            <span class="badge m-2 p-1 border border-white" style="background-color:<?php getNotificationColor($an['ETA_Days']) ?>; ">ETA : <?= formatDate($an['ETA']); ?> [<?= $an['ETA_Days']; ?> days]</span>
                             <span class="badge bg-success-subtle text-secondary m-1 p-1"><?= $an['OfficerAssignedName']; ?></span>
 
                             <!-- Fetch all disbursement payments -->
                             <?php
                             //include("_template/components/pending_consignment_notification/disbursement_paid_account_pending.view.php");
                             ?>
-                            <div id="<?= $an['BL'];  ?>" class="notification-div" style="border: 0px solid yellow; display:inline-block">
-                                <div class="spinner-border text-secondary" role="status">
+                            <div id="<?= $an['BL'] . "" . $an['ContainerNo']; ?>" class="notification-divss" style="border: 0px solid yellow; display:inline-block">
+                                <div class="spinner-borders text-secondary" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                             </div>
 
                         </button>
                     </h2>
-                    <div id="<?= $an['BL']; ?>" class="accordion-collapse collapse" data-bs-parent="#activeDisbursement">
-                        <div class="accordion-body" id="accordion-body-<?= $an['BL'] ?>">
+                    <div id="<?= $an['BL'] . "" . $an['ContainerNo']; ?>" class="accordion-collapse collapse" data-bs-parent="#activeDisbursement">
+                        <div class="accordion-body" id="accordion-body-<?= $an['BL'] . "" . $an['ContainerNo'] ?>">
                             Loading...
                             <div class="spinner-grow" role="status">
                                 <span class="visually-hidden">Loading...</span>
@@ -89,13 +89,15 @@ if (!isset($_SESSION['Uname'])) {
     // $('.disbursementAccountPaidNotification').html("herrrrrr");
     $('.accordion-button-bl-status').click(function() {
         let id = $.trim($(this).attr('bl'));
+        let containerNo = $.trim($(this).attr('containerNo'));
         let eta = $.trim($(this).attr('eta'));
 
         $.post('load_consignment_payment_details.view.php', {
             id,
-            eta
+            eta,
+            containerNo
         }, function(result) {
-            $(`#accordion-body-${id}`).html(result);
+            $(`#accordion-body-${id}${containerNo}`).html(result);
         });
     });
 </script>

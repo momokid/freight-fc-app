@@ -22,6 +22,6 @@ if (!isset($_SESSION['Uname'])) {
     }else{
         $an = mysqli_fetch_assoc($a);
 
-        echo "<label class='mt-2 mark h6 '>RECENT BL: <b>{$an["BL"]}</b></label>";
+        echo "<label class='mt-2 mark h6 '>RECENT BL: <b>{$an["BL"]} #{$an["ContainerNo"]}</b></label>";
     }
 }

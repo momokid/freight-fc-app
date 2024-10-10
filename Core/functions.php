@@ -16,10 +16,10 @@ function abort($code = 404)
 }
 
 //format number to accounting format
-function formatToAccounting($value){
+function formatToAccounting($value)
+{
     return abs($value);
-    
-}   
+}
 
 //format number to currency
 function formatToCurrency($value)
@@ -36,11 +36,11 @@ function formatNumber($value)
 
     //$result =  number_format(formatToAccounting($value), 2, '.', ',');
 
-    if($value < 0 ){
+    if ($value < 0) {
         $result = formatToAccounting($value);
 
-        return "(".number_format(formatToAccounting($result), 2, '.', ',').")";
-    }else{
+        return "(" . number_format(formatToAccounting($result), 2, '.', ',') . ")";
+    } else {
         return number_format(formatToAccounting($value), 2, '.', ',');
     }
 
@@ -72,13 +72,11 @@ function totalDisbursementExpense($Uname)
 
     $an = mysqli_fetch_assoc($a);
 
-    return floatval($an['TotalExpense'])+ floatval($an['TotalAmount']);
+    return floatval($an['TotalExpense']) + floatval($an['TotalAmount']);
 }
 
 //Disbursement table after fetching
-function load_disbursement_analysis_form()
-{
-}
+function load_disbursement_analysis_form() {}
 
 //Get total Disbursement Expenditure Per BL/HBL
 function getExpenditureByBL($Uname)
@@ -172,31 +170,6 @@ $consignment_status = [
     "overdue" => "danger"
 ];
 
-//Get Color for ETA days
-function getNotificationColor($dayCount)
-{
-    if (($dayCount >= 3)) {
-        echo "primary";
-    } else if (($dayCount < 3 && $dayCount > 0)) {
-        echo "warning";
-    } else if (($dayCount == 0)) {
-        echo "success";
-    } else if (($dayCount < 0)) {
-        echo "danger";
-    }
-}
-
-//Get Color for ETA days
-function setStatusColor($status)
-{
-    if (($status == "PENDING")) {
-        echo "primary";
-    } else if (($status == "ARRIVED")) {
-        echo "success";
-    } else if (($status == "OVERDUE")) {
-        echo "danger";
-    }
-}
 
 //Set Disbursement Statue alert
 function setStatusAlert($status)
@@ -225,7 +198,6 @@ function checkDisbursementAnalysis($receiptNo)
             'bl' => $an['BL'],
             'consigneeID' => $an['ConsigneeID'],
         ];
-
     } else {
 
         $res = [
@@ -261,12 +233,13 @@ function userAuth($username)
 
 
 //PDO INSERT statement
-function insertData($pdo, $table, $data) {
-    
+function insertData($pdo, $table, $data)
+{
+
     // Build the SQL statement dynamically
     $columns = implode(", ", array_keys($data));
     $placeholders = ":" . implode(", :", array_keys($data));
-    
+
     $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
 
     // Prepare the statement
@@ -279,4 +252,84 @@ function insertData($pdo, $table, $data) {
 
     // Execute the statement
     return $stmt->execute();
+}
+
+function getPendingConsignments()
+{
+    global $dbc;
+
+    /*** 
+     * Fetch all consignments that are pending. 
+     * 0 means the consigment has been cleared
+     * 1 means the consignment is pending disbursement
+     * 2 means the consignment is pending for consignment expenses
+     ***/
+
+    $a = mysqli_query($dbc, "SELECT * FROM container_main WHERE Status <> 0");
+}
+
+function generateRandomColor()
+{
+    // Generate random values for R, G, and B
+    $red = dechex(rand(0, 255));
+    $green = dechex(rand(0, 255));
+    $blue = dechex(rand(0, 255));
+
+    // Ensure that each color component is two digits
+    $red = strlen($red) == 1 ? "0" . $red : $red;
+    $green = strlen($green) == 1 ? "0" . $green : $green;
+    $blue = strlen($blue) == 1 ? "0" . $blue : $blue;
+
+    return '#' . $red . $green . $blue;
+}
+
+//Get Color for ETA days
+function getNotificationColor($dayCount)
+{
+    if (($dayCount >= 3)) {
+        echo "blue";
+    } else if (($dayCount < 3 && $dayCount > 0)) {
+        echo "orange";
+    } else if (($dayCount == 0)) {
+        echo "green";
+    } else if (($dayCount < 0)) {
+        echo "red";
+    }
+}
+
+//Get Color for ETA days
+function setStatusColor($status)
+{
+    if (($status == "PENDING")) {
+        echo "primary";
+    } else if (($status == "ARRIVED")) {
+        echo "success";
+    } else if (($status == "OVERDUE")) {
+        echo "danger";
+    }
+}
+
+function isValidColorCode($color) {
+    return preg_match('/^#[0-9A-Fa-f]{6}$/', $color);
+}
+
+function getConsignmentStatusColor($bl, $containerNo, $ETA)
+{
+
+    global $dbc;
+
+    //Check the payment on primary accounts
+    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_notification WHERE BL='$bl' AND ContainerNo='$containerNo'");
+    if (mysqli_num_rows($a) > 0) {
+
+        //Get Account with the highest priority and order by Time
+        $b = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_notification WHERE BL='$bl' AND ContainerNo='$containerNo' ORDER By Priority Desc");
+        $bn = mysqli_fetch_assoc($b);
+
+        echo $bn['Color'];
+    } else {
+        //if primary account not paid, check ETA
+        getNotificationColor($ETA);
+
+    }
 }
