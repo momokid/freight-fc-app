@@ -20,8 +20,8 @@ if (!isset($_SESSION['Uname'])) {
         <thead class="thead-lig">
             <tr>
                 <th scope="col">DATE</th>
-                <th scope="col">BL #</th>
-                <th scope="col">NO. OF BL</th>
+                <th scope="col">BL#</th>
+                <th scope="col">CONTAINER#</th>
                 <th scope="col">TOTAL REVENUE</th>
                 <th scope="col">TOTAL EXPENDITURE</th>
                 <th scope="col">SUB NET</th>
@@ -39,10 +39,10 @@ if (!isset($_SESSION['Uname'])) {
                     $subNetIncome = $an['TotalCashReceipt'] - $an['TExpenditure'];
             ?>
 
-                    <tr data-toggle="modal" id="<?= $an['ContainerNo'] ?>" data-target="#viewDisbursementDetails" class="trProcessedDisbursement">
+                    <tr data-toggle="modal" id="<?= $an['ContainerNo'] ?>" bl="<?= $an['BL'] ?>" data-target="#viewDisbursementDetails" class="trProcessedDisbursement">
                         <td scope="col"><?= strftime("%B %d, %Y", strtotime($an['Date'])) ?></td>
                         <td scope="col"><?= $an['BL'] ?></td>
-                        <td scope="col"><?= $an['BL_COUNT'] ?></td>
+                        <td scope="col"><?= $an['ContainerNo'] ?></td>
                         <td scope="col"><?= number_format($an['TotalCashReceipt'], 2, '.', ',') ?></td>
                         <td scope="col"><?= number_format($an['TExpenditure'], 2, '.', ',') ?></td>
                         <td scope="col" class="<?= $subNetIncome < 0 ? 'text-danger' : 'text-primary'; ?>"><?= number_format(($subNetIncome), 2, '.', ',') ?></td>
@@ -93,17 +93,20 @@ if (!isset($_SESSION['Uname'])) {
 
     $('.trProcessedDisbursement').click(function() {
         let id = $.trim($(this).attr('id'));
+        let bl = $.trim($(this).attr('bl'));
 
         if (id == '') {
             alert('Declaration No. not found');
             return false;
         } else {
+            
             $('body').append(
                 '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
             );
 
             $.post('insert_recno_rpt.php', {
-                sid: id
+                sid: id,
+                cid:bl
             }, function() {
                 $(".progress-loader").remove();
                 window.open("disbursement_analysis_details.view.php", "_blank");

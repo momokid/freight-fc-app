@@ -2,7 +2,7 @@
         <div class="container-fluid sub-basic-setup" id="disbursement-analysis-panel">
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Disbursement Analysis</h1>
+            <h1 class="h3 mb-0 text-gray-800">In-Harbor Expense</h1>
           </div>
 
           <!-- Content Row -->

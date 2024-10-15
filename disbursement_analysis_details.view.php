@@ -21,6 +21,9 @@ if (mysqli_num_rows($date) == 0) {
     $dt = mysqli_fetch_assoc($date);
 
     $containerNo = $dt['SubjectID'];
+    $bl = $dt['Sub_ClassID'];
+
+    $netExp = 0;
 ?>
 
     <!DOCTYPE html>
@@ -32,129 +35,95 @@ if (mysqli_num_rows($date) == 0) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>
-           CONTAINER DISBURSEMENT DETAILS REPORT:<?= $containerNo ?>
+            Consignment Expense Summary Report:<?= $containerNo ?>
         </title>
 
         <?php include('script.php'); ?>
     </head>
 
     <body>
+        <div class="d-flex flex-column justify-content-evenly align-items-center mt-3 mb-3">
+
+
+            <!-- Details -->
+            <?= reportCompanyHeading($BranchID) ?>
+
+            <!-- Report title -->
+            <div class="d-flex flex-column align-items-center">
+                <span class="fw-semibold">Consignment Expense Summary Report - <?= $bl ?> #<?= $containerNo ?></span>
+            </div>
+
+        </div>
 
         <?php
 
-
-
-        $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_view WHERE ContainerNo='$containerNo'");
+        $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_view WHERE ContainerNo='$containerNo' AND BL='$bl' ORDER BY Date Asc");
 
         if (mysqli_num_rows($a) > 0) { ?>
 
+            <div class="table-responsive px-2" style="width: 100vw;">
+                <table class='table table-bordered'>
+                    <thead class='thead-dark'>
+                        <th>DATE</th>
+                        <th>ACCOUNT NAME</th>
+                        <th>AMOUNT</th>
+                        <th>EXPENDITURE TYPE</th>
+                        <th>RECEIPT #</th>
 
-            <table class='table'>
-                <thead class='thead-dark'>
-                    <th>CONTAINER DISBURSEMENT DETAILS</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </thead>
+                    </thead>
 
-                <?php
-                $b = mysqli_query($dbc, "SELECT DISTINCT ContainerNo, Type,Date,ReceiptNo,Username FROM disbursement_analysis_view_1 WHERE ContainerNo='$containerNo'");
-                while ($bn = mysqli_fetch_assoc($b)) { ?>
-                    <!-- Display Container No -->
+                    <?php
+                    while ($an = mysqli_fetch_assoc($a)) { ?>
+                        <tr>
+                            <td><?= formatDate($an['Date']) ?></td>
+                            <td><?= $an['AccountName'] ?></td>
+                            <td><?= formatToCurrency($an['Expenditure']) ?></td>
+                            <td><?= $an['Stamp'] ?></td>
+                            <td><?= $an['ReceiptNo'] ?></td>
 
-                    <tr class='table-dark'>
-                        <td colspan='2' class="font-weight-bold text-dark"> <?= $bn["ContainerNo"] . ' ~ ' . $bn['Type']; ?></td>
-                        <td colspan='2' class="font-weight-bold text-dark"> DATE OF TRANSACTION: <?= formatDate($bn['Date']) ?></td>
+                        </tr>
+                    <?php  }
+
+                    $b = mysqli_query($dbc, "SELECT ROUND(SUM(Expenditure),2) AS TExp, Stamp FROM disbursement_analysis_view WHERE ContainerNo='$containerNo' AND BL='$bl' GROUP BY Stamp"); ?>
+
+                    <tr>
+                        <td colspan="5" class="text-white">.</td>
                     </tr>
 
-                    <!-- Display Total Cash Receipt -->
-                    <?php
-                    $c = mysqli_query($dbc, "SELECT DISTINCT TotalCashReceipt FROM  disbursement_analysis_view_1 WHERE ContainerNo='$containerNo'");
-                    while ($cn = mysqli_fetch_assoc($c)) { ?>
+                    <?php while ($bn = mysqli_fetch_assoc($b)) { 
+                    $netExp += $bn['TExp'];    
+                    ?>
                         <tr>
-                            <td>TOTAL CASH REVENUE:</td>
-                            <td colspan="2" class="text-primary font-weight-bold"><?= formatToCurrency($cn['TotalCashReceipt']); ?></td>
-                            <td></td>
-                            <td></td>
+                            <td>TOTAL <?= $bn['Stamp'] ?></td>
+                            <td colspan="4"><?= formatToCurrency($bn['TExp']) ?></td>
                         </tr>
+                    <?php  } ?>
 
-                        <?php
-                        $d = mysqli_query($dbc, "SELECT DISTINCT ConsigneeID, ConsigneeName,HBL, Description FROM disbursement_analysis_view_1 WHERE ContainerNo='$containerNo'");
-                        while ($dn = mysqli_fetch_assoc($d)) { ?>
-                            <tr>
-                                <td></td>
-                                <td colspan="3" class="text-align-center font-weight-bold"><?= $dn['ConsigneeName'] . ' --- ' . $dn['HBL'] . ' --- <span class="text-info">' . $dn['Description'] . ' </span>' ?></td>
-                            </tr>
+                    <tr class="font-weight-bold">
+                        <td>NET EXPENDITURE</td>
+                        <td class="text-danger" colspan="4"><?= formatToCurrency($netExp) ?></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="px-2">
+                <i class="fas fa-print fa-lg bg-transparent cursor-pointer no-print" onClick="window.print()" title="Print this document"></i>
+            </div>
+            <!-- <td><i class="fas fa-print fa-lg bg-transparent cursor-pointer no-print" onClick="window.print()" title="Print this document"></i></td> -->
+    </body>
 
-                            <?php
-                            $e = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_view_2 WHERE ContainerNo='$containerNo' AND HBL='$dn[HBL]' AND ConsigneeID='$dn[ConsigneeID]'");
-                            while ($en = mysqli_fetch_assoc($e)) { ?>
-                                <tr>
-                                    <td></td>
-                                    <td>*<?= $en['AccountName'] ?></td>
-                                    <td> <?= formatToCurrency($en['Expenditure']); ?></td>
-                                    <td></td>
-                                </tr>
-                            <?php } ?>
-
-                            <?php
-                            $f = mysqli_query($dbc, "SELECT ROUND(SUM(Expenditure),2) AS TExpenditure  FROM disbursement_analysis_view_2 WHERE ContainerNo='$containerNo'  AND HBL='$dn[HBL]' AND ConsigneeID='$dn[ConsigneeID]'");
-                            while ($fn = mysqli_fetch_assoc($f)) { ?>
-                                <tr>
-                                    <td></td>
-                                    <td class="border border-dark border-right-0">Sub-Total</td>
-                                    <td class="border border-dark border-left-0"> <span class="font-weight-bold"><?= formatToCurrency($fn['TExpenditure']); ?></span></td>
-                                    <td></td>
-                                </tr>
-                            <?php } ?>
-                            <tr>
-                                <td></td>
-                                <td class="text-white">.</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        <?php } ?>
-
-                    <?php } ?>
-
-                    <?php
-                    $g = mysqli_query($dbc, "SELECT ROUND(SUM(Expenditure),2) AS GTExpenditure, TotalCashReceipt FROM disbursement_analysis_view_2 WHERE ContainerNo='$containerNo'");
-                    while ($gn = mysqli_fetch_assoc($g)) { ?>
-                        <tr>
-                            <td></td>
-                            <td class="border border-dark border-right-0">TOTAL EXPENDITURE</td>
-                            <td class="border border-dark border-left-0"> <span class="font-weight-bold"><?= formatToCurrency($gn['GTExpenditure']); ?></span></td>
-                            <td></td>
-                        </tr>
-                        <?php $pnl = $gn['TotalCashReceipt'] - $gn['GTExpenditure']; ?>
-                        <tr>
-                            <td></td>
-                            <td class="border border-dark border-right-0">PROFIT/LOSS (#<?= $bn["ContainerNo"] ?>)</td>
-                            <td class="border border-dark border-left-0 <?= $pnl > 0 ? "text-success" : "text-danger" ?>"> <span class="font-weight-bold"><?= formatToCurrency($pnl); ?></span></td>
-                            <td><i class="fas fa-print fa-lg bg-transparent cursor-pointer no-print" onClick="window.print()" title="Print this document"></i></td>
-                        </tr>
-
-                    <?php } ?>
-                <?php } ?>
-
-
-            </table>
-
-    <?php  } else {
-            die("Container# {$contaierNo} details not found.");
-        }
+    </html>
+<?php  }
     }
 
 
-    ?>
+?>
 
-    </body>
-    </html>
 
-    <style>
-        @media print {
-            .no-print {
-                display: none;
-            }
+
+<style>
+    @media print {
+        .no-print {
+            display: none;
         }
-    </style>
+    }
+</style>

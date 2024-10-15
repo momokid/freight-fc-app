@@ -26,7 +26,7 @@ if (!isset($_SESSION['Uname'])) {
                                 WHEN ETA_Days > 0 THEN 'PENDING' 
                                 END AS ETA_Group, COUNT(*) AS Count 
                                 FROM container_main_view_1 
-                                WHERE STATUS <> 0 
+                                WHERE STATUS = 1 
                                 GROUP BY ETA_Group");
         ?>
 
@@ -41,17 +41,17 @@ if (!isset($_SESSION['Uname'])) {
 
         <?php
 
-        $a = mysqli_query($dbc, "SELECT * FROM container_main_view_1 WHERE Status <> 0 ORDER BY ETA_Days ASC");
+        $a = mysqli_query($dbc, "SELECT * FROM container_main_view_1 WHERE Status = 1 ORDER BY ETA_Days ASC");
 
         if (mysqli_num_rows($a) > 0) {
             while ($an = mysqli_fetch_assoc($a)) { ?>
 
-                <div class="accordion-item border border-white accordion-<?= $an['BL'] ?>">
+                <div class="accordion-item border border-white accordion-<?= $an['BL']."".$an['ContainerNo'] ?>">
                     <h2 class="accordion-header">
                         <button class="accordion-button accordion-button-bl-status text-white" style="background-color:<?php getConsignmentStatusColor($an['BL'], $an['ContainerNo'], $an['ETA_Days']); ?>" type="button" data-bs-toggle="collapse" bl="<?= $an['BL']; ?>" containerNo="<?= $an['ContainerNo']; ?>" eta="<?= $an['ETA_Days'] ?>" data-bs-target="#<?= $an['BL'] . "" . $an['ContainerNo']; ?>" aria-expanded="true" aria-controls="<?= $an['BL'] . "" . $an['ContainerNo']; ?>">
                             <span><?= $an['BL']; ?> #<?= $an['ContainerNo']; ?></span>
                             <span class="badge m-1 p-1 border border-white"><?= $an['ConsigneeName']; ?></span>
-                            <span class="badge m-2 p-1 border border-white" style="background-color:<?php getNotificationColor($an['ETA_Days']) ?>; ">ETA : <?= formatDate($an['ETA']); ?> [<?= $an['ETA_Days']; ?> days]</span>
+                            <span class="badge m-2 p-1 border border-white" style="background-color:<?php getNotificationColor($an['ETA_Days']) ?>; ">ETA : <?= formatDate($an['ETA']); ?> [<?= $an['ETA_Days']; ?> day<?=  checkForSPlural($an['ETA_Days']); ?>]</span>
                             <span class="badge bg-success-subtle text-secondary m-1 p-1"><?= $an['OfficerAssignedName']; ?></span>
 
                             <!-- Fetch all disbursement payments -->

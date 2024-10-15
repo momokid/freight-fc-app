@@ -17,11 +17,11 @@ $bl = mysqli_real_escape_string($dbc, $_POST['id']);
 $eta = mysqli_real_escape_string($dbc, $_POST['eta']);
 $containerNo = mysqli_real_escape_string($dbc, $_POST['containerNo']);
 
-$a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_chart_0 WHERE BL='$bl' AND ContainerNo='$containerNo'"); 
+$a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_chart_0 WHERE BL='$bl' AND ContainerNo='$containerNo'");
 
 
 //Status of disbursement
-$status= '';
+$status = '';
 
 
 ?>
@@ -46,9 +46,9 @@ $status= '';
         </thead>
         <tbody>
 
-            <?php while ($an = mysqli_fetch_assoc($a)) { 
-            
-            $status = $an['Status'];
+            <?php while ($an = mysqli_fetch_assoc($a)) {
+
+                $status = $an['Status'];
             ?>
                 <tr>
                     <td><?= $an['AccountName']; ?></td>
@@ -58,9 +58,10 @@ $status= '';
                 </tr>
             <?php } ?>
 
-            <?php if ($eta < 0 ) { //&& $status == 0 ?> 
+            <?php if ($eta < 0) { //&& $status == 0 
+            ?>
                 <tr>
-                    <td><a class="btn btn-dark btn-user text-white p-2 clear-container" data-bl="<?= $bl; ?>" data-container="<?= $containerNo; ?>" >Gate Out</a></td>
+                    <td><a class="btn btn-dark btn-user text-white p-2 clear-container" data-bl="<?= $bl; ?>" data-container="<?= $containerNo; ?>">Gate-Out</a></td>
                 </tr>
             <?php   } ?>
 
@@ -80,18 +81,21 @@ $status= '';
     $('.clear-container').click(function() {
         let bl = $.trim($(this).attr("data-bl"));
         let container = $.trim($(this).attr("data-container"));
-        let q = confirm("Do you want to confirm Gate Out for this consignment?");
-      
+        let q = confirm("Do you want to confirm Gate-Out for this consignment?");
+
         if (q) {
-            $.post("update_clear_container_status.php", {
-                bl,container
+            $.post("update_consignment_gate_out_container_status.php", {
+                bl,
+                container
             }, function(response) {
                 let data = JSON.parse(response);
 
                 if (data.code == 200) {
-                    $('.alert_success_banner').text('Consignment cleared successfully').fadeIn(500).fadeOut(7000);
+                    $('.alert_success_banner').text('Gate Our confirmed successfully').fadeIn(500).fadeOut(7000);
+                    $("#display_pending_gate_out_consignment").load("load_gate_out_pending_consignment.php");
+                    $("#display_new_consignment").load("load_new_pending_consignment_new.php");
                     $('.progress-loader').remove();
-                    $(`.accordion-${bl}`).hide();
+                    $(`.accordion-${bl}${container}`).hide();
                 } else {
                     $('.alert_danger_banner').text(`${data.msg}`).fadeIn(500).fadeOut(7000);
                     $('.progress-loader').remove();

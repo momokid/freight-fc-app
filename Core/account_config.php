@@ -1,5 +1,25 @@
 <?php
 
+//Egt Company Details
+function reportCompanyHeading($branchId)
+{
+    global $dbc;
+
+    $a = mysqli_query($dbc, "SELECT * FROM inst_branch_view WHERE BranchID='$branchId'");
+
+    if (mysqli_num_rows($a) == 1) { 
+        $an = mysqli_fetch_assoc($a);
+        ?>
+        <div class="d-flex flex-column align-items-center text-dark font-weight-bold mb-3">
+            <span class="fs-2"><?= $an['InstName'] ?></span>
+            <span><?= $an['Address'] ?></span>
+            <span><?= $an['Location'] ?></span>
+            <span><?= $an['TelNo'] ?></span>
+            <span><?= $an['Email'] ?></span>
+        </div>
+<?php }
+}
+
 //Get active ie account
 function getActivePNL()
 {
@@ -172,11 +192,11 @@ function getActiveAccounts()
         $an = mysqli_fetch_assoc($a);
 
         $accounts = [
-            'IE_Main' =>$an['IE_Main'],
-            'VehicleFixedAsset' =>$an['VehicleFixedAsset'],
-            'VehicleFixedAsset' =>$an['VehicleFixedAsset'],
-            'AccountPayable' =>$an['AccountPayable'],
-            'IncomeOnTransport' =>$an['IncomeOnTransport'],
+            'IE_Main' => $an['IE_Main'],
+            'VehicleFixedAsset' => $an['VehicleFixedAsset'],
+            'VehicleFixedAsset' => $an['VehicleFixedAsset'],
+            'AccountPayable' => $an['AccountPayable'],
+            'IncomeOnTransport' => $an['IncomeOnTransport'],
         ];
 
         return $accounts;

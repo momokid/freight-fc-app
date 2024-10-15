@@ -84,11 +84,17 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
             <?php include_once './_template/info_cards/alert_cards.php'; ?>
           </div>
 
-          <!-- BL Status Templates -->
-          <?php require("_template/info_cards/bl_status_notifications.view.php"); ?>
+          <div class="row">
+            <!-- BL Status Templates -->
+            <?php require("_template/info_cards/bl_status_notifications.view.php"); ?>
 
-          <!--Transport Status  -->
-          <?php require("_template/info_cards/vehicle_status_notification.view.php"); ?>
+            <!-- BL Status Templates -->
+            <?php require("_template/info_cards/bl_gate_out_status_notifications.view.php"); ?>
+
+            <!--Transport Status  -->
+            <?php require("_template/info_cards/vehicle_status_notification.view.php"); ?>
+
+          </div>
 
         </div>
         <!-- /. End of Dasboard Page Content -->
@@ -121,6 +127,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
         <?php require("_template/components/ledger_transaction/debit_expenditure_account.view.php"); ?>
 
         <?php require("_template/components/disbursement_analysis/new_disbursement_analysis.view.php") ?>
+        <?php require("_template/components/disbursement_analysis/new_gate_out_expenditure.view.php") ?>
         <?php require("_template/components/disbursement_analysis/disbursement_analysis_approval.view.php"); ?>
 
         <?php require("_template/components/reports/client_transaction_details_rpt.view.php"); ?>
@@ -128,7 +135,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
         <?php require("_template/components/reports/other_reports.view.php"); ?>
         <?php require("_template/components/reports/disbursement_report.view.php"); ?>
 
-        <?php if ($userAuth['Transport']){
+        <?php if ($userAuth['Transport']) {
           require("_template/components/reports/vehicle_hub_report.view.php");
         } ?>
 

@@ -20,13 +20,13 @@ if(!isset($_SESSION['Uname'])){
 }elseif(!isset ($e)){
     die('Search key not found'); 
 }else{
-    $result = mysqli_query($dbc,"select * from  consignment_profile_view where (BL like '%$e%') or (CarrierName like '%$e%') or (VesselName like '%$e%')");
+    $result = mysqli_query($dbc,"SELECT * FROM  consignment_profile_view WHERE (BL LIKE '%$e%') ");
     
   while( $f = mysqli_fetch_assoc($result)){
        //echo '<div class="student_search_display-wrap"><span class="search_student_details first-search-span">'.$f['StudentID'].'</span><span class="search_student_details second-search-span">'.$f['FullName'].'</span><span class="search_student_details third-search-span">'.$f['CurrentClass'].'</span>'
          //      . '<div class="wrap-details"></div></div><br>';
       
-      echo "<div class='return_search_results cons_search_profile_1 hide_div_note' id='$f[BL]' ><b>".$f['VesselName']."</b> <e style='color:red;'> [".$f['BL']."]</e> <b style='color:blue;'> ".$f['ContainerNo']."</b></div>";
+      echo "<div class='return_search_results cons_search_profile_1 hide_div_note' id='$f[BL]' ><b>".$f['BL']."</b> <em style='color:red;'> ".$f['ShipperName']."</em> </div>";
   }
    
   

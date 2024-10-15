@@ -84,9 +84,17 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
                         <?php include_once './_template/info_cards/alert_cards.php'; ?>
                     </div>
 
-                    <!-- BL Status Templates -->
-                    <?php require("_template/info_cards/bl_status_notifications.view.php"); ?>
+                    <div class="row">
+                        <!-- BL Status Templates -->
+                        <?php require("_template/info_cards/bl_status_notifications.view.php"); ?>
 
+                        <!-- BL Status Templates -->
+                        <?php require("_template/info_cards/bl_gate_out_status_notifications.view.php"); ?>
+
+                        <!--Transport Status  -->
+                        <?php require("_template/info_cards/vehicle_status_notification.view.php"); ?>
+
+                    </div>
                 </div>
                 <!-- /. End of Dasboard Page Content -->
 

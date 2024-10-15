@@ -309,7 +309,8 @@ function setStatusColor($status)
     }
 }
 
-function isValidColorCode($color) {
+function isValidColorCode($color)
+{
     return preg_match('/^#[0-9A-Fa-f]{6}$/', $color);
 }
 
@@ -330,6 +331,26 @@ function getConsignmentStatusColor($bl, $containerNo, $ETA)
     } else {
         //if primary account not paid, check ETA
         getNotificationColor($ETA);
-
     }
 }
+
+function getGateOutExpense($bl, $containerNo)
+{
+    global $dbc;
+
+    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND ContainerNo='$containerNo' AND Status='3'");
+
+    if (mysqli_num_rows($a) > 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+function checkForSPlural($count)
+{
+    $newCount = abs($count);
+    return $newCount > 1 ? 's' : '';
+}
+
+

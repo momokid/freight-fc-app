@@ -115,7 +115,7 @@ if (!isset($_SESSION['Uname'])) {
                         $pnl_dr = mysqli_query($dbc, "INSERT INTO pnl_transaction VALUES('$an[AccountNo]','BL','Dr','$an[BL]','$an[HouseBL]','$rcpt[number]','DISBURSEMENT IFO $an[AccountNo]-$an[HouseBL]','$an[Amount]','0','$dOT','$ajaxTime','$BranchID','$Uname','2')");
 
                         //insert into disbursement analysis
-                        $disbursement = mysqli_query($dbc, "INSERT INTO disbursement_analysis VALUE('$an[ConsigneeID]','$an[BL]','$an[HouseBL]','$an[ContainerNo]','$amount','$rcpt[number]','$an[AccountNo]','$an[Amount]','$Uname','$dOT','$ajaxTime','2','$an[Type]')");
+                        $disbursement = mysqli_query($dbc, "INSERT INTO disbursement_analysis VALUE('$an[ConsigneeID]','$an[BL]','$an[HouseBL]','$an[ContainerNo]','$amount','$rcpt[number]','$an[AccountNo]','$an[Amount]','IN-HARBOR','$Uname','$dOT','$ajaxTime','2','$BranchID','$an[Type]')");
 
                         //insert expenditure into journal
                         $journal_dr = mysqli_query($dbc, "INSERT INTO journal VALUES('$activePNL','$an[AccountNo]','Dr','Cash','$rcpt[number]','$an[Amount]','0','EXPENDITURE PAYMENT ON - $an[HouseBL]~$an[ContainerNo]','$dOT','$ajaxTime','$Uname','N.Auth','$BranchID','1')");

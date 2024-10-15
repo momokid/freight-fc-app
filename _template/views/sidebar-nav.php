@@ -148,11 +148,11 @@
         <div class="bg-dark py-2 collapse-inner rounded">
 
           <?php if ($userAuth['DisbursementAnalysis']) { ?>
-            <a class="collapse-item" id="new-disbursement-fcl-tab">Disbursement</a>
+            <a class="collapse-item" id="new-disbursement-fcl-tab">In-Harbor Expense</a>
           <?php } ?>
 
           <?php if ($userAuth['ConsignmentExpense']) { ?>
-            <a class="collapse-item" id="new-disbursement-expense-tab">Consignment Expense</a>
+            <a class="collapse-item" id="new-disbursement-gateout-expense-tab">Gate-Out Expense</a>
           <?php } ?>
 
 

@@ -19,7 +19,7 @@ $ldt= mysqli_real_escape_string($dbc, $_POST['ldt']);
 if(!isset( $_SESSION['Uname'])){	
 	header('Location: case-login');
 }else{
-   $a = mysqli_query($dbc, "select * from  rpt_multi_values where Username='$Uname' or SubjectID='$sid'");
+   $a = mysqli_query($dbc, "SELECT * from  rpt_multi_values where Username='$Uname' or SubjectID='$sid'");
    
    if(mysqli_num_rows($a)==0){
        $dbc->autocommit(FALSE);

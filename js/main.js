@@ -293,7 +293,8 @@ $(function () {
     $("#display_new_container_details").load(
       "load_new_pending_container_details_temp.php"
     );
-    $("#display_new_consignment").load("load_new_pending_consignment.php");
+    $("#display_new_consignment").load("load_new_pending_consignment_new.php");
+    $("#display_pending_gate_out_consignment").load("load_new_pending_consignment.php");
   });
 
   //Get Receipt No
@@ -488,12 +489,12 @@ $(function () {
     $("#view-disbursement-report").slideDown();
   });
 
-//
-$("#rpt-vehicle-report").click(function () {
-  $(".sub-basic-setup").hide();
-  //$('.sel_branch_rpt').load('load_distinct_income_account_rpt.php');
-  $("#view-vehicle-report").slideDown();
-});
+  //
+  $("#rpt-vehicle-report").click(function () {
+    $(".sub-basic-setup").hide();
+    //$('.sel_branch_rpt').load('load_distinct_income_account_rpt.php');
+    $("#view-vehicle-report").slideDown();
+  });
 
   //
   $("#rpt-consigment-details").click(function () {
@@ -591,22 +592,22 @@ $("#rpt-vehicle-report").click(function () {
     );
     $("#new_expenditure_account").load("load_sel_expenditure_account.php");
     $("#new_expenditure_debit_account").load("load_sel_gl_account.php");
-    
+
   });
 
- //incident report
- $("#truck_incident").click(function () {
-  $(".sub-basic-setup").hide();
-  $("#new-truck-incident-panel").slideDown();
-  $("#search_consignment_weight_edit").focus();
-  $("#new_incident_vehicle").load("load_sel_vehicle.php");
-  $("#new_incident_driver").load("load_vehicle_driver.php");
-  $("#new_incident_type").load("load_vehicle_incident_type.php");
-  $("#new_schedule_trip_debit_account").load("load_sel_cash_account.php");
-  $("#display_cargo_schedule_trip").load(
-    "load_vehicle_trip_schedule.view.php"
-  );
-});
+  //incident report
+  $("#truck_incident").click(function () {
+    $(".sub-basic-setup").hide();
+    $("#new-truck-incident-panel").slideDown();
+    $("#search_consignment_weight_edit").focus();
+    $("#new_incident_vehicle").load("load_sel_vehicle.php");
+    $("#new_incident_driver").load("load_vehicle_driver.php");
+    $("#new_incident_type").load("load_vehicle_incident_type.php");
+    $("#new_schedule_trip_debit_account").load("load_sel_cash_account.php");
+    $("#display_cargo_schedule_trip").load(
+      "load_vehicle_trip_schedule.view.php"
+    );
+  });
 
 
   //Pay Handling Charge
@@ -650,6 +651,17 @@ $("#rpt-vehicle-report").click(function () {
     $("#txt_disbursement_bl_search").focus();
     $("#recent_disbursement_bl").load("disbursement_recent_bl.php");
     $("#txtTotalDisbursementSource").load("load_sel_cash_account.php");
+  });
+
+  //Disbursement Analysis Panel
+  $("#new-disbursement-gateout-expense-tab").click(function () {
+    $(".sub-basic-setup").hide();
+    $("#gate-out-expense-panel").slideDown();
+    $("#txt_disbursement_bl_search").focus();
+    // $("#recent_disbursement_bl").load("disbursement_recent_bl.php");
+    $("#txtGateOutConsignmentDetails").load("load_pending_gate_out_consignment.php");
+    $('#txtGateOutExpenseAcc').load('load_sel_expenditure_account.php');
+    $('#txtGateOutCrAccount').load('load_sel_gl_account.php');
   });
 
   function SpinnerLoader(props) {
@@ -1368,11 +1380,11 @@ $("#rpt-vehicle-report").click(function () {
       alert("Select Account");
       $("#sel_disbursement_account").focus();
       return false;
-    }else if(priority === ""){
+    } else if (priority === "") {
       alert('Set account priority level');
       $('#txt_disbursement_account_priority').focus();
       return false;
-    } else if(color === ""){
+    } else if (color === "") {
       alert('Set notification background color');
       $('#txt_disbursement_ntf_color').focus();
       return false;
@@ -1648,7 +1660,7 @@ $("#rpt-vehicle-report").click(function () {
   });
 
   //
-  $('#btn_vehicle_details_rpt').click(function(){
+  $('#btn_vehicle_details_rpt').click(function () {
     $('#view_vehicle_preview_result').load('fetch_vehicle_details_options.php');
   })
 
@@ -1713,6 +1725,45 @@ $("#rpt-vehicle-report").click(function () {
       return false;
     }
   });
+
+  //
+  $('#btnSaveGateOutExpense').click(function () {
+    let bl = $.trim($('#txtGateOutConsignmentDetails :selected').attr('id'));
+    let containerNo = $.trim($('#txtGateOutConsignmentDetails :selected').attr('containerNo'));
+    let drAcc = $.trim($('#txtGateOutExpenseAcc :selected').attr('id'));
+    let amount = $.trim($('#txtGateOutExpenseAmount').val());
+    let desc = $.trim($('#txtGateOutDescription').val());
+    let dot = $.trim($('#txtGateOutDOT').val());
+    let crAcc = $.trim($('#txtGateOutCrAccount :selected').attr('id'));
+
+    let q = confirm("Save transaction?");
+
+    if (q) {
+      $(".progress-loader").remove();
+      $("body").append(
+        '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+      );
+
+      $.post('add_new_gate_out_expense_transaction.php', { bl, containerNo, drAcc, amount, desc, dot, crAcc }, function (response) {
+        let data = JSON.parse(response);
+
+        if(data.status_code == 200){
+          $(".progress-loader").remove();
+          $('.ep').val('');
+          alert(data.msg);
+        }else{
+          $(".progress-loader").remove();
+          alert(data.msg);
+        }
+       
+      });
+
+    } else {
+      $(".progress-loader").remove();
+      return false;
+    }
+
+  })
 
   //
   $("#btn_new_cargo_schedule").click(function () {
@@ -1860,17 +1911,17 @@ $("#rpt-vehicle-report").click(function () {
     }
   });
 
-//
+  //
   $("#btn_new_vehicle_expenditure").click(function () {
 
     var exp_vehicle = $.trim(
       $("#new_expenditure_vehicle :selected").attr("id")
     );
 
-var vehicle_name = $.trim(
+    var vehicle_name = $.trim(
       $("#new_expenditure_vehicle").val()
     );
-    
+
     var exp_type = $.trim(
       $("#new_expenditure_expense_type :selected").attr("id")
     );
@@ -1885,7 +1936,7 @@ var vehicle_name = $.trim(
     var exp_debit_account = $.trim(
       $("#new_expenditure_debit_account :selected").attr("id")
     );
-    
+
     var amount = $.trim($("#new_expenditure_amount").val());
     var vendor = $.trim($("#new_expenditure_vendor").val());
     var description = $.trim($("#new_expenditure_description").val());
@@ -1933,7 +1984,7 @@ var vehicle_name = $.trim(
     }
   });
 
-//
+  //
   $("#btn_new_driver_registration").click(function () {
     var fname = $.trim($("#new_driver_fname").val());
     var lname = $.trim($("#new_driver_lname").val());
@@ -1997,8 +2048,8 @@ var vehicle_name = $.trim(
     }
   });
 
-   //
-   $("#btn_new_cargo_incident").click(function () {
+  //
+  $("#btn_new_cargo_incident").click(function () {
     var vehicle = $.trim(
       $("#new_incident_vehicle :selected").attr("id")
     );
@@ -2768,7 +2819,7 @@ var vehicle_name = $.trim(
     if (SCN == "") {
       $("#new_subclass_info_tbl").html("");
     } else {
-      $.post("load_", {}, function () {});
+      $.post("load_", {}, function () { });
     }
   });
 
@@ -3030,8 +3081,8 @@ var vehicle_name = $.trim(
       $("#previewing").attr("src", "noimage.png");
       $("#message").html(
         "<p id='error'>Please Select A valid Image File</p>" +
-          "<h4>Note</h4>" +
-          "<span id='error_message'>Only jpeg, jpg and png Images type allowed</span>"
+        "<h4>Note</h4>" +
+        "<span id='error_message'>Only jpeg, jpg and png Images type allowed</span>"
       );
       return false;
     } else {
@@ -3053,8 +3104,8 @@ var vehicle_name = $.trim(
       $("#previewing0").attr("src", "noimage.png");
       $("#message0").html(
         "<p id='error'>Please Select A valid Image File</p>" +
-          "<h4>Note</h4>" +
-          "<span id='error_message'>Only jpeg, jpg and png Images type allowed</span>"
+        "<h4>Note</h4>" +
+        "<span id='error_message'>Only jpeg, jpg and png Images type allowed</span>"
       );
       return false;
     } else {
@@ -4598,10 +4649,10 @@ var vehicle_name = $.trim(
           } else if (a == 2) {
             let q = confirm(
               "Ledger (" +
-                LN +
-                ") already exists. Continue to update " +
-                LN +
-                "?"
+              LN +
+              ") already exists. Continue to update " +
+              LN +
+              "?"
             );
             if (q) {
               //Run query to upload income ledger info
@@ -4718,6 +4769,7 @@ var vehicle_name = $.trim(
 
   //
   $("#display_new_consignment").load("load_new_pending_consignment_new.php");
+  $("#display_pending_gate_out_consignment").load("load_gate_out_pending_consignment.php");
   // setInterval(() => {
   //   $("#display_new_consignment").load("load_new_pending_consignment_new.php");
   // }, 50000);
@@ -4764,6 +4816,7 @@ var vehicle_name = $.trim(
       "load_staff_profile_approval_display.php"
     );
   });
+
 
   //Load Class Mapped Admission Fees
   $("#sel_MapAdmisionFeeClass").change(() => {
@@ -8014,8 +8067,8 @@ var vehicle_name = $.trim(
     });
   });
 
-//
- $("#btn_vehicle_inventory_rpt").click(function () {
+  //
+  $("#btn_vehicle_inventory_rpt").click(function () {
     let fdt = $.trim($("#sel_disbursement_summary_fdate").val());
     let ldt = $.trim($("#sel_disbursement_summary_ldate").val());
 
