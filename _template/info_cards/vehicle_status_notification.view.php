@@ -1,4 +1,4 @@
-<div class="row" style="max-height: 30rem;">
+<div class="row <?= !$userAuth['PendingGateOutDashboard'] ? "sr-only" : "" ?>" style="max-height: 30rem;">
     <!-- Area Chart -->
     <div class="col-xl-12 col-lg-12">
         <div class="card shadow mb-4">
