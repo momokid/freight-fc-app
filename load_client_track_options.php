@@ -14,28 +14,17 @@ $cns = mysqli_real_escape_string($dbc, $_POST['cns']);
 if (!isset($_SESSION['Uname'])) {
     header('Location: login');
 } else {
-    $a = mysqli_query($dbc, "select * from manifestation_breakdown where ConsigneeID='$cns' order by Time desc");
-    $b = mysqli_query($dbc, "select * from student_fee where StudentID='$cns' and Dr<>0");
-    $c = mysqli_query($dbc, "select * from  student_fee where StudentID='$cns' and Cr<>0");
-    $d = mysqli_query($dbc, "select * from manifestation_breakdown where ConsigneeID='$cns'");
+    $a = mysqli_query($dbc, "SELECT * FROM consignee_main WHERE ConsigneeID='$cns'");
 
-
-    echo '<table class="table responsive table-striped table-bordered" style="padding:0px;" id="LedgerControlTbl">
-             
-               ';
     if (mysqli_num_rows($a) > 0) {
-        while ($an = mysqli_fetch_assoc($a)) {
-            echo '<tr class="client_profile_options_tr" data-toggle="modal" data-target="#clientProfileInvoiceModals" cns="' . $cns . '" hbl="' . $an['HouseBL'] . '" mbl="' . $an['MainBL'] . '">
-                                <td scope="col">' . $an['MainBL'] . '</td>
-                                <td scope="col">' . $an['HouseBL'] . '</td>
-                                <td scope="col">' . $an['Description'] . ' <i class="fas fa-eye i-client_profile_options"  cns="' . $cns . '"  cnt="' . $an['ContainerNo'] . '" hbl="' . $an['HouseBL'] . '" mbl="' . $an['MainBL'] . '"></i></td>
-                             </tr>';
-        }
-    }
 
-    echo '
-             
-          <tbody>';
+        while ($an = mysqli_fetch_assoc($a)) { ?>
+            <h3 class="card-title font-weight-bold"><?= $an['FullName']?></h3>
+            <p class="card-text"><?= $an['TelNo']?></p>
+            <p class="card-text"><?= $an['Address1']?>, <?= $an['Address2']?>.</p>
+            <a href="#" class="btn btn-dark" id="<?= $an['ConsigneeID']?>">Edit Profile</a>
+<?php }
+    }
 }
 ?>
 
@@ -55,6 +44,8 @@ if (!isset($_SESSION['Uname'])) {
         let hbl = $.trim($(this).attr('hbl'));
         let cns = $.trim($(this).attr('cns'));
 
+        $('.progress-loader').remove();
+        
         //alert(`${cns} and ${hbl} and ${mbl}`);
         $('body').append('<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>');
         $.post('insert_recno_rpt.php', {

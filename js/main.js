@@ -1156,8 +1156,17 @@ $(function () {
   $("#search_client_profile_rpt").keyup(function () {
     var e = $.trim($(this).val());
 
+    $(".progress-loader").remove();
+      
+    $("body").append(
+      '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+    );
+    
     $.post("search_client_profile.php", { e: e }, function (a) {
       $("#display_client_profile_search_info").html(a);
+      $(".progress-loader").remove();
+  
+
     });
   });
 
@@ -1345,6 +1354,9 @@ $(function () {
       $("#txt-handlingChanrgeAmt").focus();
       return false;
     } else {
+
+      $(".progress-loader").remove();
+
       $("body").append(
         '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
       );

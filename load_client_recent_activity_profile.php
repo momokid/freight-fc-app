@@ -13,44 +13,54 @@ $cns = mysqli_real_escape_string($dbc, $_POST['cns']);
 
 if (!isset($_SESSION['Uname'])) {
     header('Location: login');
-} else {
-    $a = mysqli_query($dbc, "select * from student_fee_view_2 where StudentID='$cns' ORDER BY Date desc");
+} else { ?>
 
-    echo '<table class="table responsive table-striped table-bordered" style="padding:0px;" id="tblclientrecentinvoice">
-            <thead>
-                <tr class="bg-dark text-white font-weight-bold">
-                    <td>HOUSE BL</td>
-                    <td>DESCRIPTION</td>
-                    <td>RECEIPT NO.</td>
-                    <td>DR</td>
-                    <td>CR</td>
-                    <td>DATE</td>
+    <table class="table table-hover table-bordered" style="padding:0px;" id="tblclientrecentinvoice">
+        <thead>
+            <tr class="bg-dark text-white font-weight-bold">
+                <td>BL</td>
+                <td>SHIPPER</td>
+                <td>VESSEL</td>
+                <td>ETA</td>
+                <td>CONTAINER COUNT</td>
+                <td>OFFICER ASSIGNED</td>
+                <td>D.O.T.</td>
+            </tr>
+        </thead>  
+        <tbody>
+
+            <?php
+            $b = mysqli_query($dbc, "SELECT * FROM container_main_view_1 WHERE ConsigneeID='$cns'");
+
+            if (mysqli_num_rows($b) == 0) { ?>
+                <tr>
+                    <td colspan="6">No data found.</td>
+
                 </tr>
-            </thead>
-            <tbody>
-            ';
-    if (mysqli_num_rows($a) == 0) {
-    } else {
-        while ($an = mysqli_fetch_assoc($a)) {
-            echo '<tr class="client_profile_invoice_issued" rec="' . $an['ReceiptNo'] . '" type="' . $an['TDr'] . '" sid="' . $an['SubClassID'] . '" cpn="' . $an['CouponID'] . '"  stamp="' . $an['Stamp'] . '">
-                    <td scope="col">' . $an['CouponID'] . '</td>
-                    <td scope="col">' . $an['Description'] . '</td>
-                    <td scope="col">' . $an['ReceiptNo'] . '</td>
-                    <td scope="col" class="text-danger">' . number_format($an['TDr'], 2, '.', ',') . '</td>
-                    <td scope="col" class="text-success">' . number_format($an['TCr'], 2, '.', ',') . '</td>
-                    <td scope="col">' . strftime("%b %d, %Y", strtotime($an['Date'])) . ' <i class="fas fa-file"></i></td>
-                 </tr>
-                 ';
-        }
-    }
+                <?php } else {
+                $a = mysqli_query($dbc, "SELECT BL, ShipperName, VesselName, ETA, Date, COUNT(ContainerNo) as ContainerCount, OfficerAssignedName FROM container_main_view_1 WHERE ConsigneeID='$cns' ORDER BY Time Asc; ");
 
-    echo '<tbody>
-        </table>';
-}
+                while ($an = mysqli_fetch_assoc($a)) { ?>
+                    <tr class="client_profile_bl_issued" bl="<?= $an['BL'] ?>" stamp="BL" cns="<?= $cns ?>">
+                        <td scope="col"><?= $an['BL'] ?></td>
+                        <td scope="col"><?= $an['ShipperName'] ?></td>
+                        <td scope="col"><?= $an['VesselName'] ?></td>
+                        <td scope="col"><?= formatDate($an['ETA']) ?></td>
+                        <td scope="col"><?= $an['ContainerCount'] ?></td>
+                        <td scope="col"><?= $an['OfficerAssignedName'] ?></td>
+                        <td scope="col"><?= formatDate($an['Date']) ?> <i class="fas fa-file pl-2" title="View BL"></i> <i class="fas fa-eye pl-2 text-success" title="View Transactions"></i></td>
+                    </tr>
+            <?php
+                }
+            } ?>
+
+        <tbody>
+    </table>
+<?php }
 ?>
 
 <style>
-    .client_profile_invoice_issued {
+    .client_profile_bl_issued {
         cursor: pointer;
     }
 </style>
@@ -58,43 +68,56 @@ if (!isset($_SESSION['Uname'])) {
 <script>
     $('#tblclientrecentinvoice').DataTable();
 
-    $('.client_profile_invoice_issued').click(function() {
-        let rec = $.trim($(this).attr('rec'));
-        let type = $.trim($(this).attr('type'));
-        let sid = $.trim($(this).attr('sid'));
-        let cpn = $.trim($(this).attr('cpn'));
-        let stamp = $.trim($(this).attr('stamp'));
+    $('.client_profile_bl_issued').click(function() {
+        let bl = $.trim($(this).attr('bl'));
+        let cns = $.trim($(this).attr('cns'));
 
-        if(stamp=='BL'){
-            if (type === '0.00') {
-                $.post('insert_recno_rpt.php', {
-                    cid: rec
-                }, function() {
-                    window.open("invoice_payment_receipt.php", "_blank");
-                });
-            } else {
-                if (sid == '') {
-                    $.post('insert_recno_rpt.php', {
-                        sid: rec
-                    }, function() {
-                        window.open("invoice_other_services.php", "_blank");
-                    });
-                } else {
-                    $.post('insert_recno_rpt.php', {
-                        sid: rec
-                    }, function() {
-                        window.open("invoice_housebl_charges.php", "_blank");
-                    });
-                }
+        $('.progress-loader').remove();
 
-            }
-        }else if(stamp=='BL_NONBL'){
-            $.post('insert_recno_rpt.php', {
-                sid: rec
-            }, function() {
-                window.open("invoice_other_services_non_manifest.php", "_blank");
-            });   
-        }
-        
+        //alert(`${cns} and ${hbl} and ${mbl}`);
+        $('body').append('<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>');
+        $.post('insert_recno_rpt.php', {
+            cid: bl,
+            sid: cns
+        }, function(a) {
+            var win = window.open();
+            win.location = "load_consignee_bl_view.php", "_blank";
+            win.opener = null;
+            win.blur();
+            window.focus();
+            $('.progress-loader').remove();
+        });
+
+        // if (stamp == 'BL') {
+        //     if (type === '0.00') {
+        //         $.post('insert_recno_rpt.php', {
+        //             cid: rec
+        //         }, function() {
+        //             window.open("invoice_payment_receipt.php", "_blank");
+        //         });
+        //     } else {
+        //         if (sid == '') {
+        //             $.post('insert_recno_rpt.php', {
+        //                 sid: rec
+        //             }, function() {
+        //                 window.open("invoice_other_services.php", "_blank");
+        //             });
+        //         } else {
+        //             $.post('insert_recno_rpt.php', {
+        //                 sid: rec
+        //             }, function() {
+        //                 window.open("invoice_housebl_charges.php", "_blank");
+        //             });
+        //         }
+
+        //     }
+        // } else if (stamp == 'BL_NONBL') {
+        //     $.post('insert_recno_rpt.php', {
+        //         sid: rec
+        //     }, function() {
+        //         window.open("invoice_other_services_non_manifest.php", "_blank");
+        //     });
+        // }
+
     });
 </script>

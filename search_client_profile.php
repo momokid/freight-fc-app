@@ -20,7 +20,7 @@ if(!isset($_SESSION['Uname'])){
 }elseif(!isset ($e)){
     die('Search key not found'); 
 }else{
-    $result = mysqli_query($dbc,"select * from  consignee_main where (FullName like '%$e%') or (TelNo like '%$e%') or (Address3 like '%$e%')");
+    $result = mysqli_query($dbc,"SELECT * FROM consignee_main WHERE (FullName LIKE '%$e%') OR (TelNo LIKE '%$e%') ");
     
   while( $f = mysqli_fetch_assoc($result)){
        //echo '<div class="student_search_display-wrap"><span class="search_student_details first-search-span">'.$f['StudentID'].'</span><span class="search_student_details second-search-span">'.$f['FullName'].'</span><span class="search_student_details third-search-span">'.$f['CurrentClass'].'</span>'
@@ -38,18 +38,20 @@ if(!isset($_SESSION['Uname'])){
 <script>
     $('.consignee_profile_search_0').click(function(){
         
+        $(".progress-loader").remove();
+        
        var cns = $(this).attr('id');
        var m = $(this).text();
        //$('.ep').text('');
        
-       $('#new-house-bl-invoice-panel').append('<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>');
+       $('body').append('<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>');
        $.post('load_client_track_options.php',{cns:cns},function(a){
                  
                 $('#cosignee_profile_option_details').html(a);
                                 
                 $('#search_client_profile_rpt').val(m);
                 $('#client_id_profile_search').text(cns);
-                $('.progress-loader').remove();
+                $(".progress-loader").remove();
                 $('#invoice_pmt_amt').focus();                
             
        });

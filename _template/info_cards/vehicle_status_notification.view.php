@@ -20,7 +20,7 @@
             </div>
             <!-- Card Body -->
             <div class="card-body" >
-                <div class="card-body" id="display_new_consignment">
+                <div class="card-body" id="display_vehicle_hub_data">
 
                 </div>
             </div>
