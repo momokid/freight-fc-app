@@ -14,3 +14,4 @@
 
 <!--  -->
 <script src="js/demo/googleCharts.js?version=<?php echo rand() ?>"></script>
+<script src="js/chart.js?version=<?php echo rand() ?>"></script>

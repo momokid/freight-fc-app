@@ -113,8 +113,12 @@
        <!-- Dropdown - User Information -->
        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
          <a href='#' class="dropdown-item" id="user_profile">
-           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+           <i class="fas fa-user fa-sm fa-fw mr-2 text-success"></i>
            Profile
+         </a>
+         <a href='#' class="dropdown-item <?= !$userAuth['UserPrivilege'] ? "sr-only" : "" ?> " id="user_privilege">
+           <i class="fas fa-user-cog fa-sm fa-fw mr-2 text-primary"></i>
+           User Privilege
          </a>
          <a href='#' class="dropdown-item">
            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -126,7 +130,7 @@
          </a>
          <div class="dropdown-divider"></div>
          <a class="dropdown-item" href='#' data-toggle="modal" data-target="#logoutModal">
-           <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+           <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2  text-danger"></i>
            Logout
          </a>
        </div>

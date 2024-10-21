@@ -1,6 +1,6 @@
 
     <!-- Area Chart -->
-    <div class=" <?= !$userAuth['ConsigmentAwaitingClearanceDashbaord'] ? "sr-only" : "" ?> col-xl-<?= $userAuth['PendingGateOutDashboard'] && $userAuth['ConsigmentAwaitingClearanceDashbaord'] ? '7' : '12' ?> col-lg-12">
+    <div class=" <?= !$userAuth['CnsAwaitingClearance'] ? "sr-only" : "" ?> col-xl-<?= $userAuth['PendingGateOutDashboard'] && $userAuth['CnsAwaitingClearance'] ? '7' : '12' ?> col-lg-12">
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">

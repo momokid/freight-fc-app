@@ -21,11 +21,6 @@ $(function () {
             </div>`;
   }
 
-  //Remove spinner function
-  function Spinner_Remove() {
-    return $(".progress-loader").remove();
-  }
-
   //Function for fetching receipt no.
   function get_rcpt_no_dt(dt, id) {
     if (dt == "") {
@@ -239,8 +234,14 @@ $(function () {
   $("#user_profile").click(function () {
     $(".sub-basic-setup").hide();
     $("#user_profile_panel").slideDown();
-    $("#newledgerControlID").load("get_new_ledger_controlID.php");
-    $("#display_new_control_ledger").load("load_ledger_control_tbl.php");
+  });
+
+   //Setup Ledger Control
+   $("#user_privilege").click(function () {
+    $(".sub-basic-setup").hide();
+    $("#user_privilege_panel").slideDown();
+    $("#user_privilege_sel_account").load("load_sel_user_account_invert.php");
+    
   });
 
   //Setup Ledger Control Category

@@ -23,7 +23,7 @@ if (!isset($_SESSION['Uname'])) {
     // $stmt->execute();
     // $incidents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt = mysqli_query($dbc, "SELECT IncidentType as incident_type, COUNT(*) as count FROM truck_incident_view_2 WHERE Date BETWEEN '$an[FDate]' AND '$an[LDate]' GROUP BY IncidentType");
+    $stmt = mysqli_query($dbc, "SELECT IncidentType as incident_type, COUNT(*) as count FROM truck_incident_view_2  GROUP BY IncidentType");
     $incidents = array();
 
     while ($row = $stmt->fetch_assoc()) {

@@ -144,6 +144,7 @@ while ($disbursement_user = mysqli_fetch_assoc($disbursement)) {
         <?php require("_template/components/edit/edit_consignment_details.view.php"); ?>
         <?php require("_template/components/edit/edit_consignment_weight.view.php"); ?>
         <?php require("_template/components/edit/reverse_transaction.view.php"); ?>
+        <?php if ($userAuth['UserPrivilege']) require("_template/components/edit/edit_user_privilege.view.php"); ?>
 
         <?php
         require("_template/components/transport_track/new_vehicle_registration.view.php");
