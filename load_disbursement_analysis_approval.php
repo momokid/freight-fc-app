@@ -12,183 +12,162 @@ $ActiveDate = mysqli_real_escape_string($dbc, $_SESSION['ActiveDay']);
 
 if (!isset($_SESSION['Uname'])) {
     header('Location: login');
-} else {
+} else { ?>
 
-    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_unauth_3 WHERE Status='2'");
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead class='thead-dark'>
+                <th colspan="4">CONTAINER DETAILS</th>
+            </thead>
 
-    if (mysqli_num_rows($a) > 0) { ?>
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead class='thead-dark'>
-                    <th>CONTAINER DETAILS</th>
-                    <th></th>
-                    <th></th>
-                    <th>ACTION</th>
-                </thead>
 
-                <?php $b = mysqli_query($dbc, "SELECT DISTINCT ContainerNo, BL, Type,Date,ReceiptNo,Username FROM disbursement_analysis_unauth_3 WHERE Status='2' ORDER BY Date ASC");
+
+            <?php
+            $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_unauth_1 WHERE (Status='2' OR Status='3')");
+
+            if (mysqli_num_rows($a) > 0) {
+                $b = mysqli_query($dbc, "SELECT DISTINCT ConsigneeName, ContainerNo, BL, ETA, ETA_Days, OfficerAssignedName, TotalCashReceipt, Username FROM disbursement_analysis_unauth_1 WHERE (Status='2' OR Status='3') ORDER BY Date ASC");
                 while ($bn = mysqli_fetch_assoc($b)) { ?>
-                    <!-- Display Container No -->
-                    <!-- <tr>
-                    <td>CONTAINER DETAILS</td>
-                </tr> -->
-                    <tr class='table-dark'>
-                        <td colspan='2' class="font-weight-bold text-dark"> <?= $bn["BL"] . ' ~ ' . $bn['ContainerNo']; ?></td>
-                        <td colspan='2' class="font-weight-bold text-dark"> DATE OF TRANSACTION: <?= formatDate($bn['Date']) ?></td>
-                    </tr>
+                    <tbody class="tbody-panel-<?= $bn['ContainerNo'] ?>">
+                        <tr class='table-warning'>
+                            <td colspan='2' class="font-weight-bold text-dark">BL# / CONTAINER# : <?= $bn["BL"] . ' / ' . $bn['ContainerNo']; ?></td>
+                            <td colspan='2' class="font-weight-bold text-dark">ASSIGNED OFFICER : <?= $bn['OfficerAssignedName'] ?></td>
+                        </tr>
 
-                    <!-- Display Total Cash Receipt -->
-                    <?php
-                    $c = mysqli_query($dbc, "SELECT DISTINCT TotalCashReceipt FROM disbursement_analysis_unauth_3 WHERE Status='2' AND ContainerNo='$bn[ContainerNo]'");
-                    while ($cn = mysqli_fetch_assoc($c)) { ?>
-                        <tr>
-                            <td>TOTAL CASH RECEIVED:</td>
-                            <td colspan="2" class="text-primary font-weight-bold"><?= formatToCurrency($cn['TotalCashReceipt']); ?></td>
-                            <td></td>
-                            <td></td>
+                        <tr class=''>
+                            <td colspan="2" class="font-weight-bold text-dark">TOTAL CASH REVENUE: <span class="text-primary"> <?= formatToCurrency($bn["TotalCashReceipt"]); ?> </span></td>
+                            <td colspan="2" class="font-weight-bold">CONSIGNEE: <?= $bn["ConsigneeName"]; ?></td>
+                        </tr>
+
+                        <tr class=''>
+                            <td colspan="1" class="font-weight-bold text-<?= getNotificationColor($bn['ETA_Days'])  ?>">ETA : <?= formatDate($bn["ETA"]); ?> : [<?= ($bn["ETA_Days"]); ?> Days]</td>
+                            <td colspan="3" class="font-weight-bold"></td>
                         </tr>
 
                         <?php
-                        $d = mysqli_query($dbc, "SELECT DISTINCT ConsigneeID, ConsigneeName,HBL, OfficerAssignedName FROM disbursement_analysis_unauth_3 WHERE Status='2' AND ContainerNo='$bn[ContainerNo]'");
+                        $c = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_unauth_1 WHERE (Status='2' OR Status='3') AND BL='$bn[BL]' AND ContainerNo='$bn[ContainerNo]'");
+                        while ($cn = mysqli_fetch_assoc($c)) { ?>
+                            <tr class=''>
+                                <td class=""></td>
+                                <td class=""> <?= $cn["AccountName"] ?></td>
+                                <td class=""><?= formatToCurrency($cn['Expenditure']) ?></td>
+                                <td class=""><?= formatDate($cn['Date']) ?></td>
+                            </tr>
+                        <?php    }
+                        ?>
+
+                        <?php
+                        $d = mysqli_query($dbc, "SELECT ROUND(SUM(Expenditure),2) AS TotalExpenditure, TotalCashReceipt FROM disbursement_analysis_unauth_1 WHERE (Status='2' OR Status='3') AND BL='$bn[BL]' AND ContainerNo='$bn[ContainerNo]' Group By BL, ContainerNo");
                         while ($dn = mysqli_fetch_assoc($d)) { ?>
-                            <tr>
-                                <td></td>
-                                <td colspan="3" class="text-align-center font-weight-bold"><?= $dn['ConsigneeName'] . ' --- ' . $dn['HBL'] . ' --- <span class="text-info"> [' . $dn['OfficerAssignedName'] . '] </span>' ?></td>
+                            <tr class=''>
+                                <td class=""></td>
+                                <td class="font-weight-bold">TOTAL EXPENDITURE</td>
+                                <td class="text-danger font-weight-bold"><?= formatToCurrency($dn['TotalExpenditure']) ?></td>
+                                <td class=""></td>
                             </tr>
 
-                            <?php
-                            $e = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_unauth_3 WHERE Status='2' AND ContainerNo='$bn[ContainerNo]' AND HBL='$dn[HBL]' AND ConsigneeID='$dn[ConsigneeID]'");
-                            while ($en = mysqli_fetch_assoc($e)) { ?>
-                                <tr>
-                                    <td></td>
-                                    <td>*<?= $en['AccountName'] ?></td>
-                                    <td> <?= formatToCurrency($en['Expenditure']); ?></td>
-                                    <td></td>
-                                </tr>
-                            <?php } ?>
-
-                            <?php
-                            $f = mysqli_query($dbc, "SELECT ROUND(SUM(Expenditure),2) AS TExpenditure  FROM disbursement_analysis_unauth_3 WHERE Status='2' AND ContainerNo='$bn[ContainerNo]' AND HBL='$dn[HBL]' AND ConsigneeID='$dn[ConsigneeID]'");
-                            while ($fn = mysqli_fetch_assoc($f)) { ?>
-                                <tr>
-                                    <td></td>
-                                    <td class="border border-dark border-right-0">Sub-Total</td>
-                                    <td class="border border-dark border-left-0"> <span class="font-weight-bold"><?= formatToCurrency($fn['TExpenditure']); ?></span></td>
-                                    <td></td>
-                                </tr>
-                            <?php } ?>
-                            <tr>
+                            <?php $pnl = $dn['TotalCashReceipt'] - $dn['TotalExpenditure']; ?>
+                            <tr class="">
                                 <td></td>
-                                <td class="text-white">.</td>
-                                <td></td>
-                                <td></td>
+                                <td><button class="btn btn-success fa-btn btn-approve-disbursement" data-id="<?= $bn['BL'] ?>" data-container="<?= $bn['ContainerNo'] ?>" title="Approve Disbursement Analysis">APPROVE</button> <button class="btn btn-danger btn-reject-disbursement" data-id="<?= $bn['BL'] ?>" data-container="<?= $bn['ContainerNo'] ?>" user="<?= $bn['Username'] ?>" title="Reject Disbursement Analysis">DECLINE</button></td>
                             </tr>
-                        <?php } ?>
 
-                    <?php } ?>
+                            <tr class="sr-only">
+                                <td></td>
+                                <td class="border border-dark border-right-0 font-weight-bold">PROFIT/LOSS (#<?= $bn["ContainerNo"] ?>)</td>
+                                <td class="border border-dark border-left-0 <?= $pnl > 0 ? "text-success" : "text-danger" ?>"> <span class="font-weight-bold"><?= formatToCurrency($pnl); ?></span></td>
+                                <td><button class="btn btn-success fa-btn btn-approve-disbursement" data-id="<?= $bn['BL'] ?>" title="Approve Disbursement Analysis">APPROVE</button> <button class="btn btn-danger btn-reject-disbursement" data-id="<?= $bn['BL'] ?>" user="<?= $bn['Username'] ?>" title="Reject Disbursement Analysis">DECLINE</button></td>
+                            </tr>
 
-                    <?php
-                    $g = mysqli_query($dbc, "SELECT ROUND(SUM(Expenditure),2) AS GTExpenditure, TotalCashReceipt FROM disbursement_analysis_unauth_3 WHERE Status='2' AND ContainerNo='$bn[ContainerNo]'");
-                    while ($gn = mysqli_fetch_assoc($g)) { ?>
+                        <?php  }
+                        ?>
                         <tr>
-                            <td></td>
-                            <td class="border border-dark border-right-0">TOTAL EXPENDITURE</td>
-                            <td class="border border-dark border-left-0"> <span class="font-weight-bold"><?= formatToCurrency($gn['GTExpenditure']); ?></span></td>
-                            <td></td>
+                            <td colspan="4">.</td>
                         </tr>
-                        <?php $pnl = $gn['TotalCashReceipt'] - $gn['GTExpenditure']; ?>
-                        <tr>
-                            <td></td>
-                            <td class="border border-dark border-right-0">PROFIT/LOSS (#<?= $bn["ContainerNo"] ?>)</td>
-                            <td class="border border-dark border-left-0 <?= $pnl > 0 ? "text-success" : "text-danger" ?>"> <span class="font-weight-bold"><?= formatToCurrency($pnl); ?></span></td>
-                            <td><i class="fas fa-check-square fa-lg bg-transparent text-success fa-btn btn-approve-disbursement" id="<?= $bn['ReceiptNo'] ?>" title="Approve Disbursement Analysis"></i> <i class="fas fa-grip-lines-vertical fa-lg"></i> <i class="fas fa-window-close fa-lg bg-transparent text-warning fa-btn btn-reject-disbursement" id="<?= $bn['ReceiptNo'] ?>" user="<?= $bn['Username'] ?>" title="Reject Disbursement Analysis"></i></td>
-                        </tr>
-
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class="text-white">.</td>
-                        </tr>
-
-                    <?php } ?>
-
-                    <!-- <tr>
-                    <td></td>
-                    <td colspan="2"><i class="fas fa-tasks fa-2x bg-transparent text-info fa-btn" title="Approve All Disbursement Analysis"></i></td>
-                    <td></td>
-                </tr> -->
-
-                <?php } ?>
+                    </tbody>
+                <?php }
+            } else { ?>
+                <tbody class=" border border-danger">
+                    <tr class='table-dark'>
+                        <td colspan='5' class="font-weight-bold text-dark p-2">No disbursement pending</td>
+                    </tr>
+                </tbody>
+            <?php }
+            ?>
 
 
-            </table>
-        </div>
+        </table>
+    <?php }
+    ?>
 
-    <?php  } else { ?>
-        <tr class='table-dark'>
-            <td colspan='5' class="font-weight-bold text-dark p-2">No disbursement pending</td>
-        </tr>
-<?php }
-}
-
-?>
-<style>
-    .fa-btn {
-        cursor: pointer;
-    }
-</style>
-
-<script>
-    //Authorize disrbursement analysis
-    $('.btn-approve-disbursement').click(function() {
-        let receiptNo = $.trim($(this).attr('id'))
-
-        $(".progress-loader").remove();
-        $("#disbursementAnalysisModalContent").append(
-            '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
-        );
-
-        let ansa = confirm("Approved disbursement?");
-
-        if (ansa) {
-            $.post('disbursement_analysis_approved.php', {
-                receiptNo
-            }, function(data) {
-                let result = JSON.parse(data);
-
-                alert(result.msg)
-                $("#display_disbursement_analysis_panel").load("load_disbursement_analysis_approval.php");
-                $(".progress-loader").remove();
-            });
+    <style>
+        .fa-btn {
+            cursor: pointer;
         }
+    </style>
 
-    });
+    <script>
+        //Authorize disrbursement analysis
+        $('.btn-approve-disbursement').click(function() {
+            let bl = $.trim($(this).attr('data-id'))
+            let containerNo = $.trim($(this).attr('data-container'))
+
+            $(".progress-loader").remove();
+            $("body").append(
+                '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+            );
+
+            let ansa = confirm("Approved disbursement?");
+
+            if (ansa) {
+                $.post('disbursement_analysis_approved.php', {
+                    bl,
+                    containerNo
+                }, function(data) {
+                    let result = JSON.parse(data);
+
+                    alert(result.msg)
+                    $(`.tbody-panel-${containerNo}`).fadeOut();
+                    $("#display_disbursement_analysis").load("load_disbursement_analysis_approval_new.php");
+                    $(".progress-loader").remove();
+                });
+            }
+
+        });
 
 
-    $('.btn-reject-disbursement').click(function() {
-        let receiptNo = $.trim($(this).attr('id'))
-        let userName = $.trim($(this).attr('user'))
+        $('.btn-reject-disbursement').click(function() {
+            let bl = $.trim($(this).attr('data-id'))
+            let userName = $.trim($(this).attr('user'))
+            let containerNo = $.trim($(this).attr('data-container'))
+ 
+            $(".progress-loader").remove();
+            $("body").append(
+                '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
+            );
+            // alert(`${userName} ${receiptNo}`);
+            let ansa = confirm("Reject disbursement?");
 
-        $(".progress-loader").remove();
-        $("#disbursementAnalysisModalContent").append(
-            '<div class="progress-loader"><i class="fa fa-spinner faa-spin animated fa-2x"></i></div>'
-        );
-        // alert(`${userName} ${receiptNo}`);
-        let ansa = confirm("Reject disbursement?");
+            if (ansa) {
+                $.post('disbursement_analysis_reject.php', {
+                    bl,
+                    userName,
+                    containerNo
+                }, function(data) {
+                    let result = JSON.parse(data);
 
-        if (ansa) {
-            $.post('disbursement_analysis_reject.php', {
-                receiptNo,
-                userName
-            }, function(data) {
-                let result = JSON.parse(data);
+                    if(result.status_code == 200){
+                        $(`.tbody-panel-${containerNo}`).fadeOut();
+                        $(".progress-loader").remove();
+                    }else{
+                        alert(result.msg)
+                        $(".progress-loader").remove();
+                    }
+                    
+                    
 
-                alert(result.msg)
-                $("#display_disbursement_analysis_panel").load("load_disbursement_analysis_approval.php");
-
-                $(".progress-loader").remove();
-            });
-        }
-    })
-</script>
+                    
+                });
+            }
+        })
+    </script>

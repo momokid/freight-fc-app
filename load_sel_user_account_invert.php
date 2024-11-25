@@ -25,7 +25,7 @@ if(!isset( $_SESSION['Uname'])){
       echo '<option selected></option>';
        
       while($an = mysqli_fetch_assoc($a)){
-          echo '<option id='.$an['ID'].'>'.$an['FullName'].'</option>';
+          echo '<option class="userPrivilegeID" id='.$an['ID'].'>'.$an['FullName'].'</option>';
       } 
    }
 }

@@ -20,13 +20,13 @@ if (!isset($_SESSION['Uname'])) {
 } else {
 
 
-  $c = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis_view_0 WHERE Username='$Uname' AND BL='$mbl' AND HouseBL='$hbl' and ConsigneeID='$consigneeID' ORDER BY Time ASC");
+  $c = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis_view_0 WHERE Username='$Uname' AND BL='$mbl'  and ConsigneeID='$consigneeID' ORDER BY Time ASC");
   $cn = mysqli_fetch_assoc($c); ?>
 
   <div class="table-responsive">
     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
       <tr>
-        <td colspan="3" class="table-title"> <?= $cn['BL'] . ' ' . $cn['ConsigneeName'] ?></td>
+        <td colspan="3" class="table-title"> <span class="text-danger"><?= $cn['BL'] ?></span> - <?= $cn['ConsigneeName'] ?></td>
       </tr>
     </table>
 
@@ -43,15 +43,17 @@ if (!isset($_SESSION['Uname'])) {
 
 
         <?php
-        $a = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis_view_0 WHERE Username='$Uname' AND BL='$mbl' AND HouseBL='$hbl' and ConsigneeID='$consigneeID' ORDER BY Status ASC");
+        //Check if payment has been initiated
+        $a = mysqli_query($dbc, "SELECT * FROM disbursement_temp_analysis_view_0 WHERE Username='$Uname' AND BL='$mbl'  AND ConsigneeID='$consigneeID' ORDER BY Status ASC");
 
+        
         if (mysqli_num_rows($a) > 0) {
 
           while ($an = mysqli_fetch_assoc($a)) { ?>
 
             <?php
             if ($an['Status'] == 0) {
-              $g = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$mbl' AND HBL='$hbl' AND AccountID='$an[AccountNo]' ORDER BY DATE DESC");
+              $g = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$mbl'   AND AccountID='$an[AccountNo]' ORDER BY DATE DESC");
               if (mysqli_num_rows($g) == 1) {
                 $gn = mysqli_fetch_assoc($g);
                 $status = ($gn['Status'] == 0) ? "success" : "warning";

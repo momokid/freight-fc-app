@@ -19,10 +19,10 @@ if (!isset($_SESSION['Uname'])) {
 } elseif (!isset($e)) {
     die('Search key not found');
 } else {
-    $result = mysqli_query($dbc, "SELECT * FROM container_main_view_0 WHERE BL LIKE '%$e%' OR ContainerNo Like '%$e%'");
+    $result = mysqli_query($dbc, "SELECT DISTINCT BL, ConsigneeName, ConsigneeID, ConsignmentID FROM container_main_view_0 WHERE BL LIKE '%$e%' OR ContainerNo Like '%$e%'");
 
     while ($f = mysqli_fetch_assoc($result)) {
-        echo "<div class='return_search_results consignee_hbl_invoicing_search hide_div_note' fullName='$f[ConsigneeName]' cnm='$f[ConsignmentID]' containerNo='$f[ContainerNo]' cns='$f[ConsigneeID]' hbl='$f[BL]' mbl='$f[BL]' ><b>" . $f['BL'] . " <span class='text-danger'> #[".$f['ContainerNo']."]</span></b> </div>";
+        echo "<div class='return_search_results consignee_hbl_invoicing_search hide_div_note' fullName='$f[ConsigneeName]' cnm='$f[ConsignmentID]' containerNo='$f[ContainerNo]' cns='$f[ConsigneeID]' hbl='$f[BL]' mbl='$f[BL]' ><b> <span class='text-danger'>" . $f['BL'] . "</span> - ".$f['ConsigneeName']."</b> </div>";
     }
 }
 ?>

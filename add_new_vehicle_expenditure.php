@@ -101,7 +101,7 @@ if (!isset($_SESSION['Uname'])) {
             $stmt2 = $pdo->prepare($receipt_main);
 
             $stmt2->bindParam(":Id", $rcpt['Id']);
-            $stmt2->bindParam(":date", $ajaxDate);
+            $stmt2->bindParam(":date", $tdate);
             $stmt2->bindParam(":receiptNo", $rcpt['number']);
             $stmt2->bindParam(":username", $Uname);
             $stmt2->bindParam(":time", $ajaxTime);
@@ -122,7 +122,7 @@ if (!isset($_SESSION['Uname'])) {
             $stmt->bindParam(":vendor", $vendor);
             $stmt->bindParam(":description", $description);
             $stmt->bindParam(":username", $Uname);
-            $stmt->bindParam(":date", $ajaxDate);
+            $stmt->bindParam(":date", $tdate);
             $stmt->bindParam(":time", $ajaxTime);
             $stmt->bindParam(":branchId", $BranchID);
             $stmt->bindParam(":status", $status);

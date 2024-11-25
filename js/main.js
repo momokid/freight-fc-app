@@ -244,6 +244,12 @@ $(function () {
     
   });
 
+$('#user_privilege_sel_account').change(function(){
+  let id = $(this).find("option:selected").attr("id");
+
+  $('#active_user_privilege_settings').load('edit_user_privilege_settings.view.php')
+})
+
   //Setup Ledger Control Category
   $("#ledger_control_category_panel").click(function () {
     $(".sub-basic-setup").hide();

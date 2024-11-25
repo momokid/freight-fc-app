@@ -15,13 +15,13 @@ $results = [];
 if (!isset($_SESSION['Uname'])) {
     header('Location: login');
 } else{
-    $a = mysqli_query($dbc,"SELECT * FROM disbursement_temp_analysis WHERE Username='$Uname'");
+    $a = mysqli_query($dbc,"SELECT * FROM disbursement_temp_analysis_view_1 WHERE Username='$Uname'");
 
     if(mysqli_num_rows($a) == 0){
         echo '<label class="mt-2 mark h6">No Recent BL</label>';
     }else{
         $an = mysqli_fetch_assoc($a);
 
-        echo "<label class='mt-2 mark h6 '>RECENT BL: <b>{$an["BL"]} #{$an["ContainerNo"]}</b></label>";
+        echo "<label class='mt-2 mark h6 '>RECENT BL: <b> <span class='text-danger'>{$an["BL"]}</span> #{$an["ConsigneeName"]}</b></label>";
     }
 }

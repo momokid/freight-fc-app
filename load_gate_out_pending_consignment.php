@@ -39,7 +39,6 @@ if (!isset($_SESSION['Uname'])) {
                             <td><?= $an['ContainerNo'] ?></td>
                             <td><?= $an['Demurrage'] ?> day<?= checkForSPlural($an['Demurrage']) ?>
                                 <?= getGateOutExpense($an['BL'], $an['ContainerNo']) === 1 ? '<i class="fas fa-check text-warning gate-out-confirm" id="' . $an['BL'] . '" containerNo="' . $an['ContainerNo'] . '" style="cursor: pointer;" title="Confirm container return"></i> <span class="spinner-grow spinner-grow-sm visually-hidden" aria-hidden="true"></span>' : "" ?>
-
                             </td>
                         </tr>
                     <?php } ?>

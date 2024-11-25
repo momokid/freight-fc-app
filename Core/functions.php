@@ -320,11 +320,11 @@ function getConsignmentStatusColor($bl, $containerNo, $ETA)
     global $dbc;
 
     //Check the payment on primary accounts
-    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_notification WHERE BL='$bl' AND ContainerNo='$containerNo'");
+    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_notification WHERE BL='$bl'");
     if (mysqli_num_rows($a) > 0) {
 
         //Get Account with the highest priority and order by Time
-        $b = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_notification WHERE BL='$bl' AND ContainerNo='$containerNo' ORDER By Priority Desc");
+        $b = mysqli_query($dbc, "SELECT * FROM disbursement_analysis_notification WHERE BL='$bl' ORDER BY Time DESC");
         $bn = mysqli_fetch_assoc($b);
 
         echo $bn['Color'];
@@ -338,7 +338,7 @@ function getGateOutExpense($bl, $containerNo)
 {
     global $dbc;
 
-    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND ContainerNo='$containerNo' AND Status='3'");
+    $a = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND ContainerNo='$containerNo' AND Status='3' OR Status='2'");
 
     if (mysqli_num_rows($a) > 0) {
         return 1;
@@ -353,4 +353,9 @@ function checkForSPlural($count)
     return $newCount > 1 ? 's' : '';
 }
 
+function getUserPrivilege($unam, $column){
+    global $dbc;
 
+    $a = mysqli_query($dbc,"SELECT * FROM user_auth WHERE $column='1'");
+
+}

@@ -18,7 +18,7 @@ if (!isset($_SESSION['Uname'])) {
     header('Location: login');
 } else {
     
-    $z = mysqli_query($dbc, "SELECT * FROM  container_main_view WHERE BL='$mbl' AND ContainerNo='$containerNo' AND OfficerAssigned='$Uname' ");
+    $z = mysqli_query($dbc, "SELECT * FROM  container_main_view WHERE BL='$mbl' AND OfficerAssigned='$Uname' ");
     if (mysqli_num_rows($z) == 0) { ?>
         <div class="table-responsive">
         <table class='table table-bordered table-stripered' style='padding:0px;'>
@@ -49,14 +49,14 @@ if (!isset($_SESSION['Uname'])) {
 
     <?php } else {
 
-        $a = mysqli_query($dbc, "SELECT * FROM container_main_view_3 WHERE BL='$mbl' AND ContainerNo='$containerNo'"); ?>
+        $a = mysqli_query($dbc, "SELECT DISTINCT ConsigneeName, BL, COUNT(ContainerNo) as ContainerCount, ConsigneeID, OfficerAssignedName FROM container_main_view_3 WHERE BL='$mbl'"); ?>
         <div class="table-responsive">
             <table class="table table-bordered table-stripered" style="padding:0px;" id="LedgerControlTbl">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">CONSIGNEE</th>
                         <th scope="col">BL</th>
-                        <th scope="col">CONTAINER#</th>
+                        <th scope="col">CONTAINER COUNT</th>
                         <th scope="col">OFFICER</th>
                         <th scope="col"></th>
                     </tr>
@@ -69,7 +69,7 @@ if (!isset($_SESSION['Uname'])) {
                             <tr>
                                 <td scope="col"><?= $an['ConsigneeName'] ?></td>
                                 <td scope="col"><?= $an['BL'] ?></td>
-                                <td scope="col"><?= $an['ContainerNo'] ?></td>
+                                <td scope="col"><?= $an['ContainerCount'] ?></td>
                                 <td scope="col"><?= $an['OfficerAssignedName'] ?></td>
                                 <td scope="col"><i class="fa fa-download fa-lg text-primary get_disbursement" mbl="<?= $an['BL'] ?>" consigneeID="<?= $an['ConsigneeID'] ?>" hbl="<?= $an['HouseBL'] ?>" containerNo="<?= $an['ContainerNo'] ?>" title="Download disbursement account"></i></td>
                             </tr>
@@ -106,6 +106,7 @@ if (!isset($_SESSION['Uname'])) {
 
         $('.get_disbursement').click(function() {
 
+            
             const hbl = $.trim($(this).attr('mbl'));
             const consigneeID = $.trim($(this).attr('consigneeID'));
             const containerNo = $.trim($(this).attr('containerNo'));

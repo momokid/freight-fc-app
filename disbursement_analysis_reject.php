@@ -42,7 +42,7 @@ if (!isset($_SESSION['Uname'])) {
             'msg' => "User currently processing a new disbursement. Kindly contact [$userName].",
         ];
     } else {
-        $b = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND Status='2' AND ContainerNo='$containerNo'");
+        $b = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND Status<>'0'");
 
         if (mysqli_num_rows($b) == 0) {
             $result = [
@@ -55,7 +55,7 @@ if (!isset($_SESSION['Uname'])) {
             }
 
             if ($c) {
-                $e = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND Status='2' AND ContainerNo='$containerNo'");
+                $e = mysqli_query($dbc, "SELECT * FROM disbursement_analysis WHERE BL='$bl' AND Status<>'0'");
                 while ($en = mysqli_fetch_assoc($e)) {
                     $d = mysqli_query($dbc, "DELETE FROM receipt_main WHERE ReceiptNo='$en[ReceiptNo]'");
                 }

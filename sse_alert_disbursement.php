@@ -10,7 +10,7 @@ header("Cache-Control: no-cache");
 header("Connection: keep-alive");
 
 
-$a = mysqli_query($dbc,"SELECT count(*) as containerCount FROM disbursement_analysis_unauth_0");
+$a = mysqli_query($dbc,"SELECT COUNT(DISTINCT BL) AS containerCount FROM disbursement_analysis_unauth_0 WHERE Status <> 0");
 $an = mysqli_fetch_assoc($a);
 
 
